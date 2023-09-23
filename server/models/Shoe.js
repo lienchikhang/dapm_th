@@ -1,6 +1,9 @@
 const mongoose= require('mongoose');
 const Shoe=new mongoose.Schema({
-    size:[{ss: 37, cs: 0},{ss:38,cs:0},{ss:39,cs:0},{ss:40,cs:0},{ss: 41, cs: 0},{ss:42,cs:0},{ss:43,cs:0},{ss:44,cs:0}],
+    size:{
+        type: Array,
+        require: true
+    },
     name:{
         type:String,
         require:true

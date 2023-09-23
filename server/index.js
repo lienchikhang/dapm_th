@@ -2,7 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const userRoute = require('./Routes/user');
-
+const shoeRoute = require('./Routes/shoe');
+const cartRoute = require('./Routes/cart');
 const app = express();
 
 require('dotenv').config()
@@ -18,5 +19,6 @@ mongoose.connect(process.env.MONGO_DB)
   
 
 app.use('/api/user/',userRoute)
-
+app.use('/api/shoe', shoeRoute)
+app.use('/api/cart', cartRoute)
 app.listen(process.env.PORT, () => console.log("server is running"));52

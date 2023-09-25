@@ -1,5 +1,9 @@
 .App {
   text-align: center;
+  font-family: 'Baloo 2', cursive;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .App-logo {

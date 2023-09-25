@@ -1,0 +1,44 @@
+.my-navbar {
+    flex: 2;
+    margin: 0 auto;
+    
+}
+.header__nav,
+.header__right {
+    color: #000;
+}
+
+.header__right {
+    font-weight: 500;
+}
+
+.header__nav {
+    position: relative;
+    font-weight: 700;
+    padding: 8px 16px;
+}
+
+.header__nav::after {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 5px;
+    background-color: #000;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    transition: .3s linear;
+}
+
+.header__nav:hover,
+.header__right:hover {
+    text-decoration: none;
+    color: #000;
+}
+
+.header__nav:hover::after {
+    width: 100%;
+
+}
+
+

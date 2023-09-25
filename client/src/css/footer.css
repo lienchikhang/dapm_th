@@ -1,0 +1,12 @@
+.my-footer {
+    list-style: none;
+    text-align: start;
+    padding: 0;
+}
+li > span:first-child {
+    font-weight: 500;
+}
+
+li > span:last-child {
+    width: 150px
+}

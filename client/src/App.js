@@ -1,20 +1,28 @@
 import logo from './logo.svg';
 import './App.css';
+import { Link, BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './Components/Pages/Home/Home';
+import Search from './Components/Pages/Search/Search';
+import Shoes from './Components/Pages/Shoes/Shoes';
+import Cart from './Components/Pages/Cart/Cart';
+import Login from './Components/Pages/Auth/Login';
+import Register from './Components/Pages/Auth/Register';
+import Header from './Components/Header';
+import Footer from './Components/Footer';
 
 function App() {
-  const fetchData = async () => {
-    const data = await fetch('http://localhost:5000/api/users')
-    const result = data.json();
-    return result;
-  }
-  fetchData()
-  .then((res) => {
-    console.log(res)
-  })
   return (
-    <div className="App">
-      
-    </div>
+    <BrowserRouter>
+      <Header/>
+      <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/product/shoes' element={<Shoes/>}/>
+        <Route path='/cart' element={<Cart/>}/>
+        <Route path='/auth/login' element={<Login/>}/>
+        <Route path='/auth/register' element={<Register/>}/>
+      </Routes>
+      <Footer/>
+    </BrowserRouter>
   );
 }
 

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import shoeService from "../../../services/shoeService";
 import ShoeItem from "./ShoeItem";
-export default function ShoeList() {
+import "../../../css/ShoeList.css";
+export default function ShoeList({ closeLoading }) {
   const [shoeList, setShoeList] = useState([]);
   const [block, useBlock] = useState(false);
 
   useEffect(() => {
-    shoeService("shoe", "GET")
-      .then((res) => [console.log(res), setShoeList(res.data)])
+    shoeService
+      .getAll("", "GET")
+      .then((res) => [console.log(res), setShoeList(res.data), closeLoading()])
       .catch((err) => {
         console.log(err);
       });
@@ -19,6 +20,7 @@ export default function ShoeList() {
       return <ShoeItem key={shoe.id} item={shoe} />;
     });
   };
+
   return (
     <div>
       <div className="row">{renderingUI()}</div>

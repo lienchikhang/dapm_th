@@ -47,9 +47,7 @@ export default function Login() {
               })
             );
             message.success(res.data.message);
-            setTimeout(() => {
-              navigate("/"); //ko bị load lại trang khi chuyển
-            }, 1000);
+            navigate("/"); //ko bị load lại trang khi chuyển
           }
         })
         .catch((err) => {

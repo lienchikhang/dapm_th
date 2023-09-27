@@ -61,3 +61,20 @@
     cursor: pointer;
     width: 100%;
 }
+
+.loadingScreen {
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(161, 161, 161, 0.6);
+    z-index: 99;
+}
+
+.loadingScreen.active {
+    display: flex;
+}

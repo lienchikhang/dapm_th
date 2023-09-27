@@ -10,6 +10,7 @@ import Register from './Components/Pages/Auth/Register';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Profiles from './Components/Pages/Auth/Profiles';
+import ShoeDetail from './Components/Pages/ShoeDetail/ShoeDetail';
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,7 @@ function App() {
           <Route path='/auth/login' element={<Login/>}/>
           <Route path='/auth/register' element={<Register/>}/>
           <Route path='/user/profiles' element={<Profiles/>}/>
+          <Route path='/product/shoes/detail/:id' element={<ShoeDetail/>}/>
         </Routes>
         <Footer/>
     </BrowserRouter>

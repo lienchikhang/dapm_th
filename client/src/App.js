@@ -9,6 +9,7 @@ import Login from './Components/Pages/Auth/Login';
 import Register from './Components/Pages/Auth/Register';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
+import Detail from './Components/Pages/Detail/Detail';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/auth/login' element={<Login/>}/>
         <Route path='/auth/register' element={<Register/>}/>
+        <Route path='/Detail' element={<Detail/>}/>
       </Routes>
       <Footer/>
     </BrowserRouter>

@@ -1,0 +1,75 @@
+.shoe__wrapper {
+    box-shadow: 3px 2px 9px 0px rgba(0,0,0,0.8);
+    border-radius: 5px;
+    margin-bottom: 28px;
+    transition: .3s linear;
+}
+
+
+.shoe__top {
+    background-color: #d2d2d2;
+    padding: 32px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.shoe__sub {
+    opacity: 0;
+    display: flex;
+    transition: .3s linear;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.5);
+    position: absolute;
+}
+
+.shoe__sub button {
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: rgba(0,0,0,0.5);
+}
+
+
+.shoe__sub button i {
+    line-height: 35px;
+    font-size: 24px;
+}
+
+.shoe__top img {
+    max-width: 100%;
+}
+
+.shoe__body {
+    padding: 12px 12px 0;
+}
+
+.shoe__body p {
+    margin: 0;
+}
+
+.shoe__bottom {
+    padding: 12px;
+}
+
+.shoe__bottom h4 { 
+    margin: 0;
+}
+
+.shoe__wrapper:hover {
+    cursor: pointer;
+    transform: translateY(-8px);
+}
+
+.shoe__wrapper:hover .shoe__sub {
+    opacity: 1;
+}

@@ -2,15 +2,18 @@
     --font-color-header: #000;
 }
 
-.my-header {
-    /* position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    background-color: transparent;
-    z-index: 9999;
-    color: var(--font-color-header); */
+.header__wrapper {
+    border-bottom: 2px solid #ccc;
 }
+
+.header__logo {
+    font-weight: 700;
+    font-size: 32px;
+}
+.header {
+    padding: 24px 16px;
+}
+
 
 .my-navbar {
     flex: 2;
@@ -32,13 +35,15 @@
     font-weight: 700;
     padding: 8px 16px;
     transition: .3s linear;
+    font-size: 20px;
 }
 
 .header__nav::after {
     position: absolute;
     content: '';
     width: 0;
-    height: 5px;
+    height: 3px;
+    border-radius: 20px;
     background-color: #000;
     left: 50%;
     transform: translateX(-50%);

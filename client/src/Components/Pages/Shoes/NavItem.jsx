@@ -1,13 +1,17 @@
-import React from "react";
-
+import React, { useState } from "react";
+import "../../../css/ShoeList.css";
 export default function NavItem({ data }) {
+  //states
+  const [active, setActive] = useState(false);
   return (
     <li
-      style={{
-        padding: "8px 0",
+      className="navbar__item"
+      onClick={() => {
+        setActive(true);
       }}
     >
-      <h4>{data.catName}</h4>
+      <p>{data.catName}</p>
+      {active && <i className="fa-solid fa-chevron-right" />}
     </li>
   );
 }

@@ -21,9 +21,9 @@ export default function Header() {
   return (
     <div className={`my-header container d-flex `}>
       <div
-        className="row justify-content-between p-4 mx-auto align-items-center"
+        className="row justify-content-between py-4 px-3 align-items-center"
         style={{
-          width: "85%",
+          width: "100%",
         }}
       >
         <div style={{ fontWeight: "700", fontSize: "24px" }}>LOGO</div>

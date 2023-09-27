@@ -88,14 +88,14 @@ const login = async (req, res) => {
     
             const unhasedPassword = crypto.AES.decrypt(user.password, process.env.PASS_CRYPTO).toString(crypto.enc.Utf8);
             if(password !== unhasedPassword) return res.status(401).json({success: false, message: "Incorrect username or password"})
-            const accessToken = jwt.sign({_id: user._id, isAdmin: user.isAdmin}, process.env.SECRET_ACCESS_TOKEN, {expiresIn: '15m'})
+            const accessToken = jwt.sign({_id: user._id, isAdmin: user.isAdmin}, process.env.SECRET_ACCESS_TOKEN)
             res.status(200).json({
                 success: true,
                 message: "Login successfully!",
                 user: {
-                    ...user,
+                    ...user._doc,
                     accessToken
-                }
+                }   
             })
         } catch (err) {
             console.log(err);

@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const userController = require('../controllers/userController')
+const { verifyTokenAndAdmin, verifyToken } = require('../middleware/userVerify');
 
 //GET
-router.get('/stats', userController.stats);
+router.get('/stats',verifyTokenAndAdmin, userController.stats);
 
 //POST
 router.post('/register',userController.register);

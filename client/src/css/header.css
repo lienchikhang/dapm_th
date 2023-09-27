@@ -1,3 +1,17 @@
+:root {
+    --font-color-header: #000;
+}
+
+.my-header {
+    /* position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: transparent;
+    z-index: 9999;
+    color: var(--font-color-header); */
+}
+
 .my-navbar {
     flex: 2;
     margin: 0 auto;
@@ -5,10 +19,11 @@
 }
 .header__nav,
 .header__right {
-    color: #000;
+    color: var(--font-color-header);
 }
 
 .header__right {
+    transition: .3s linear;
     font-weight: 500;
 }
 
@@ -16,6 +31,7 @@
     position: relative;
     font-weight: 700;
     padding: 8px 16px;
+    transition: .3s linear;
 }
 
 .header__nav::after {
@@ -32,8 +48,8 @@
 
 .header__nav:hover,
 .header__right:hover {
-    text-decoration: none;
     color: #000;
+    text-decoration: none;
 }
 
 .header__nav:hover::after {

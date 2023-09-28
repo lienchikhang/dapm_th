@@ -1,0 +1,21 @@
+.text-Baloo {
+    font-family: Baloo;
+}
+
+.Btn-Add {
+    width: 280px;
+    height: 44px;
+    background-color: black;
+    color: white;
+}
+
+.img-child {
+    width: 94px;
+    height: 88px;
+}
+
+.Recommend-Item {
+    width: 245px;
+    height: 248px;
+    flex-shrink: 0;
+}

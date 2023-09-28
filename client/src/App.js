@@ -11,20 +11,20 @@ import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Profiles from './Components/Pages/Auth/Profiles';
 import ShoeDetail from './Components/Pages/ShoeDetail/ShoeDetail';
+import Detail from './Components/Pages/Detail/Detail';
+
 function App() {
   return (
     <BrowserRouter>
-        <Header/>
-        <Routes>
-          <Route path='/' element={<Home/>}/>
-          <Route path='/product/shoes' element={<Shoes/>}/>
-          <Route path='/cart' element={<Cart/>}/>
-          <Route path='/auth/login' element={<Login/>}/>
-          <Route path='/auth/register' element={<Register/>}/>
-          <Route path='/user/profiles' element={<Profiles/>}/>
-          <Route path='/product/shoes/detail/:id' element={<ShoeDetail/>}/>
-        </Routes>
-        <Footer/>
+      <Header/>
+      <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/product/shoes' element={<Shoes/>}/>
+        <Route path='/cart' element={<Cart/>}/>
+        <Route path='/auth/login' element={<Login/>}/>
+        <Route path='/auth/register' element={<Register/>}/>
+      </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 }

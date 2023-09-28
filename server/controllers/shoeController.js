@@ -16,9 +16,19 @@ const getShoe = async (req, res) => {
 }
 
 const getAll = async (req, res) => {
+    let qShoe = req.query.hangShoe;
+    console.log(qShoe);
     try {
-        const shoes = await Shoe.find();
-        res.status(200).json(shoes);
+        if(qShoe) {
+            const keywords = qShoe.split(',').map(keyword => keyword.trim());
+            const filterShoes = await Shoe.find({category: {$in: [qShoe]}});
+                if(!filterShoes) return res.status(500).json({success: false, message: 'cannot query'})
+                console.log(filterShoes)
+                res.status(200).json(filterShoes)
+        } else {
+            const shoes = await Shoe.find();
+            res.status(200).json(shoes);
+        }
     } catch (err) {
         console.log(err)
         res.status(500).json(err);

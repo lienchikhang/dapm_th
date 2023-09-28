@@ -24,8 +24,8 @@ const Shoe=new mongoose.Schema({
         type:String,
         require:true
     },
-    brand:{
-        type:String,
+    category:{
+        type:Array,
         require:true
     }
 })

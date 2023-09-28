@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NavItem from "./NavItem";
 import "../../../css/ShoeList.css";
+import { Radio } from "antd";
 export default function Navbar() {
   //states
   const [cates, setCates] = useState([]);
@@ -30,7 +31,11 @@ export default function Navbar() {
   return (
     <div>
       <h3 className="navbar__subTitle">Hãng</h3>
-      <ul className="navbar__list">{renderingUI()}</ul>
+      <ul className="navbar__list">
+        <Radio.Group name="radiogroup" defaultValue={""}>
+          <ul>{renderingUI()}</ul>
+        </Radio.Group>
+      </ul>
     </div>
   );
 }

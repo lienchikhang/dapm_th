@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import '../css/header.css'
-export default function HeaderNav() {
+export default function HeaderNav({path}) {
   return (
     <div>
       <NavLink className='header__nav' to="/" >

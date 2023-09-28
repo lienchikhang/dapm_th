@@ -1,3 +1,20 @@
+:root {
+    --font-color-header: #000;
+}
+
+.header__wrapper {
+    border-bottom: 2px solid #ccc;
+}
+
+.header__logo {
+    font-weight: 700;
+    font-size: 32px;
+}
+.header {
+    padding: 24px 16px;
+}
+
+
 .my-navbar {
     flex: 2;
     margin: 0 auto;
@@ -5,10 +22,11 @@
 }
 .header__nav,
 .header__right {
-    color: #000;
+    color: var(--font-color-header);
 }
 
 .header__right {
+    transition: .3s linear;
     font-weight: 500;
 }
 
@@ -16,13 +34,16 @@
     position: relative;
     font-weight: 700;
     padding: 8px 16px;
+    transition: .3s linear;
+    font-size: 20px;
 }
 
 .header__nav::after {
     position: absolute;
     content: '';
     width: 0;
-    height: 5px;
+    height: 3px;
+    border-radius: 20px;
     background-color: #000;
     left: 50%;
     transform: translateX(-50%);
@@ -32,8 +53,8 @@
 
 .header__nav:hover,
 .header__right:hover {
-    text-decoration: none;
     color: #000;
+    text-decoration: none;
 }
 
 .header__nav:hover::after {

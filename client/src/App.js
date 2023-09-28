@@ -9,6 +9,8 @@ import Login from './Components/Pages/Auth/Login';
 import Register from './Components/Pages/Auth/Register';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
+import Profiles from './Components/Pages/Auth/Profiles';
+import ShoeDetail from './Components/Pages/ShoeDetail/ShoeDetail';
 import Detail from './Components/Pages/Detail/Detail';
 
 function App() {
@@ -21,7 +23,6 @@ function App() {
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/auth/login' element={<Login/>}/>
         <Route path='/auth/register' element={<Register/>}/>
-        <Route path='/Detail' element={<Detail/>}/>
       </Routes>
       <Footer/>
     </BrowserRouter>

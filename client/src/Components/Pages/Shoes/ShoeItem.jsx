@@ -29,7 +29,7 @@ export default function ShoeItem({ item }) {
           <div className="shoe__sub">
             <button
               onClick={() => {
-                navigate(`detail/${_id}`);
+                navigate(`${_id}`);
                 handleViewDetail(_id);
               }}
             >

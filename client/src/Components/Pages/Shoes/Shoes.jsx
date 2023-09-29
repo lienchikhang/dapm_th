@@ -12,6 +12,10 @@ export default function Shoes() {
     setLoading(false);
   };
 
+  const openLoading = () => {
+    setLoading(true);
+  };
+
   return (
     <div className="navbar__wrapper">
       <div className={`loadingScreen ${loading ? "active" : ""}`}>
@@ -33,12 +37,11 @@ export default function Shoes() {
         <div className="row">
           <div className="col-4">
             <h2 className="navbar__title">SẢN PHẨM CỦA CHÚNG TÔI</h2>
-            <Navbar />
-            <Navbar />
+            <Navbar openLoadingg={openLoading} closeLoading={closeLoading} />
             <ColorPicker />
           </div>
           <div className="col-8">
-            <ShoeList closeLoading={closeLoading} />
+            <ShoeList openLoading={openLoading} closeLoading={closeLoading} />
           </div>
         </div>
       </div>

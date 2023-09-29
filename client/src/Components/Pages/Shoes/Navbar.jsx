@@ -3,7 +3,7 @@ import axios from "axios";
 import NavItem from "./NavItem";
 import "../../../css/ShoeList.css";
 import { Radio } from "antd";
-export default function Navbar() {
+export default function Navbar({ openLoadingg, closeLoading }) {
   //states
   const [cates, setCates] = useState([]);
   const [block, setBlock] = useState(false);

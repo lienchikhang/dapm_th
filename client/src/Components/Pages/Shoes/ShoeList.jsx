@@ -3,7 +3,7 @@ import shoeService from "../../../services/shoeService";
 import ShoeItem from "./ShoeItem";
 import "../../../css/ShoeList.css";
 import { useSelector } from "react-redux";
-export default function ShoeList({ closeLoading }) {
+export default function ShoeList({ openLoading, closeLoading }) {
   const [shoeList, setShoeList] = useState([]);
   const [block, useBlock] = useState(false);
 
@@ -14,6 +14,7 @@ export default function ShoeList({ closeLoading }) {
   console.log("shoeList", shoeList);
   console.log("selectedCate", selectedCate);
   useEffect(() => {
+    openLoading();
     if (cates.length > 0) {
       shoeService
         .getAll(`?hangShoe=${cates}`, "GET")

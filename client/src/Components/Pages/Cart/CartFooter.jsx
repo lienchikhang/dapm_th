@@ -1,14 +1,19 @@
-import React from 'react'
-import "../../../css/Cart.css"
+import React from "react";
+import "../../../css/Cart.css";
 export default function CartFooter() {
   return (
-
-    <div className='container'>
-      <div className='d-flex flex-row-reverse mr-5'>       
-        <button className='btn btn-buy '>Thanh toán</button>
-        <span className='align-self-center mr-5'>Tổng tiền:$600</span>
+    <div className="container">
+      <div className="row">
+        <div className="col-6"></div>
+        <div className="col-6">
+          <div className="cart__footer">
+            <p className="">
+              Tổng tiền: <span>600</span>
+            </p>
+            <button className="">Thanh toán</button>
+          </div>
+        </div>
       </div>
     </div>
-
-  )
+  );
 }

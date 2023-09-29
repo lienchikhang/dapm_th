@@ -66,12 +66,6 @@ export default function DetailCommon() {
             {price}
           </span>
           <div>
-            {/* <input
-              className="border border-white"
-              type="button"
-              style={{ width: "20%", height: "45px" }}
-              value={}
-            ></input> */}
             <Select
               labelInValue
               defaultValue={{
@@ -82,16 +76,6 @@ export default function DetailCommon() {
                 width: 120,
               }}
               onChange={handleChange}
-              //   options={[
-              //     {
-              //       value: size.ss,
-              //       label: "Jack (100)",
-              //     },
-              //     {
-              //       value: "lucy",
-              //       label: "Lucy (101)",
-              //     },
-              //   ]}
               options={
                 size &&
                 size.map((item) => {

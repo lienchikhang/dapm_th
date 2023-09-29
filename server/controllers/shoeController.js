@@ -19,7 +19,7 @@ const getAll = async (req, res) => {
     let qShoe = req.query.hangShoe;
     console.log(qShoe);
     try {
-        if(qShoe) {
+        if(qShoe && qShoe != 'all') {
             const keywords = qShoe.split(',').map(keyword => keyword.trim());
             const filterShoes = await Shoe.find({category: {$in: [qShoe]}});
                 if(!filterShoes) return res.status(500).json({success: false, message: 'cannot query'})

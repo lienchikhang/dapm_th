@@ -23,7 +23,8 @@ const navbarReducer = (state = initialState, {type, payload}) => {
         case 'SELECT_CATE': {
             return {
                 ...state,
-                navItem: [payload]
+                navItem: [payload],
+                selectedCate: payload
             }
         }
         default: {

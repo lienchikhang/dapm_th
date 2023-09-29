@@ -4,6 +4,8 @@ import ColorPicker from "./ColorPicker";
 import ShoeList from "./ShoeList";
 import "../../../css/ShoeList.css";
 import { Spin, ConfigProvider } from "antd";
+import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import ShoeListPage from "./ShoeListPage";
 
 export default function Shoes() {
   const [loading, setLoading] = useState(true);

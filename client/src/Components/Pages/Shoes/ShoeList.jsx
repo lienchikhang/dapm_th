@@ -9,13 +9,12 @@ export default function ShoeList({ openLoading, closeLoading }) {
   const [block, setBlock] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(2); // Số mục trên mỗi trang
   const [displayedShoeList, setDisplayedShoeList] = useState([]);
-  const [total, setTotal] = useState(1);
 
   //get cate
   const cates = useSelector((state) => state.navbarReducer.navItem);
   const selectedCate = useSelector((state) => state.navbarReducer.selectedCate);
 
-  console.log("selectedCate", selectedCate);
+  console.log("cates", cates);
   //pagination
 
   const [current, setCurrent] = useState(1);
@@ -25,16 +24,22 @@ export default function ShoeList({ openLoading, closeLoading }) {
     }
   };
 
-  console.log("render");
-  console.log(shoeList);
-  console.log("displayedList", displayedShoeList);
-  // console.log("shoeList", shoeList);
-  // console.log("selectedCate", selectedCate);
   useEffect(() => {
     openLoading();
-    if (cates.length > 0) {
+    if (cates?.type && cates?.color) {
       shoeService
-        .getAll(`?hangShoe=${cates}`, "GET")
+        .getAll(`?hangShoe=${cates.type}&color=${cates.color}`, "GET")
+        .then((res) => {
+          console.log("first", res);
+          setShoeList(res.data);
+          closeLoading();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else if (cates.type || cates.color) {
+      shoeService
+        .getAll(`?hangShoe=${cates.type ? cates.type : cates.color}`, "GET")
         .then((res) => {
           console.log("first", res);
           setShoeList(res.data);

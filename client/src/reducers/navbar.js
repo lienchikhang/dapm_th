@@ -8,7 +8,7 @@ const navbarReducer = (state = initialState, {type, payload}) => {
         case 'UPDATE_CATES': {
             return {
                 ...state,
-                navItem: [...state.navItem, payload]
+                navItem: payload
             }
         }
         case 'REMOVE_CATE': {
@@ -25,6 +25,12 @@ const navbarReducer = (state = initialState, {type, payload}) => {
                 ...state,
                 navItem: [payload],
                 selectedCate: payload
+            }
+        }
+        case 'SELECT_COLOR': {
+            return {
+                ...state,
+                navItem: [...state.navItem, payload]
             }
         }
         default: {

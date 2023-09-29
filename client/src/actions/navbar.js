@@ -14,7 +14,14 @@ export const removeCate = (cate) => {
 
 export const selectedCate = (cate) => {
     return {
-        type: 'SELECT_CATE',
+        type: 'UPDATE_CATES', //SELECT_CATE
         payload: cate,
+    }
+}
+
+export const selectedColor = (color) => {
+    return {
+        type: 'UPDATE_CATES', //SELECT_COLOR
+        payload: color
     }
 }

@@ -4,15 +4,16 @@ import { Checkbox, Radio, ConfigProvider } from "antd";
 import { useDispatch } from "react-redux";
 import { changeCate, removeCate, selectedCate } from "../../../actions/navbar";
 
-export default function NavItem({ data }) {
+export default function NavItem({ data, setType }) {
   //states
   const [active, setActive] = useState(false);
 
   const dispatch = useDispatch();
 
   const onChange = (name) => {
+    setType(name);
     const action = selectedCate(name);
-    dispatch(action);
+    // dispatch(action);
   };
   return (
     <li

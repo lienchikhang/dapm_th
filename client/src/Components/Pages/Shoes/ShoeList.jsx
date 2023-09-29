@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 export default function ShoeList({ openLoading, closeLoading }) {
   const [shoeList, setShoeList] = useState([]);
   const [block, setBlock] = useState(false);
-  const [itemsPerPage, setItemsPerPage] = useState(2); // Số mục trên mỗi trang
+  const [itemsPerPage, setItemsPerPage] = useState(4); // Số mục trên mỗi trang
   const [displayedShoeList, setDisplayedShoeList] = useState([]);
 
   //get cate

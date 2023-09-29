@@ -56,7 +56,7 @@ const createShoe = async (req, res) => {
         img: req.body.img,
         desc: req.body.desc,
         color: req.body.color,
-        brand: req.body.brand
+        category: req.body.category
     })
     try {
         await newShoe.save();

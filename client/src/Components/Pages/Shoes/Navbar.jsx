@@ -82,7 +82,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
                   },
                 }}
               >
-                <Radio value={"none"} defaultChecked={false}></Radio>
+                <Radio value={false}></Radio>
               </ConfigProvider>
               <ConfigProvider
                 theme={{

@@ -11,7 +11,11 @@ export default function NavItem({ data, setType }) {
   const dispatch = useDispatch();
 
   const onChange = (name) => {
-    setType(name);
+    if (name === "all") {
+      setType(false);
+    } else {
+      setType(name);
+    }
     const action = selectedCate(name);
     // dispatch(action);
   };

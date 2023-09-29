@@ -2,7 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NavItem from "./NavItem";
 import "../../../css/ShoeList.css";
-import { Radio, ConfigProvider } from "antd";
+import {
+  Radio,
+  ConfigProvider,
+  InputNumber,
+  Row,
+  Slider,
+  Space,
+  Col,
+} from "antd";
 import { useDispatch } from "react-redux";
 export default function Navbar({ openLoadingg, closeLoading }) {
   //states
@@ -10,6 +18,8 @@ export default function Navbar({ openLoadingg, closeLoading }) {
   const [block, setBlock] = useState(false);
   const [filter, setFilter] = useState({});
   const [type, setType] = useState("");
+  const [inputValue, setInputValue] = useState(10);
+
   const dispatch = useDispatch();
 
   console.log("fil", filter);
@@ -29,7 +39,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
       });
   }, [block]);
 
-  //change filter
+  //change filter with type
   useEffect(() => {
     setFilter({
       ...filter,
@@ -41,6 +51,14 @@ export default function Navbar({ openLoadingg, closeLoading }) {
   useEffect(() => {
     dispatch({ type: "UPDATE_CATES", payload: filter });
   }, [filter]);
+
+  //change filter with price
+  useEffect(() => {
+    setFilter({
+      ...filter,
+      price: inputValue,
+    });
+  }, [inputValue]);
 
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
@@ -56,14 +74,20 @@ export default function Navbar({ openLoadingg, closeLoading }) {
     });
   };
 
+  const onSliderChange = (newValue) => {
+    setInputValue(newValue);
+  };
+
   return (
     <div>
       <h3 className="navbar__subTitle">Hãng</h3>
+      {/**brand */}
       <ul className="navbar__list">
         <Radio.Group name="radiogroup" defaultValue={""}>
           <ul>{renderingUI()}</ul>
         </Radio.Group>
       </ul>
+      {/**color */}
       <div className="">
         <h3 className="navbar__subTitle">Màu sắc</h3>
         <div className="p-3">
@@ -210,6 +234,47 @@ export default function Navbar({ openLoadingg, closeLoading }) {
             </div>
           </Radio.Group>
         </div>
+      </div>
+      {/**Price */}
+      <div className="">
+        <h3 className="navbar__subTitle">Giá</h3>
+        <Row>
+          <Col span={12}>
+            <ConfigProvider
+              theme={{
+                components: {
+                  Slider: {
+                    /* here is your component tokens */
+                    colorPrimary: "#000000",
+                    colorPrimary: "#000",
+                    trackBg: "#000",
+                    dotActiveBorderColor: "#000",
+                    handleColor: "#000",
+                    trackHoverBg: "#000",
+                  },
+                },
+              }}
+            >
+              <Slider
+                min={0}
+                max={15000000}
+                onChange={onSliderChange}
+                value={typeof inputValue === "number" ? inputValue : 0}
+              />
+            </ConfigProvider>
+          </Col>
+          <Col span={4}>
+            <InputNumber
+              min={0}
+              max={15000000}
+              style={{
+                margin: "0 16px",
+              }}
+              value={inputValue}
+              onChange={onSliderChange}
+            />
+          </Col>
+        </Row>
       </div>
     </div>
   );

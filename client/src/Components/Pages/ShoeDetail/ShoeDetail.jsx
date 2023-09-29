@@ -10,7 +10,6 @@ export default function ShoeDetail() {
     shoeService
       .getByID(idShoe, "GET")
       .then((res) => {
-        console.log(res.data);
         setViewingShoe(res.data);
       })
       .catch((err) => console.log(err));
@@ -18,7 +17,6 @@ export default function ShoeDetail() {
 
   const renderingUI = () => {
     const { name, img, price, size, desc } = viewingshoe;
-    console.log({ name, img, price, size, desc });
     return <h1>{name}</h1>;
   };
   return <div>{renderingUI()}</div>;

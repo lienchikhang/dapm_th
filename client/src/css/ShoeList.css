@@ -78,3 +78,19 @@
 .loadingScreen.active {
     display: flex;
 }
+
+.my-shoeList {
+    height: 750px;
+    position: relative;
+}
+
+.my-img {
+    margin: 0 auto;
+}
+
+.my-pag__wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

@@ -240,43 +240,45 @@ export default function Navbar({ openLoadingg, closeLoading }) {
       {/**Price */}
       <div className="">
         <h3 className="navbar__subTitle">Giá</h3>
-        <Row>
-          <Col span={12}>
-            <ConfigProvider
-              theme={{
-                components: {
-                  Slider: {
-                    /* here is your component tokens */
-                    colorPrimary: "#000000",
-                    colorPrimary: "#000",
-                    trackBg: "#000",
-                    dotActiveBorderColor: "#000",
-                    handleColor: "#000",
-                    trackHoverBg: "#000",
+        <div className="py-3">
+          <Row>
+            <Col span={12}>
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Slider: {
+                      /* here is your component tokens */
+                      colorPrimary: "#000000",
+                      colorPrimary: "#000",
+                      trackBg: "#000",
+                      dotActiveBorderColor: "#000",
+                      handleColor: "#000",
+                      trackHoverBg: "#000",
+                    },
                   },
-                },
-              }}
-            >
-              <Slider
+                }}
+              >
+                <Slider
+                  min={0}
+                  max={15000000}
+                  onChange={onSliderChange}
+                  value={typeof inputValue === "number" ? inputValue : 0}
+                />
+              </ConfigProvider>
+            </Col>
+            <Col span={4}>
+              <InputNumber
                 min={0}
                 max={15000000}
+                style={{
+                  margin: "0 16px",
+                }}
+                value={inputValue}
                 onChange={onSliderChange}
-                value={typeof inputValue === "number" ? inputValue : 0}
               />
-            </ConfigProvider>
-          </Col>
-          <Col span={4}>
-            <InputNumber
-              min={0}
-              max={15000000}
-              style={{
-                margin: "0 16px",
-              }}
-              value={inputValue}
-              onChange={onSliderChange}
-            />
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+        </div>
       </div>
     </div>
   );

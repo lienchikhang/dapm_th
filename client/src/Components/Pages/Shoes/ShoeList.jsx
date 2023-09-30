@@ -25,40 +25,31 @@ export default function ShoeList({ openLoading, closeLoading }) {
   };
 
   useEffect(() => {
+    let queryStr = ``;
     openLoading();
-    if (cates?.type && cates?.color) {
-      shoeService
-        .getAll(`?hangShoe=${cates.type}&color=${cates.color}`, "GET")
-        .then((res) => {
-          console.log("first", res);
-          setShoeList(res.data);
-          closeLoading();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else if (cates.type || cates.color) {
-      shoeService
-        .getAll(`?hangShoe=${cates.type ? cates.type : cates.color}`, "GET")
-        .then((res) => {
-          console.log("first", res);
-          setShoeList(res.data);
-          closeLoading();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    if (cates?.type && cates?.color && cates?.price) {
+      queryStr = `?hangShoe=${cates.type}&color=${cates.color}&price=${cates.price}`;
+    } else if (cates.type && cates.color) {
+      queryStr = `?hangShoe=${cates.type}&color=${cates.color}`;
+    } else if (cates.type || cates.color || cates.price) {
+      queryStr = !cates.price
+        ? `?hangShoe=${cates.type ? cates.type : cates.color}`
+        : `?price=${cates.price}`;
+    } else if (cates.qPrice) {
+      queryStr = `?price=${cates.qPrice}`;
     } else {
-      shoeService
-        .getAll("", "GET")
-        .then((res) => {
-          setShoeList(res.data);
-          closeLoading();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      queryStr = ``;
     }
+    shoeService
+      .getAll(queryStr, "GET")
+      .then((res) => {
+        console.log("first", res);
+        setShoeList(res.data);
+        closeLoading();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [block, cates, current]);
 
   useEffect(() => {

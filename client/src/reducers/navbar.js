@@ -1,10 +1,17 @@
 const initialState = {
     navItem: [],
-    selectedCate: ''
+    selectedCate: '',
+    qPrice: 0,
 }
 
 const navbarReducer = (state = initialState, {type, payload}) => {
     switch(type) {
+        case 'QUERY_PRICE': {
+            return {
+                ...state,
+                qPrice: payload
+            }
+        }
         case 'UPDATE_CATES': {
             return {
                 ...state,

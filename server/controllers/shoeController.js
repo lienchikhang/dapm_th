@@ -18,27 +18,36 @@ const getShoe = async (req, res) => {
 const getAll = async (req, res) => {
     let qShoe = req.query.hangShoe;
     let qColor = req.query.color;
-    console.log(qShoe)
-    console.log({qShoe, qColor})
+    let qPrice = req.query.price;
+    let query = {};
+    console.log({qShoe, qColor, qPrice})
     try {
-        if(qShoe && qColor) {
-            const filterShoes = await Shoe.find({$and: [
+        if(qShoe && qColor && qPrice) {
+            query = {$and: [
                 { category: { $elemMatch: { $eq: qShoe } } }, // Kiểm tra type
                 { category: { $elemMatch: { $eq: qColor } } }, // Kiểm tra color
-              ],})
-                if(!filterShoes) return res.status(500).json({success: false, message: 'cannot query'})
-                console.log(filterShoes)
-                res.status(200).json(filterShoes)
-        } else if(qShoe) {
-            const filterShoes = await Shoe.find({category: { $elemMatch: { $eq: qShoe }}})
-                if(!filterShoes) return res.status(500).json({success: false, message: 'cannot query'})
-                console.log(filterShoes)
-                res.status(200).json(filterShoes)
+                { price: {$gte: Number(qPrice)  } }, // Kiểm tra color
+              ]}
+        } else if (qShoe && qColor) {
+            query = {$and: [
+                { category: { $elemMatch: { $eq: qShoe } } }, // Kiểm tra type
+                { category: { $elemMatch: { $eq: qColor } } }, // Kiểm tra color
+              ]}
+        }
+        else if(qShoe ) {
+            query = {$or: [{category: { $elemMatch: { $eq: qShoe }}},]}
+        } else if(qColor) {
+            query = {category: {$in: qColor}}
+        } else if(qPrice) {
+            query = {price: {$gte: Number(qPrice)  }}
         }
         else {
-            const shoes = await Shoe.find();
-            res.status(200).json(shoes);
+            query = {}
         }
+
+        const filterShoes = await Shoe.find(query);
+        if(!filterShoes) return res.status(500).json({success: false, message: 'cannot query'})
+        res.status(200).json(filterShoes)
     } catch (err) {
         console.log(err)
         res.status(500).json(err);

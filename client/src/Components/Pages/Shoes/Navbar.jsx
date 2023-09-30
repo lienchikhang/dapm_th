@@ -18,7 +18,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
   const [block, setBlock] = useState(false);
   const [filter, setFilter] = useState({});
   const [type, setType] = useState("");
-  const [inputValue, setInputValue] = useState(10);
+  const [inputValue, setInputValue] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -54,10 +54,12 @@ export default function Navbar({ openLoadingg, closeLoading }) {
 
   //change filter with price
   useEffect(() => {
-    setFilter({
-      ...filter,
-      price: inputValue,
-    });
+    if (inputValue) {
+      setFilter({
+        ...filter,
+        price: inputValue,
+      });
+    }
   }, [inputValue]);
 
   const onChange = (e) => {

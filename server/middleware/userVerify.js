@@ -25,6 +25,9 @@ const verifyTokenAndAdmin = (req, res, next)=> {
 
 const verifyTokenAndAuthorize = (req, res, next) => {
     verifyToken(req, res, () => {
+        console.log('+',req.user._id)
+        console.log('-',req.params.idUser)
+
         if(req.user._id === req.params.idUser || req.user.isAdmin) {
             next();
         } else {

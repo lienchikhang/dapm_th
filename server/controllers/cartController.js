@@ -63,9 +63,39 @@ const addCart = async (req, res) => {
     }
 }
 
+const deleteCart = async (req, res) => { 
+    //PROBLEM: cartId = undefined
+    const cartId = req.params.cartId;
+    const idShoeDel = req.params.idShoeDel;
+    console.log('cartId', cartId)
+    try {
+        // const cartUser = await Cart.find({_id: cartId})
+        // console.log('cartUser muon xoa shoe o trong', cartUser)
+        // if(cartUser) {
+        //     const result = await Cart.findOneAndUpdate({ _id: idShoeDel },)
+        // }
+        const updatedCart = await Cart.findOneAndUpdate(
+            { _id: cartId },
+  { $pull: { shoes: { _id: idShoeDel } } },
+  { new: true }
+          );
+          if (updatedCart) {
+            // Đã cập nhật thành công
+            res.json({ success: true, message: "Sản phẩm đã được xóa khỏi giỏ hàng", cart: updatedCart });
+          } else {
+            // Không tìm thấy cart với id tương ứng
+            res.status(404).json({ success: false, message: "Không tìm thấy giỏ hàng" });
+          }
+    } catch(err) {
+        console.log(err)
+        res.status(500).json({success: false, message: "Internal server error", error: err})
+    }
+}
+
 module.exports = {
     getAll,
     getDetailCart,
     getDetailCartByUser,
     addCart,
+    deleteCart
 }

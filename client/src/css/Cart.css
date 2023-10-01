@@ -63,14 +63,19 @@
 }
 
 .my-w:nth-child(2) {
-    width: 250px
+    width: 236px
 }
 
 
 .my-w:nth-child(3) {
-    width: 170px
+    width: 160px
 }
 
 .my-w:nth-child(4) {
-    width: 150px
+    width: 140px
+}
+
+
+.my-w:last-child {
+    width: 100px
 }

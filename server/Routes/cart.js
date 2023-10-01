@@ -13,5 +13,8 @@ router.get('/:idUser/:idCart', verifyTokenAndAuthorize, cartController.getDetail
 //POST
 router.post('/add',verifyToken, cartController.addCart)
 
+//DELETE
+router.delete('/delete/:idUser/:cartId/:idShoeDel', verifyTokenAndAuthorize, cartController.deleteCart)
+
 
 module.exports = router

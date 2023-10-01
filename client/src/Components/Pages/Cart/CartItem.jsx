@@ -1,8 +1,27 @@
 import React from "react";
 
 import "../../../css/Cart.css";
-export default function Cart_item({ data }) {
-  const { img, name, price, quantity } = data;
+import cartService from "../../../services/cart_KService";
+export default function Cart_item({ data, cartId, idUser }) {
+  const { _id, img, name, price, quantity } = data;
+
+  const handleDelete = async (idShoe) => {
+    console.log({ idShoe, cartId, idUser });
+    const local = JSON.parse(localStorage.getItem("userToken"));
+    const token = local.accessToken;
+    try {
+      const result = await cartService.deleteCart(
+        idUser,
+        cartId,
+        idShoe,
+        token
+      );
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <tr>
       <td width={"200px"}>
@@ -29,7 +48,14 @@ export default function Cart_item({ data }) {
         <span>{price * quantity}</span>
       </td>
       <td>
-        <i class="fa-solid fa-trash"></i>
+        <button
+          className="btn"
+          onClick={() => {
+            handleDelete(_id);
+          }}
+        >
+          <i class="fa-solid fa-trash"></i>
+        </button>
       </td>
     </tr>
   );

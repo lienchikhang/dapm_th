@@ -20,8 +20,19 @@ const getCart = (idUser, headers) => {
         }
     })
 }
+
+const deleteCart = (idUser, idCart, idShoe, token) => {
+    return axios({
+        url: `http://localhost:5000/api/cart/delete/${idUser}/${idCart}/${idShoe}`,
+        method: 'DELETE',
+        headers: {
+            token: `Bearer ${token}`
+        }
+    })
+}
 const cartService = {
     addCart,
-    getCart
+    getCart,
+    deleteCart,
 }
 export default cartService

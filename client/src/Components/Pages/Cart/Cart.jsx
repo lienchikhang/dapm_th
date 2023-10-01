@@ -86,7 +86,14 @@ export default function Cart() {
                 <tbody>
                   {cartList?.shoes?.length &&
                     cartList.shoes.reverse().map((shoe, index) => {
-                      return <CartItem key={index} data={shoe} />;
+                      return (
+                        <CartItem
+                          key={index}
+                          data={shoe}
+                          cartId={cartUser._id}
+                          idUser={cartUser.userId}
+                        />
+                      );
                     })}
                 </tbody>
               </table>

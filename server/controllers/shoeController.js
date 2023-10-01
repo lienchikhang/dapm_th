@@ -33,6 +33,11 @@ const getAll = async (req, res) => {
                 { category: { $elemMatch: { $eq: qShoe } } }, // Kiểm tra type
                 { category: { $elemMatch: { $eq: qColor } } }, // Kiểm tra color
               ]}
+        } else if (qColor && qPrice) {
+            query = {$and: [
+                { category: { $elemMatch: { $eq: qColor } } }, // Kiểm tra type
+                { price: {$gte: Number(qPrice)  } }, // Kiểm tra color
+              ]}
         }
         else if(qShoe ) {
             query = {$or: [{category: { $elemMatch: { $eq: qShoe }}},]}

@@ -9,18 +9,18 @@ const cartSchema = new mongoose.Schema({
         type: Array,
         require: true
     },
-    totalAmount: {
-        type: Number,
-        require: true
-    },
-    totalPrice: {
-        type: Number,
-        require: true
-    },
-    state: {
-        type: Boolean,
-        require: true
-    }
+    // totalAmount: {
+    //     type: Number,
+    //     require: true
+    // },
+    // totalPrice: {
+    //     type: Number,
+    //     require: true
+    // },
+    // state: {
+    //     type: Boolean,
+    //     require: true
+    // }
 
 }, {timestamps: true});
 

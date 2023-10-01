@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import shoeService from "../../../services/shoeService";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Select } from "antd";
 import "../../../css/ShoeDetail.css";
 import ShoeSuggestList from "./ShoeSuggestList";
 import { useNavigate } from "react-router-dom";
+import { addToCartShoe } from "../../../actions/shoe";
+import cartService from "../../../services/cart_KService";
 
 export default function ShoeDetail() {
   const [block, setBlock] = useState();
   const [viewingshoe, setViewingShoe] = useState({});
   const idShoe = useSelector((state) => state.shoeReducer.shoe);
+  const [addShoe, setAddShoe] = useState({});
   const navigate = useNavigate();
-  const handleChange = (value) => {
-    console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
-  };
+  const dispatch = useDispatch();
 
+  console.log(addShoe);
   useEffect(() => {
     shoeService
       .getByID(idShoe, "GET")
@@ -23,6 +25,31 @@ export default function ShoeDetail() {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const handleChange = (value) => {
+    console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
+    setAddShoe({
+      ...viewingshoe,
+      size: value.key,
+      idUser: 0,
+      quantity: 1,
+    });
+  };
+  const handleBuy = async () => {
+    dispatch(addToCartShoe(addShoe));
+    //get token
+    const local = JSON.parse(localStorage.getItem("userToken"));
+    const accessToken = local.accessToken;
+
+    //call api
+    const result = await cartService.addCart(
+      "add",
+      "POST",
+      addShoe,
+      accessToken
+    );
+    console.log("resultdd", result);
+  };
 
   const renderingUI = () => {
     const { name, img, price, size, desc } = viewingshoe;
@@ -65,6 +92,7 @@ export default function ShoeDetail() {
                 className="shoeDetail__btn"
                 onClick={() => {
                   console.log("added ");
+                  handleBuy();
                 }}
               >
                 Thêm vào giỏ hàng

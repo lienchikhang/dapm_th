@@ -11,6 +11,7 @@ const verifyToken =  (req, res, next) => {
         if(err) return res.status(401).json({success: false, message: "Invalid token"});
         if(!payload) return res.status(401).json({success: false, message: "error"});
         req.user = payload;
+        console.log('payload', payload)
         next();
     })
 }

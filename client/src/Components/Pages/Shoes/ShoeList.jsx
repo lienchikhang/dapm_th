@@ -32,6 +32,8 @@ export default function ShoeList({ openLoading, closeLoading }) {
         queryStr = `?hangShoe=${cates.type}&color=${cates.color}&price=${cates.price}`;
       else if (cates.type && cates.color)
         queryStr = `?hangShoe=${cates.type}&color=${cates.color}`;
+      else if (cates.color && cates.price)
+        queryStr = `?color=${cates.color}&price=${cates.price}`;
       else if (cates.type || cates.color || cates.price) {
         queryStr = !cates.price
           ? `?hangShoe=${cates.type ? cates.type : cates.color}`

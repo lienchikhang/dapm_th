@@ -1,3 +1,4 @@
+const Cart = require("../models/Cart");
 
 const getAll = async (req, res) => {
     try {
@@ -33,19 +34,29 @@ const getDetailCartByUser = async (req, res) => {
 }
 
 const addCart = async (req, res) => {
-    const { shoes, totalAmount, totalPrice, state} = req.body;
+    const { idUser, ...rest } = req.body;
+    const myId = req.user._id;
     try {
-        const newCart = new Cart({
-            userId: req.user._id,
-            shoes,
-            totalAmount,
-            totalPrice,
-            state
-        })
-
-        const saving = await newCart.save();
-        if(!saving) return res.status(401).json({success: false, message: "Cannot add cart"});
-        res.status(200).json({success: true, message:"happy adding", cart: saving});
+        const isExist = await Cart.findOne({userId: myId})
+        console.log('isExist', isExist)
+        if(isExist) {
+            //tim id san pham trung vs id san pham trong mang shoes
+            const existhoe = await Cart.findOneAndUpdate({ userId: myId, "shoes._id": isExist._id }, { $inc: { "shoes.$.amount": 1 } }, {new: true})
+            if(!existhoe) {
+                const result = await Cart.findOneAndUpdate({userId: myId}, { $push: { shoes: req.body } }, {new: true})
+                console.log('result after add cart', result);
+                return res.status(200).json({success: true, message: 'happy add cart', result});
+            }
+            return res.status(200).json({success: true, message: 'happy add cart', result});
+        } else {
+            const newCart = new Cart({
+                userId: myId,    
+                shoes: rest,
+            })
+            const saving = await newCart.save();
+            if(!saving) return res.status(401).json({success: false, message: "Cannot add cart"});
+            res.status(200).json({success: true, message:"happy adding", cart: saving});
+        }
     } catch(err) {
         console.log(err)
         res.status(500).json({success: false, message: "Internal server error", error: err})

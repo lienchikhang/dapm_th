@@ -42,6 +42,7 @@ export default function Login() {
             localStorage.setItem(
               "userToken",
               JSON.stringify({
+                _id: user._id,
                 username: user.username,
                 accessToken: user.accessToken,
               })

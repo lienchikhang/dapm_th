@@ -13,9 +13,9 @@ const getAll = async (req, res) => {
 
 const getDetailCart = async (req, res) => {
     try {
-        const carts = await Cart.find({userId: req.params.idUser});
-        if(!carts) return res.status(401).json({success: false, message: "cannot found"});
-        res.status(200).json({success: true, message: "Cart founded!", carts});
+        const cart = await Cart.findOne({userId: req.params.idUser});
+        if(!cart) return res.status(401).json({success: false, message: "cannot found"});
+        res.status(200).json({success: true, message: "Cart founded!", cart});
     } catch (err) {
         console.log(err);
         res.status(500).json({success: false, message: "Internal server error", error: err})

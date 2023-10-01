@@ -6,7 +6,7 @@ const router = require('express').Router();
 //GET
 router.get('/all', verifyTokenAndAdmin, cartController.getAll)
 
-router.get('/:idUser/', verifyTokenAndAuthorize, cartController.getDetailCart)
+router.get('/:idUser', verifyTokenAndAuthorize, cartController.getDetailCart)
 
 router.get('/:idUser/:idCart', verifyTokenAndAuthorize, cartController.getDetailCartByUser)
 

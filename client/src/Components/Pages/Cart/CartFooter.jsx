@@ -1,6 +1,6 @@
 import React from "react";
 import "../../../css/Cart.css";
-export default function CartFooter() {
+export default function CartFooter({ total }) {
   return (
     <div className="container">
       <div className="row">
@@ -8,7 +8,7 @@ export default function CartFooter() {
         <div className="col-6">
           <div className="cart__footer">
             <p className="">
-              Tổng tiền: <span>600</span>
+              Tổng tiền: <span>{total}</span>
             </p>
             <button className="">Thanh toán</button>
           </div>

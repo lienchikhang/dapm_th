@@ -48,3 +48,29 @@
     border-radius: 5px;
     padding: 8px 16px;
 }
+
+.max__height {
+    max-height: 500px;
+    overflow: scroll;
+}
+
+.max__height::-webkit-scrollbar {
+    display: none;
+}
+
+.my-w:first-child {
+    width: 200px
+}
+
+.my-w:nth-child(2) {
+    width: 250px
+}
+
+
+.my-w:nth-child(3) {
+    width: 170px
+}
+
+.my-w:nth-child(4) {
+    width: 150px
+}

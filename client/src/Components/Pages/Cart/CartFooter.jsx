@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../../css/Cart.css";
+import { useSelector } from "react-redux";
 export default function CartFooter({ total }) {
   return (
     <div className="container">

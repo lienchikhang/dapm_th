@@ -1,5 +1,5 @@
 const initialState = {
-    cartUser: {},
+    cartUser: 0,
 }
 
 const cartReducer = (state = initialState, { type, payload }) => {

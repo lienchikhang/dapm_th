@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import shoeService from "../../../services/shoeService";
 import { useDispatch, useSelector } from "react-redux";
-import { Select } from "antd";
+import { Select, notification, ConfigProvider, Spin, message } from "antd";
 import "../../../css/ShoeDetail.css";
 import ShoeSuggestList from "./ShoeSuggestList";
 import { useNavigate } from "react-router-dom";
@@ -11,12 +11,42 @@ import cartService from "../../../services/cart_KService";
 export default function ShoeDetail() {
   const [block, setBlock] = useState();
   const [viewingshoe, setViewingShoe] = useState({});
+  const [loading, setLoading] = useState(false);
   const idShoe = useSelector((state) => state.shoeReducer.shoe);
   const [addShoe, setAddShoe] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  console.log(addShoe);
+  //ant design
+  const Context = React.createContext({
+    name: "Default",
+  });
+  const contextValue = useMemo(
+    () => ({
+      name: "Ant Design",
+    }),
+    []
+  );
+
+  notification.config({
+    placement: "topRight",
+    top: 100,
+    duration: 3,
+    rtl: true,
+  });
+
+  const openNotification = () => {
+    notification.open({
+      message: "Đã thêm vào giỏ hàng",
+      description: "Vui lòng kiểm tra giỏ hàng",
+      style: {
+        backgroundColor: "#ffffff",
+        border: "2px solid #52c41a",
+        fontWeight: "700",
+      },
+    });
+  };
+
   useEffect(() => {
     shoeService
       .getByID(idShoe, "GET")
@@ -48,13 +78,38 @@ export default function ShoeDetail() {
       addShoe,
       accessToken
     );
+    closeLoading();
     console.log("resultdd", result);
+    openNotification();
+  };
+
+  const closeLoading = () => {
+    setLoading(false);
+  };
+
+  const openLoading = () => {
+    setLoading(true);
   };
 
   const renderingUI = () => {
     const { name, img, price, size, desc } = viewingshoe;
     return (
       <div className="container shoeDetail__wrapper">
+        <div className={`loadingScreen ${loading ? "active" : ""}`}>
+          <ConfigProvider
+            theme={{
+              components: {
+                Spin: {
+                  /* here is your component tokens */
+                  colorPrimary: "#1677ff",
+                  dotSizeLG: 60,
+                },
+              },
+            }}
+          >
+            <Spin size="large" spinning={loading} />
+          </ConfigProvider>
+        </div>
         <div className="row">
           <div className="col-8">
             <div className="shoe__img p-4">
@@ -88,15 +143,18 @@ export default function ShoeDetail() {
                 />
                 <span className="ml-4">Size</span>
               </div>
-              <button
-                className="shoeDetail__btn"
-                onClick={() => {
-                  console.log("added ");
-                  handleBuy();
-                }}
-              >
-                Thêm vào giỏ hàng
-              </button>
+              <Context.Provider>
+                {/* {contextHolder} */}
+                <button
+                  className="shoeDetail__btn"
+                  onClick={() => {
+                    openLoading();
+                    handleBuy();
+                  }}
+                >
+                  Thêm vào giỏ hàng
+                </button>
+              </Context.Provider>
               <ul className="shoeDetail__subInfo">
                 <li>
                   <span>Màu sắc</span>

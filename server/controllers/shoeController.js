@@ -20,7 +20,7 @@ const getAll = async (req, res) => {
     let qColor = req.query.color;
     let qPrice = req.query.price;
     let query = {};
-    console.log({qShoe, qColor, qPrice})
+    // console.log({qShoe, qColor, qPrice})
     try {
         if(qShoe && qColor && qPrice) {
             query = {$and: [

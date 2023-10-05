@@ -61,7 +61,6 @@ export default function ShoeDetail() {
     setAddShoe({
       ...viewingshoe,
       size: value.key,
-      idUser: 0,
       quantity: 1,
     });
   };
@@ -79,7 +78,6 @@ export default function ShoeDetail() {
       accessToken
     );
     closeLoading();
-    console.log("resultdd", result);
     openNotification();
   };
 

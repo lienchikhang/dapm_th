@@ -1,14 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 
 import "../../../css/Cart.css";
 import cartService from "../../../services/cart_KService";
 export default function Cart_item({ data, cartId, idUser }) {
-  const { _id, img, name, price, quantity } = data;
-
+  const { _id, img, name, price, quantity, size } = data;
+  const local = JSON.parse(localStorage.getItem("userToken"));
+  const token = local.accessToken;
+  
   const handleDelete = async (idShoe) => {
-    console.log({ idShoe, cartId, idUser });
-    const local = JSON.parse(localStorage.getItem("userToken"));
-    const token = local.accessToken;
     try {
       const result = await cartService.deleteCart(
         idUser,
@@ -16,11 +15,29 @@ export default function Cart_item({ data, cartId, idUser }) {
         idShoe,
         token
       );
-      console.log(result);
+      console.log(result)
     } catch (err) {
       console.log(err);
     }
   };
+
+  const handleDesc = async (idShoe) => {
+    try {
+      await cartService.descCart('desc', 'POST', { size: size, shoeId: _id }, token)
+      
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleIncre = async(idShoe)=>{
+    try{
+      await cartService.increaseCart('increase','POST',{size:size,shoeId:_id},token)
+      
+    }catch(err){
+      console.log(err)
+    }
+  }
 
   return (
     <tr>
@@ -29,15 +46,16 @@ export default function Cart_item({ data, cartId, idUser }) {
           <img alt="img" className="img-fluid" src={img} />
         </div>
       </td>
-      <td>
+      <td style={{ paddingRight: "45px" }}>
         <h3 className="cartItem__name">{name}</h3>
+        <h4 className="cartItem__name">Size:{size}</h4>
       </td>
       <td style={{ padding: "0" }}>
-        <button className="btn">
+        <button className="btn" onClick={() => { handleDesc(_id) }}>
           <i class="fa-solid fa-minus"></i>
         </button>
         <span className="cartItem__amount">{quantity}</span>
-        <button className="btn">
+        <button className="btn" onClick={() => { handleIncre(_id) }}>
           <i class="fa-solid fa-plus"></i>
         </button>
       </td>

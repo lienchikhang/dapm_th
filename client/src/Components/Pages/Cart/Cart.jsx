@@ -12,7 +12,6 @@ export default function Cart() {
   const [cartList, setCartList] = useState(false);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-
   const closeLoading = () => {
     setLoading(false);
   };

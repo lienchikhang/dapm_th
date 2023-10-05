@@ -1,7 +1,18 @@
-//các action creators
-export const uploadUser = (user) => {
-    return {
-        type: 'SET_USER',
-        payload: user
-    }
+import axios from "axios";
+import { loginFailure, loginStart, loginSuccess } from "../reducers/userReducer"
+
+export const login = (dispatch, data) => { 
+    dispatch(loginStart());
+    axios({
+        url: `http://localhost:5000/api/user/login`,
+        method:'POST',
+        data: data
+    })
+    .then((res) => {
+        dispatch(loginSuccess(res.data.user));
+    })
+    .catch((err) => {
+        console.log(err);
+        dispatch(loginFailure());
+    })
 }

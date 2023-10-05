@@ -9,10 +9,8 @@ import { useSelector } from "react-redux";
 export default function Header() {
   //connect redux
   //lấy state từ redux
-  const user = useSelector((state) => state.userReducer.user);
-
-  let data = JSON.parse(localStorage.getItem("userToken"));
-
+  const user = useSelector((state) => state.user.currentUser);
+  console.log("header ", user);
   return (
     <div className="header__wrapper">
       <div className="container">
@@ -20,7 +18,7 @@ export default function Header() {
           <div className="header__logo">LOGO</div>
           <HeaderNav />
           <div className="row">
-            <HeaderRight user={true} data={data} logined={user} />
+            <HeaderRight account={true} user={user} />
             <HeaderRight user={false} />
           </div>
         </div>

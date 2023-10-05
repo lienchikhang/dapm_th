@@ -9,54 +9,30 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { message } from "antd";
-import { useDispatch } from "react-redux";
-import { uploadUser } from "../../../actions/user";
+import { useDispatch, useSelector } from "react-redux";
+import { login, uploadUser } from "../../../actions/user";
+import { setAuth } from "../../../actions/authAction.js";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState({});
-  const [buttonClicked, setButtonClicked] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const settingUserForAll = (userData) => {
-    console.log("dispatch");
-    const action = uploadUser(userData);
-    dispatch(action);
+  // const login = useSelector((state) => state.authReducer.user);
+
+  const onChangeForm = (e) => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  useEffect(() => {
-    if (buttonClicked) {
-      axios({
-        url: "http://localhost:5000/api/user/login",
-        method: "POST",
-        data: user,
-      })
-        .then((res) => {
-          console.log(res);
-          const { success, user } = res.data;
-          console.log("userrr", user);
-          if (success) {
-            settingUserForAll(user);
-            localStorage.setItem(
-              "userToken",
-              JSON.stringify({
-                _id: user._id,
-                username: user.username,
-                accessToken: user.accessToken,
-              })
-            );
-            message.success(res.data.message);
-            navigate("/"); //ko bị load lại trang khi chuyển
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          message.error(err.response.data.message);
-        });
-    }
-  }, [buttonClicked, user]);
+  const onSubmit = (e) => {
+    e.preventDefault();
+    login(dispatch, user);
+  };
 
   return (
     <div className="container p-4">
@@ -81,14 +57,10 @@ export default function Login() {
             <input
               type="text"
               className="form-control"
-              name
-              id
-              aria-describedby="helpId"
+              name="username"
               placeholder="Username"
-              value={username}
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
+              value={user.username}
+              onChange={onChangeForm}
             />
           </div>
           <div className="form-group">
@@ -96,26 +68,16 @@ export default function Login() {
             <input
               type="password"
               className="form-control"
-              name
-              id
-              aria-describedby="helpId"
+              name="password"
               placeholder="Password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              value={user.password}
+              onChange={onChangeForm}
             />
           </div>
           <button
             type="button"
             className="btn"
-            onClick={(e) => {
-              setUser({ username, password });
-              setButtonClicked(true);
-              settingUserForAll({
-                username: "dadwdw",
-              });
-            }}
+            onClick={onSubmit}
             style={{
               backgroundColor: "black",
               color: "white",

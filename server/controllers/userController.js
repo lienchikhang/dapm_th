@@ -6,6 +6,17 @@ require('dotenv').config();
 
 
 //GET
+const checkLogin = async(req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        if(!user) return  res.status(400).json({success: false, error: err})
+        res.status(200).json({success: true, user});
+    } catch(err) {
+        res.status(500).json({success: false, error: err})
+    }
+}
+
+
 const register = async (req, res) => {
     const {username, password} = req.body;
 
@@ -79,6 +90,7 @@ const stats = async (req, res) => {
 //LOGIN
 const login = async (req, res) => {
         const {username, password} = req.body;
+        console.log({username, password})
     
         if(!username || !password) return res.status(401).json({success: false, message: "Missing username and/or password"});
     
@@ -107,5 +119,6 @@ module.exports = {
     register,
     login,
     resetPass,
-    stats
+    stats,
+    checkLogin,
 }

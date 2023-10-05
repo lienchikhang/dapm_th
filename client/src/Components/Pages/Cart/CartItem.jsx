@@ -2,7 +2,13 @@ import React from "react";
 
 import "../../../css/Cart.css";
 import cartService from "../../../services/cart_KService";
-export default function Cart_item({ data, cartId, idUser }) {
+export default function Cart_item({
+  data,
+  cartId,
+  idUser,
+  openLoading,
+  closeLoading,
+}) {
   const { _id, img, name, price, quantity } = data;
 
   const handleDelete = async (idShoe) => {
@@ -17,6 +23,7 @@ export default function Cart_item({ data, cartId, idUser }) {
         token
       );
       console.log(result);
+      closeLoading();
     } catch (err) {
       console.log(err);
     }
@@ -51,6 +58,7 @@ export default function Cart_item({ data, cartId, idUser }) {
         <button
           className="btn"
           onClick={() => {
+            openLoading();
             handleDelete(_id);
           }}
         >

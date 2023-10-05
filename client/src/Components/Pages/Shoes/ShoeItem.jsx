@@ -16,11 +16,6 @@ export default function ShoeItem({ item }) {
     return string;
   };
 
-  const handleViewDetail = (_id) => {
-    const action = viewingShoe(_id);
-    dispatch(action);
-  };
-
   return (
     <div className="col-4">
       <div className="shoe__wrapper">
@@ -30,7 +25,6 @@ export default function ShoeItem({ item }) {
             <button
               onClick={() => {
                 navigate(`${_id}`);
-                handleViewDetail(_id);
               }}
             >
               <i class="fa-solid fa-magnifying-glass"></i>

@@ -6,17 +6,16 @@ import { Pagination } from "antd";
 import { useSelector } from "react-redux";
 export default function ShoeList({ openLoading, closeLoading }) {
   const [shoeList, setShoeList] = useState([]);
-  const [block, setBlock] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(6); // Số mục trên mỗi trang
   const [displayedShoeList, setDisplayedShoeList] = useState([]);
 
   //get cate
-  const cates = useSelector((state) => state.navbarReducer.navItem);
-  const selectedCate = useSelector((state) => state.navbarReducer.selectedCate);
+  const cates = useSelector((state) => state.navbar.navItem.payload);
+  const selectedCate = useSelector((state) => state.navbar.selectedCate);
 
   console.log("cates", cates);
-  //pagination
 
+  //pagination
   const [current, setCurrent] = useState(1);
   const onChange = (page) => {
     if (page !== current) {
@@ -53,7 +52,7 @@ export default function ShoeList({ openLoading, closeLoading }) {
     };
 
     myAsync();
-  }, [block, cates, current]);
+  }, [cates, current]);
 
   useEffect(() => {
     setCurrent(1);

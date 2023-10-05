@@ -2,7 +2,13 @@ import React, { useState } from "react";
 
 import "../../../css/Cart.css";
 import cartService from "../../../services/cart_KService";
-export default function Cart_item({ data, cartId, idUser }) {
+export default function Cart_item({
+  data,
+  cartId,
+  idUser,
+  openLoading,
+  closeLoading,
+}) {
   const { _id, img, name, price, quantity, size } = data;
   const local = JSON.parse(localStorage.getItem("userToken"));
   const token = local.accessToken;
@@ -15,7 +21,7 @@ export default function Cart_item({ data, cartId, idUser }) {
         idShoe,
         token
       );
-      console.log(result)
+      console.log(result);
     } catch (err) {
       console.log(err);
     }
@@ -69,6 +75,7 @@ export default function Cart_item({ data, cartId, idUser }) {
         <button
           className="btn"
           onClick={() => {
+            openLoading();
             handleDelete(_id);
           }}
         >

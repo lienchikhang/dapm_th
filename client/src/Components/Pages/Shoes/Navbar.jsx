@@ -12,6 +12,7 @@ import {
   Col,
 } from "antd";
 import { useDispatch } from "react-redux";
+import { updateCate } from "../../../reducers/navbar";
 export default function Navbar({ openLoadingg, closeLoading }) {
   //states
   const [cates, setCates] = useState([]);
@@ -49,7 +50,8 @@ export default function Navbar({ openLoadingg, closeLoading }) {
 
   //push to state
   useEffect(() => {
-    dispatch({ type: "UPDATE_CATES", payload: filter });
+    // dispatch({ type: "UPDATE_CATES", payload: filter });
+    dispatch(updateCate(filter));
   }, [filter]);
 
   //change filter with price

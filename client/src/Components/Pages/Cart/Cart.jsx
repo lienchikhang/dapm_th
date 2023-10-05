@@ -91,6 +91,8 @@ export default function Cart() {
                           data={shoe}
                           cartId={cartUser._id}
                           idUser={cartUser.userId}
+                          openLoading={openLoading}
+                          closeLoading={closeLoading}
                         />
                       );
                     })}

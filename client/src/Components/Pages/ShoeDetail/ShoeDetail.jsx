@@ -4,18 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { Select, notification, ConfigProvider, Spin, message } from "antd";
 import "../../../css/ShoeDetail.css";
 import ShoeSuggestList from "./ShoeSuggestList";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { addToCartShoe } from "../../../actions/shoe";
 import cartService from "../../../services/cart_KService";
 
 export default function ShoeDetail() {
-  const [block, setBlock] = useState();
   const [viewingshoe, setViewingShoe] = useState({});
   const [loading, setLoading] = useState(false);
-  const idShoe = useSelector((state) => state.shoeReducer.shoe);
   const [addShoe, setAddShoe] = useState({});
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const idShoe = location.pathname.split("/")[3];
 
   //ant design
   const Context = React.createContext({

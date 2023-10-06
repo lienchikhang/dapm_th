@@ -12,6 +12,7 @@ export default function Cart() {
   const cartUser = useSelector((state) => state.cart.cartUser);
   const [cartList, setCartList] = useState(false);
   const [loading, setLoading] = useState(true);
+  console.log("cart cartUser", cartUser);
   const dispatch = useDispatch();
   const closeLoading = () => {
     setLoading(false);
@@ -21,7 +22,7 @@ export default function Cart() {
     setLoading(true);
   };
   let total = 0;
-  if (cartUser) {
+  if (cartUser?.shoes) {
     total = cartUser.shoes.reduce((accumulate, curVar) => {
       return accumulate + curVar.price * curVar.quantity;
     }, 0);
@@ -55,6 +56,7 @@ export default function Cart() {
 
   useEffect(() => {
     setCartList(cartUser);
+    console.log("re-render");
   }, [cartUser]);
 
   return (
@@ -91,8 +93,8 @@ export default function Cart() {
             <div className="max__height">
               <table className="table table-borderless">
                 <tbody>
-                  {cartList?.shoes?.length &&
-                    cartList.shoes.reverse().map((shoe, index) => {
+                  {cartUser?.shoes &&
+                    cartUser?.shoes.reverse().map((shoe, index) => {
                       return (
                         <CartItem
                           key={index}

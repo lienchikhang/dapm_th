@@ -34,12 +34,13 @@ export default function Cart_item({
 
   const handleDesc = async (idShoe) => {
     try {
-      await cartService.descCart(
+      const cartUser = await cartService.descCart(
         "desc",
         "POST",
         { size: size, shoeId: _id },
         accessToken
       );
+      dispatch(updateCartList(cartUser.data.newListCart));
     } catch (err) {
       console.log(err);
     }
@@ -53,7 +54,8 @@ export default function Cart_item({
         { size: size, shoeId: _id },
         accessToken
       );
-      dispatch(updateCartList(cartUser));
+      console.log("cartItem cartUser", cartUser.data.newListCart);
+      dispatch(updateCartList(cartUser.data.newListCart));
     } catch (err) {
       console.log(err);
     }

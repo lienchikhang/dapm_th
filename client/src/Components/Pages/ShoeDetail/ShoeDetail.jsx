@@ -66,8 +66,10 @@ export default function ShoeDetail() {
   const handleBuy = async () => {
     dispatch(addToCartShoe(addShoe));
     //get token
-    const local = JSON.parse(localStorage.getItem("userToken"));
-    const accessToken = local.accessToken;
+    // const local = JSON.parse(localStorage.getItem("userToken"));
+    // const accessToken = local.accessToken;
+    const local = JSON.parse(localStorage.getItem("persist:root"));
+    const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
 
     //call api
     const result = await cartService.addCart(

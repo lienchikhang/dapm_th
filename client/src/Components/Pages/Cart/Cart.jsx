@@ -6,6 +6,7 @@ import cartService from "../../../services/cart_KService";
 import { useDispatch, useSelector } from "react-redux";
 import { ConfigProvider, Spin } from "antd";
 import "../../../css/ShoeList.css";
+import { updateCartList } from "../../../reducers/cartReducer";
 
 export default function Cart() {
   const cartUser = useSelector((state) => state.cart.cartUser);
@@ -38,10 +39,11 @@ export default function Cart() {
       try {
         const result = await cartService.getCart(idUser, accessToken);
         closeLoading();
-        dispatch({
-          type: "UPDATE_CART_LIST",
-          payload: result.data.cart,
-        });
+        // dispatch({
+        //   type: "UPDATE_CART_LIST",
+        //   payload: result.data.cart,
+        // });
+        dispatch(updateCartList(result.data.cart));
       } catch (err) {
         console.log(err);
       }

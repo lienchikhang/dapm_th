@@ -10,16 +10,17 @@ export default function Cart_item({
   closeLoading,
 }) {
   const { _id, img, name, price, quantity, size } = data;
-  const local = JSON.parse(localStorage.getItem("userToken"));
-  const token = local.accessToken;
-  
+  const local = JSON.parse(localStorage.getItem("persist:root"));
+  // const idUser = JSON.parse(local.user).currentUser.payload._id;
+  const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
+
   const handleDelete = async (idShoe) => {
     try {
       const result = await cartService.deleteCart(
         idUser,
         cartId,
         idShoe,
-        token
+        accessToken
       );
       console.log(result);
     } catch (err) {
@@ -29,21 +30,29 @@ export default function Cart_item({
 
   const handleDesc = async (idShoe) => {
     try {
-      await cartService.descCart('desc', 'POST', { size: size, shoeId: _id }, token)
-      
+      await cartService.descCart(
+        "desc",
+        "POST",
+        { size: size, shoeId: _id },
+        accessToken
+      );
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
 
-  const handleIncre = async(idShoe)=>{
-    try{
-      await cartService.increaseCart('increase','POST',{size:size,shoeId:_id},token)
-      
-    }catch(err){
-      console.log(err)
+  const handleIncre = async (idShoe) => {
+    try {
+      await cartService.increaseCart(
+        "increase",
+        "POST",
+        { size: size, shoeId: _id },
+        accessToken
+      );
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   return (
     <tr>
@@ -57,11 +66,21 @@ export default function Cart_item({
         <h4 className="cartItem__name">Size:{size}</h4>
       </td>
       <td style={{ padding: "0" }}>
-        <button className="btn" onClick={() => { handleDesc(_id) }}>
+        <button
+          className="btn"
+          onClick={() => {
+            handleDesc(_id);
+          }}
+        >
           <i class="fa-solid fa-minus"></i>
         </button>
         <span className="cartItem__amount">{quantity}</span>
-        <button className="btn" onClick={() => { handleIncre(_id) }}>
+        <button
+          className="btn"
+          onClick={() => {
+            handleIncre(_id);
+          }}
+        >
           <i class="fa-solid fa-plus"></i>
         </button>
       </td>

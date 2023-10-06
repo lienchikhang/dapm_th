@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import "../../../css/Cart.css";
 import cartService from "../../../services/cart_KService";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCartList } from "../../../reducers/cartReducer";
 export default function Cart_item({
   data,
   cartId,
@@ -9,6 +11,8 @@ export default function Cart_item({
   openLoading,
   closeLoading,
 }) {
+  const cartUser = useSelector((state) => state.cart.cartUser);
+  const dispatch = useDispatch();
   const { _id, img, name, price, quantity, size } = data;
   const local = JSON.parse(localStorage.getItem("persist:root"));
   // const idUser = JSON.parse(local.user).currentUser.payload._id;
@@ -43,12 +47,13 @@ export default function Cart_item({
 
   const handleIncre = async (idShoe) => {
     try {
-      await cartService.increaseCart(
+      const cartUser = await cartService.increaseCart(
         "increase",
         "POST",
         { size: size, shoeId: _id },
         accessToken
       );
+      dispatch(updateCartList(cartUser));
     } catch (err) {
       console.log(err);
     }

@@ -3,9 +3,11 @@ import "../../../css/ShoeItem.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { viewingShoe } from "../../../actions/shoe";
+import useSelection from "antd/es/table/hooks/useSelection";
 
 export default function ShoeItem({ item }) {
   const { _id, name, price, img, desc, brand } = item;
+  // const cartUser = useSelection((state) => state.cart.cartUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

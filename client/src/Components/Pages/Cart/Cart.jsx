@@ -29,10 +29,14 @@ export default function Cart() {
   //call api
   useEffect(() => {
     let callApi = async () => {
-      const local = JSON.parse(localStorage.getItem("persist"));
-      const { _id, accessToken } = local;
+      const local = JSON.parse(localStorage.getItem("persist:root"));
+      const idUser = JSON.parse(local.user).currentUser.payload._id;
+      const accessToken = JSON.parse(local.user).currentUser.payload
+        .accessToken;
+
+      // const { _id, accessToken } = local;
       try {
-        const result = await cartService.getCart(_id, accessToken);
+        const result = await cartService.getCart(idUser, accessToken);
         closeLoading();
         dispatch({
           type: "UPDATE_CART_LIST",
@@ -43,6 +47,8 @@ export default function Cart() {
       }
     };
     callApi();
+    // const local = JSON.parse(localStorage.getItem("persist:root"));
+    // console.log(JSON.parse(local.user).currentUser.payload._id);
   }, []);
 
   useEffect(() => {

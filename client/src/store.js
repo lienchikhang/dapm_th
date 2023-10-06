@@ -13,6 +13,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import navbarReducer from "./reducers/navbar";
+import cartReducer from "./reducers/cartReducer";
 const persistConfig = {
   key: "root",
   version: 1,
@@ -22,6 +23,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userReducer,
   navbar: navbarReducer,
+  cart: cartReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -8,7 +8,7 @@ import { ConfigProvider, Spin } from "antd";
 import "../../../css/ShoeList.css";
 
 export default function Cart() {
-  const cartUser = useSelector((state) => state.cartReducer.cartUser);
+  const cartUser = useSelector((state) => state.cart.cartUser);
   const [cartList, setCartList] = useState(false);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ export default function Cart() {
   //call api
   useEffect(() => {
     let callApi = async () => {
-      const local = JSON.parse(localStorage.getItem("userToken"));
+      const local = JSON.parse(localStorage.getItem("persist"));
       const { _id, accessToken } = local;
       try {
         const result = await cartService.getCart(_id, accessToken);

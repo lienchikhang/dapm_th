@@ -104,10 +104,10 @@ const descCart = async (req, res) => {
             { new: true }
         );
         if (updatedCart && existshoe) {
-            res.status(200).json({message:"take shoe out array"})
+            res.status(200).json({message:"take shoe out array",newListCart:updatedCart})
         }
         else{
-            res.status(200).json({message:"make shoe desc"})
+            res.status(200).json({message:"make shoe desc",newListCart:updatedCart})
         }
     }
     catch (err) {

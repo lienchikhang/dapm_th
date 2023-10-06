@@ -70,8 +70,16 @@ const increaseCart=async(req,res)=>{
     const myId = req.user._id;
     
     try{
-        const result=await Cart.findOneAndUpdate({ userId: myId, "shoes._id": shoeId, "shoes.size": size }, { $inc: { "shoes.$.quantity": 1 } }, { new: true })
-        res.status(200).json({message:"Increase shoe quantity success"})
+        const result=await Cart.findOneAndUpdate({
+            userId: myId,
+            shoes: {
+                $elemMatch: {
+                    _id: shoeId,
+                    size: size
+                }
+            }
+        }, { $inc: { "shoes.$.quantity": 1 } }, { new: true })
+        res.status(200).json({message:"Increase shoe quantity success",newListCart:result})
     }catch(err){
         console.log(err)
     }
@@ -81,7 +89,15 @@ const descCart = async (req, res) => {
     const { shoeId, size } = req.body;
     const myId = req.user._id;
     try {
-        const existshoe = await Cart.findOneAndUpdate({ userId: myId, "shoes._id": shoeId, "shoes.size": size }, { $inc: { "shoes.$.quantity": -1 } }, { new: true })
+        const existshoe = await Cart.findOneAndUpdate({
+            userId: myId,
+            shoes: {
+                $elemMatch: {
+                    _id: shoeId,
+                    size: size
+                }
+            }
+        }, { $inc: { "shoes.$.quantity": -1 } }, { new: true })
         const updatedCart = await Cart.findOneAndUpdate(
             { userId: myId },
             { $pull: { shoes: { quantity: 0 } } },

@@ -10,7 +10,6 @@ import { updateCartList } from "../../../reducers/cartReducer";
 
 export default function Cart() {
   const cartUser = useSelector((state) => state.cart.cartUser);
-  const [cartList, setCartList] = useState(false);
   const [loading, setLoading] = useState(true);
   console.log("cart cartUser", cartUser);
   const dispatch = useDispatch();
@@ -53,11 +52,6 @@ export default function Cart() {
     // const local = JSON.parse(localStorage.getItem("persist:root"));
     // console.log(JSON.parse(local.user).currentUser.payload._id);
   }, []);
-
-  useEffect(() => {
-    setCartList(cartUser);
-    console.log("re-render");
-  }, [cartUser]);
 
   return (
     <div>

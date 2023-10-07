@@ -6,8 +6,11 @@ import { login } from "../redux/action/user";
 export default function Login() {
   const [user, setUser] = useState({});
   const dispatch = useDispatch();
-  const test = useSelector((state) => state.user.error);
-  console.log("test", test);
+  const isAdmin = useSelector(
+    (state) => state.user.currentUser?.payload?.isAdmin
+  );
+  const error = useSelector((state) => state.user.error);
+  console.log("isAdmin", isAdmin);
   // const { isFetching, error } = useSelector((state) => state.user.authReducer);
 
   const onChangeLoginForm = (e) => {
@@ -78,9 +81,14 @@ export default function Login() {
             >
               Đăng nhập
             </button>
-            {test && (
+            {!isAdmin && (
               <p style={{ color: "red", padding: "8px 0" }}>
-                Sai mật khẩu hoặc tài khoản
+                Bạn không có quyền truy cập!
+              </p>
+            )}
+            {error && (
+              <p style={{ color: "red", padding: "8px 0" }}>
+                Mật khẩu hoặc tài khoản không đúng!
               </p>
             )}
           </form>

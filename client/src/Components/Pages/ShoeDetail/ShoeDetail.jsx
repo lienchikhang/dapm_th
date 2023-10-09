@@ -15,6 +15,7 @@ export default function ShoeDetail() {
   const dispatch = useDispatch();
   const location = useLocation();
   const idShoe = location.pathname.split("/")[3];
+  const curUser = useSelector((state) => state.user.currentUser);
 
   //ant design
   const Context = React.createContext({
@@ -46,6 +47,18 @@ export default function ShoeDetail() {
     });
   };
 
+  const openErrorNotification = () => {
+    notification.open({
+      message: "Vui lòng đăng nhập",
+      description: "Bạn phải đăng nhập trước",
+      style: {
+        backgroundColor: "#ffffff",
+        border: "2px solid #52c41a",
+        fontWeight: "700",
+      },
+    });
+  };
+
   useEffect(() => {
     shoeService
       .getByID(idShoe, "GET")
@@ -64,6 +77,10 @@ export default function ShoeDetail() {
     });
   };
   const handleBuy = async () => {
+    if (!curUser) {
+      closeLoading();
+      return openErrorNotification();
+    }
     dispatch(addToCartShoe(addShoe));
     //get token
     // const local = JSON.parse(localStorage.getItem("userToken"));

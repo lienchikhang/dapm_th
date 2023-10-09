@@ -11,7 +11,6 @@ import { updateCartList } from "../../../reducers/cartReducer";
 export default function Cart() {
   const cartUser = useSelector((state) => state.cart.cartUser);
   const [loading, setLoading] = useState(true);
-  console.log("cart cartUser", cartUser);
   const dispatch = useDispatch();
   const closeLoading = () => {
     setLoading(false);
@@ -73,7 +72,7 @@ export default function Cart() {
         </div>
         <div className="row">
           <div className="col-12">
-            \<h1 className="cart__title">Giỏ hàng</h1>
+            <h1 className="cart__title">Giỏ hàng</h1>
             <table className="table table-borderless">
               <thead>
                 <th className="my-w">SẢN PHẨM</th>
@@ -88,7 +87,7 @@ export default function Cart() {
               <table className="table table-borderless">
                 <tbody>
                   {cartUser?.shoes &&
-                    cartUser?.shoes.reverse().map((shoe, index) => {
+                    cartUser?.shoes.map((shoe, index) => {
                       return (
                         <CartItem
                           key={index}

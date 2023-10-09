@@ -1,0 +1,54 @@
+.title {
+    color: #000;
+
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.Info-Input {
+    border-bottom: 1px solid #000;
+    background: #FFF;
+}
+
+.mt-0{
+    margin: 0;
+}
+
+.label-text {
+    color: #000;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 100;
+    line-height: normal;
+}
+
+.img-item {
+   
+}
+
+.box-cart {
+    filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.25));
+}
+
+.max__height {
+    max-height: 355px;
+    overflow: scroll;
+}
+
+.max__height::-webkit-scrollbar {
+    display: none;
+}
+
+.btn-checkout {
+    color: white;
+    background: black;
+    width: 360px;
+    height: 44px;
+    flex-shrink: 0;
+}
+
+.btn-checkout:hover{
+    color: cyan;
+}

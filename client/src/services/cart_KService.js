@@ -23,7 +23,6 @@ const increaseCart = (path, method,shoe, headers = '') => {
     })
 }
 
-
 const descCart = (path, method,shoe, headers = '') => {
     
     return axios({

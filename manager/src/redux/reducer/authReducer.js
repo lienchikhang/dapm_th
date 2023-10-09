@@ -38,10 +38,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
   name: "user",
   initialState: {
-      currentUser: null,
-      isFetching: false,
-      error: false,
-    },
+    currentUser: null,
+    isFetching: false,
+    error: false,
+  },
   reducers: {
     //với mỗi prop trong reducers, nó sẽ tạo ra 1 action creators
     //trong đó type = name của slice + "/" + name props
@@ -56,10 +56,14 @@ const userSlice = createSlice({
     loginFailure: (state, action) => {
       state.error = true;
       state.isFetching = false;
-    }
-  }
-})
+    },
+    logoutSuccess: (state, action) => {
+      state.currentUser = null;
+      state.isFetching = false;
+    },
+  },
+});
 
-export const {loginStart, loginSuccess, loginFailure} = userSlice.actions
+export const { loginStart, loginSuccess, loginFailure, logoutSuccess } =
+  userSlice.actions;
 export default userSlice.reducer;
-

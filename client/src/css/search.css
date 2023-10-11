@@ -1,0 +1,19 @@
+.search-section {
+    flex: 1
+}
+
+.search-section input {
+    width: 70%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 4px 16px;
+}
+
+/* .search-section button {
+    background-color: black;
+    color: white;
+    font-weight: 500;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+} */

@@ -5,7 +5,7 @@ import ShoeList from "./ShoeList";
 import "../../../css/ShoeList.css";
 import { Spin, ConfigProvider } from "antd";
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
-import ShoeListPage from "./ShoeListPage";
+import Search from "./Search";
 
 export default function Shoes() {
   const [loading, setLoading] = useState(true);
@@ -43,6 +43,7 @@ export default function Shoes() {
             <ColorPicker />
           </div>
           <div className="col-8">
+            {/* <Search /> */}
             <ShoeList openLoading={openLoading} closeLoading={closeLoading} />
           </div>
         </div>

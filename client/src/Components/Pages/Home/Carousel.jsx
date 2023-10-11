@@ -19,13 +19,28 @@ export default function Carousel() {
         </ol>
         <div className="carousel-inner">
           <div className="carousel-item active">
-            <img className="d-block w-100 img-fluid" src="https://cdn.wallpapersafari.com/88/47/9Rjxe6.jpg" alt="First slide" style={{height: '800px', objectFit: 'cover'}}/>
+            <img
+              className="d-block w-100 img-fluid"
+              src="https://media.about.nike.com/images/b196703f-f105-41d7-9542-e75de08ad2bc/nike-zoomx-vaporfly-next3fk-proto-detail-05.jpg?fm=jpg&q=80&fit=max&crop=3000%2C2001%2C0%2C0&w=3840"
+              alt="First slide"
+              style={{ height: "800px", objectFit: "cover" }}
+            />
           </div>
           <div className="carousel-item">
-            <img className="d-block w-100" src="https://cdn.wallpapersafari.com/88/47/9Rjxe6.jpg" alt="Second slide" style={{height: '800px', objectFit: 'cover'}}/>
+            <img
+              className="d-block w-100"
+              src="https://cdn.sanity.io/images/qa41whrn/prod/ef35c70f7f050204391aec9bb2f9e3b4a0c5b1ca-1536x1536.jpg?w=2160&q=80&auto=format"
+              alt="Second slide"
+              style={{ height: "800px", objectFit: "cover" }}
+            />
           </div>
           <div className="carousel-item">
-            <img className="d-block w-100" src="https://cdn.wallpapersafari.com/88/47/9Rjxe6.jpg" alt="Third slide"style={{height: '800px', objectFit: 'cover'}} />
+            <img
+              className="d-block w-100"
+              src="https://static.nike.com/a/images/w_1281,c_limit/ad28a4ec-1afa-4617-9276-ca0972facb38/nike-just-do-it.jpg"
+              alt="Third slide"
+              style={{ height: "800px", objectFit: "cover" }}
+            />
           </div>
         </div>
         <a

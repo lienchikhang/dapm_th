@@ -18,6 +18,7 @@ const getAll = async (req, res) => {
   let qShoe = req.query.type;
   let qColor = req.query.color;
   let qPrice = req.query.price;
+  let qNew = req.query.new;
   let query = {};
   console.log({ qShoe, qColor, qPrice });
   try {
@@ -60,7 +61,10 @@ const getAll = async (req, res) => {
       query = {};
     }
 
-    const filterShoes = await Shoe.find(query);
+    let filterShoes = await Shoe.find(query);
+    if (qNew) {
+      filterShoes = await Shoe.find().sort({ createdAt: -1 }).limit(5);
+    }
     if (!filterShoes)
       return res.status(500).json({ success: false, message: "cannot query" });
     res.status(200).json(filterShoes);

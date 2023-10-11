@@ -15,6 +15,7 @@ import storage from "redux-persist/lib/storage";
 import navbarReducer from "./reducers/navbar";
 import cartReducer from "./reducers/cartReducer";
 import checkOutReducer from "./reducers/checkOutReducer";
+import searchReducer from "./reducers/searchReducer";
 const persistConfig = {
   key: "root",
   version: 1,
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
   user: userReducer,
   navbar: navbarReducer,
   cart: cartReducer,
-  checkOutInfo:checkOutReducer
+  checkOutInfo: checkOutReducer,
+  search: searchReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

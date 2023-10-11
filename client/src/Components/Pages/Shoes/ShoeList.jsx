@@ -13,8 +13,6 @@ export default function ShoeList({ openLoading, closeLoading }) {
   const cates = useSelector((state) => state.navbar.navItem.payload);
   const selectedCate = useSelector((state) => state.navbar.selectedCate);
 
-  console.log("cates", cates);
-
   //pagination
   const [current, setCurrent] = useState(1);
   const onChange = (page) => {

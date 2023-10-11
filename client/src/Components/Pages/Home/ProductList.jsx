@@ -25,11 +25,11 @@ export default function ProductList() {
   };
 
   const handleClick = (idShoe) => {
-    navigate(`product/shoes/${idShoe}`);
+    navigate(`/product/shoes/${idShoe}`);
   };
 
   const handleWatchAll = () => {
-    navigate("product/shoes/");
+    navigate("/product/shoes/");
   };
   return (
     <div className="container p-4">

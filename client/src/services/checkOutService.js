@@ -13,7 +13,29 @@ const makeOrderbyiduser=(idUser,method,data,token)=>{
         }
     })
 }
+
+const paymentOnline=(idUser,method,data,token)=>{
+    return axios({
+        url:`http://localhost:5000/api/stripe/create-checkout-session`,
+        method:method,
+        data:{
+            shoes:data.shoes,
+            ...idUser
+            ,...data.Info
+        },
+        headers: {
+            token: `Bearer ${token}`
+        }
+    }).then((res)=>{
+        if(res.data.url){
+            window.location.href=res.data.url
+        }
+    }).catch((err)=>console.log(err))
+
+}
+
 const checkOutService={
-    makeOrderbyiduser
+    makeOrderbyiduser,
+    paymentOnline
 }
 export default checkOutService

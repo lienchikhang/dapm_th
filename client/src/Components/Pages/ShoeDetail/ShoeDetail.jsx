@@ -68,6 +68,7 @@ export default function ShoeDetail() {
     //get token
     // const local = JSON.parse(localStorage.getItem("userToken"));
     // const accessToken = local.accessToken;
+    
     const local = JSON.parse(localStorage.getItem("persist:root"));
     const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
 
@@ -89,9 +90,12 @@ export default function ShoeDetail() {
   const openLoading = () => {
     setLoading(true);
   };
+  const checkSizeAndCount=(count)=>{
+    return count>0? (count):"Het size"
+  }
 
   const renderingUI = () => {
-    const { name, img, price, size, desc } = viewingshoe;
+    const { name, img, price, size} = viewingshoe;
     return (
       <div className="container shoeDetail__wrapper">
         <div className={`loadingScreen ${loading ? "active" : ""}`}>
@@ -135,7 +139,8 @@ export default function ShoeDetail() {
                     size.map((item) => {
                       return {
                         value: item.ss,
-                        label: item.ss,
+                        label: `${item.ss} `+"SL:"+checkSizeAndCount(item.cs),
+                        disabled: checkSizeAndCount(item.cs)==="Het size" ?(true):(false)                        
                       };
                     })
                   }

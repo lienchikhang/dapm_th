@@ -6,6 +6,7 @@ const shoeRoute = require('./Routes/shoe');
 const cartRoute = require('./Routes/cart');
 const cateRoute = require('./Routes/category');
 const orderRoute=require('./Routes/order')
+const stripeRoute=require("./Routes/Stripe")
 const app = express();
 
 require('dotenv').config()
@@ -25,4 +26,6 @@ app.use('/api/shoe', shoeRoute)
 app.use('/api/cart', cartRoute)
 app.use('/api/category', cateRoute)
 app.use('/api/order',orderRoute)
+app.use('/api/stripe',stripeRoute)
+
 app.listen(process.env.PORT, () => console.log("server is running"));

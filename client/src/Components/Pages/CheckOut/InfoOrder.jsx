@@ -9,8 +9,8 @@ export default function InfoOrder() {
   const [methodPay, setMethodPay] = useState("COD")
   const [change, setChange] = useState(false)
   const dispatch = useDispatch()
+
   useEffect(() => {
-    console.log(phone,address,name,methodPay)
     dispatch(saveInfo({ phone, address, name, methodPay }))
   }, [change])
   const onChange = (e) => {
@@ -19,7 +19,7 @@ export default function InfoOrder() {
   };
   return (
     <div className='d-flex flex-column' style={{ width: '100%' }}>
-      <form className=''>
+      <form className='' >
         <div className='Info-Input'>
           <label className='label-text mt-0' >Tên người nhận:
             <input onChange={(e) => {
@@ -30,15 +30,15 @@ export default function InfoOrder() {
         </div>
         <div className='Info-Input mb-1 mt-2'>
           <label className='label-text mt-0'>Số điện thoại:
-            <input onChange={async (e) => {
+            <input onChange={ (e) => {
               setPhone(e.target.value)    
               setChange(!change)
-            }} className='ml-1 Info-Input ' type='text' style={{ border: 0, outline: "none" }}></input>
+            }} className='ml-1 Info-Input ' type='number' style={{ border: 0, outline: "none" }}  ></input>
           </label>
         </div>
         <div className='Info-Input mb-1 mt-2'>
           <label className='label-text mt-0'>Địa chỉ:
-            <input onChange={async (e) => {
+            <input onChange={ (e) => {
               setAddress(e.target.value)
               setChange(!change)
 

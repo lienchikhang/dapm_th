@@ -52,6 +52,9 @@ export default function Cart() {
     // console.log(JSON.parse(local.user).currentUser.payload._id);
   }, []);
 
+  const checkCheckOut=()=>{
+    return cartUser?.shoes ? (true): (false)
+  }
   return (
     <div>
       <div className="container cart__wrapper">
@@ -103,7 +106,7 @@ export default function Cart() {
               </table>
             </div>
           </div>
-          <CartFooter total={total} />
+          <CartFooter total={total} disable={cartUser.shoes} />
         </div>
       </div>
     </div>

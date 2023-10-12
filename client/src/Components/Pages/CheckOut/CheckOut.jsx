@@ -1,37 +1,87 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import InfoOrder from './InfoOrder'
 import { useDispatch, useSelector } from "react-redux";
 import ShoeItem from './ShoeItem'
 import "../../../css/CheckOut.css";
+import { notification } from 'antd'
 import checkOutService from '../../../services/checkOutService';
 export default function CheckOut() {
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const cartUser = useSelector((state) => state.cart.cartUser);
     const orderInfo = useSelector((state) => state.checkOutInfo)
     const local = JSON.parse(localStorage.getItem("persist:root"));
     const idUser = JSON.parse(local.user).currentUser.payload._id;
     const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
+
+
+    //ant design
+    const Context = React.createContext({
+        name: "Default",
+    });
+    const contextValue = useMemo(
+        () => ({
+            name: "Ant Design",
+        }),
+        []
+    );
+
+    notification.config({
+        placement: "topRight",
+        top: 100,
+        duration: 3,
+        rtl: true,
+    });
+
+    const openNotification = (message, description) => {
+        notification.open({
+            message: message,
+            description: description,
+            style: {
+                backgroundColor: "#ffffff",
+                border: "2px solid #52c41a",
+                fontWeight: "700",
+            },
+        });
+    };
+
+
     let total = 0;
-    const validateform=()=>{
-        const {name,phone,address,methodPay}=orderInfo.Info
-        return name&&phone&&address&&methodPay&&name!==''&&phone!==''&&address!==''&&methodPay!==''
+
+    const validateform = () => {
+        const { name, phone, address, methodPay } = orderInfo.Info
+        return name && phone && address && methodPay && name !== '' && phone !== '' && address !== '' && methodPay !== ''
     }
+
+
+
     if (cartUser?.shoes) {
         total = cartUser.shoes.reduce((accumulate, curVar) => {
             return accumulate + curVar.price * curVar.quantity;
         }, 0);
     }
-    const makeOrder =async () => {
-        if(validateform){
-            if(orderInfo.Info.methodPay==="COD"){
+    const makeOrder = async () => {
+        if (validateform() && cartUser.shoes) {
+            if (orderInfo.Info.methodPay === "COD") {
                 await checkOutService.makeOrderbyiduser(idUser, "POST", {
                     shoes: cartUser.shoes,
                     ...orderInfo
                 }, accessToken)
-                navigate("/")
+                openNotification("Đã đặt hàng thành công", "Vui lòng kiểm tra đơn hàng")
+                setTimeout(navigate("/"), 4000)
+            }
+            else {
+                await checkOutService.paymentOnline(idUser, "POST", {
+                    shoes:cartUser.shoes,
+                    ...orderInfo
+                },accessToken)
             }
         }
+        else {
+            openNotification("Bạn chưa điền đầy đủ thông tin nhận hàng", "Vui lòng điền đầy đủ thông tin")
+        }
+
+
     }
     return (
         <div className='container'>
@@ -57,7 +107,7 @@ export default function CheckOut() {
                         </div>
                         <span className='mt-4 label-text'>Tổng số lượng sản phẩm:{cartUser?.shoes.length} </span>
                         <span className=' label-text'>Tổng giá trị đơn hàng {total}</span>
-                        <button className='btn btn-checkout' onClick={() => { makeOrder() }}>Thanh Toán</button>
+                        <button onClick={() => makeOrder()} className='btn btn-checkout'>Thanh Toán</button>
                     </div>
                 </div>
             </div>

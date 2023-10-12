@@ -8,5 +8,4 @@ router.get('/:userId',verifyTokenAndAuthorize,orderController.getAllOrderByidUse
 //Post
 router.post('/makeOrder/:idUser',verifyTokenAndAuthorize,orderController.makeOrderbyiduser)
 router.post('/:orderId',verifyTokenAndAuthorize,orderController.changeStatusByIdOrder)
-
 module.exports = router;

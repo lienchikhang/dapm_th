@@ -1,6 +1,7 @@
 const Cart = require('../models/Cart')
 const order = require('../models/Order')
-
+require('dotenv').config()
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 let getAllOrderByidUser = async (req, res) => { //lay tat ca order theo idUser
     try {
         const userId = req.params.idUser
@@ -18,7 +19,7 @@ let getAllOrderByidUser = async (req, res) => { //lay tat ca order theo idUser
 
 let makeOrderbyiduser = async (req, res) => {
     try {
-        const  idUser  = req.params.idUser
+        const idUser = req.params.idUser
         const { shoes, methodPay, name, address } = req.body
         const result = new order({
             userId: idUser,
@@ -28,9 +29,9 @@ let makeOrderbyiduser = async (req, res) => {
             address: address
         })
         await result.save()
-        
+
         const PullCart = await Cart.findOneAndUpdate({ userId: idUser }, {
-            $pull: { shoes:{} }
+            $pull: { shoes: {} }
         }, {
             new: true
         })
@@ -63,5 +64,5 @@ let changeStatusByIdOrder = async (req, res) => {
 module.exports = {
     getAllOrderByidUser,
     changeStatusByIdOrder,
-    makeOrderbyiduser
+    makeOrderbyiduser,
 }

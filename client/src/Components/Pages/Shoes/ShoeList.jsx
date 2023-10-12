@@ -13,8 +13,6 @@ export default function ShoeList({ openLoading, closeLoading }) {
   const cates = useSelector((state) => state.navbar.navItem.payload);
   const selectedCate = useSelector((state) => state.navbar.selectedCate);
 
-  console.log("cates", cates);
-
   //pagination
   const [current, setCurrent] = useState(1);
   const onChange = (page) => {
@@ -28,17 +26,20 @@ export default function ShoeList({ openLoading, closeLoading }) {
       let queryStr = ``;
       openLoading();
       if (cates?.type && cates?.color && cates?.price)
-        queryStr = `?hangShoe=${cates.type}&color=${cates.color}&price=${cates.price}`;
+        queryStr = `?type=${cates.type}&color=${cates.color}&price=${cates.price}`;
       else if (cates.type && cates.color)
-        queryStr = `?hangShoe=${cates.type}&color=${cates.color}`;
-      else if (cates.color && cates.price)
+        queryStr = `?type=${cates.type}&color=${cates.color}`;
+      else if (cates.color && cates.price) {
         queryStr = `?color=${cates.color}&price=${cates.price}`;
-      else if (cates.type || cates.color || cates.price) {
-        queryStr = !cates.price
-          ? `?hangShoe=${cates.type ? cates.type : cates.color}`
-          : `?price=${cates.price}`;
-      } else if (cates.qPrice) queryStr = `?price=${cates.qPrice}`;
-      else queryStr = ``;
+      } else if (cates.type && cates.price) {
+        queryStr = `?type=${cates.type}&price=${cates.price}`;
+      } else if (cates.type) {
+        queryStr = `?type=${cates.type}`;
+      } else if (cates.color) {
+        queryStr = `?color=${cates.color}`;
+      } else if (cates.price) {
+        queryStr = `?price=${cates.price}`;
+      } else queryStr = ``;
 
       //call api
       try {

@@ -50,7 +50,7 @@ export default function Cart() {
     callApi();
     // const local = JSON.parse(localStorage.getItem("persist:root"));
     // console.log(JSON.parse(local.user).currentUser.payload._id);
-  }, []);
+  }, [loading]);
 
   const checkCheckOut=()=>{
     return cartUser?.shoes ? (true): (false)

@@ -15,45 +15,56 @@ const getShoe = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-  let qShoe = req.query.hangShoe;
+  let qShoe = req.query.type;
   let qColor = req.query.color;
   let qPrice = req.query.price;
+  let qNew = req.query.new;
   let query = {};
-  // console.log({qShoe, qColor, qPrice})
+  console.log({ qShoe, qColor, qPrice });
   try {
     if (qShoe && qColor && qPrice) {
       query = {
         $and: [
-          { category: { $elemMatch: { $eq: qShoe } } }, // Kiểm tra type
-          { category: { $elemMatch: { $eq: qColor } } }, // Kiểm tra color
+          { type: qShoe }, // Kiểm tra type
+          { color: qColor }, // Kiểm tra color
           { price: { $gte: Number(qPrice) } }, // Kiểm tra color
         ],
       };
     } else if (qShoe && qColor) {
       query = {
         $and: [
-          { category: { $elemMatch: { $eq: qShoe } } }, // Kiểm tra type
-          { category: { $elemMatch: { $eq: qColor } } }, // Kiểm tra color
+          { type: qShoe }, // Kiểm tra type
+          { color: qColor }, // Kiểm tra color
         ],
       };
     } else if (qColor && qPrice) {
       query = {
         $and: [
-          { category: { $elemMatch: { $eq: qColor } } }, // Kiểm tra type
+          { color: qColor }, // Kiểm tra color
+          { price: { $gte: Number(qPrice) } }, // Kiểm tra color
+        ],
+      };
+    } else if (qShoe && qPrice) {
+      query = {
+        $and: [
+          { type: qShoe }, // Kiểm tra color
           { price: { $gte: Number(qPrice) } }, // Kiểm tra color
         ],
       };
     } else if (qShoe) {
-      query = { $or: [{ category: { $elemMatch: { $eq: qShoe } } }] };
+      query = { type: qShoe };
     } else if (qColor) {
-      query = { category: { $in: qColor } };
+      query = { color: qColor };
     } else if (qPrice) {
       query = { price: { $gte: Number(qPrice) } };
     } else {
       query = {};
     }
 
-    const filterShoes = await Shoe.find(query);
+    let filterShoes = await Shoe.find(query);
+    if (qNew) {
+      filterShoes = await Shoe.find().sort({ createdAt: -1 }).limit(5);
+    }
     if (!filterShoes)
       return res.status(500).json({ success: false, message: "cannot query" });
     res.status(200).json(filterShoes);
@@ -77,7 +88,7 @@ const createShoe = async (req, res) => {
     img: req.body.img,
     desc: req.body.desc,
     color: req.body.color,
-    category: req.body.category,
+    type: req.body.type,
   });
   try {
     await newShoe.save();

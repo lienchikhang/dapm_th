@@ -24,6 +24,8 @@ import AuthContextProvider from "./context/authContext";
 import Dashboard from "./Components/Pages/Admin/Dashboard";
 import { useSelector } from "react-redux";
 import CheckOut from "./Components/Pages/CheckOut/CheckOut";
+import History from "./Components/Pages/UserProfile/History";
+import ChangeInfo from "./Components/Pages/UserProfile/ChangeInfo";
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
@@ -44,14 +46,17 @@ function App() {
         <Route
           path="/auth/profiles"
           element={user ? <Profiles /> : <Navigate to="/auth/login" />}
-        />
+        >
+          <Route path="history" element={<History />} />
+          <Route path="change" element={<ChangeInfo />} />
+        </Route>
         <Route
           path="/cart"
           element={user ? <Cart /> : <Navigate to="/auth/login" />}
         />
         <Route
           path="/CheckOut"
-          element={user? <CheckOut/>:<Navigate to="/auth/login"/>} 
+          element={user ? <CheckOut /> : <Navigate to="/auth/login" />}
         />
       </Routes>
       <Footer />

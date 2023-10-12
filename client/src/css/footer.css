@@ -1,12 +1,40 @@
+.footer__wrapper {
+    background-color: black;
+}
+
+
 .my-footer {
     list-style: none;
     text-align: start;
     padding: 0;
+    color: white;
+}
+
+.footer__heading {
+    color: white;
 }
 li > span:first-child {
     font-weight: 500;
 }
 
 li > span:last-child {
-    width: 150px
+    width: 150px;
+    margin-right: 90px;
 }
+
+.social {
+    display: flex;
+    justify-content: space-around;
+}
+
+.social li i {
+    color: white;
+    border: 1px solid white;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 48px;
+}
+

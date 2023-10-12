@@ -8,6 +8,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Dashboard from "../Admin/Dashboard";
+import Products from "./Products";
 
 export default function Home() {
   return (

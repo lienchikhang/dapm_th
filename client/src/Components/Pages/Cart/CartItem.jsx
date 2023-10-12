@@ -27,6 +27,7 @@ export default function Cart_item({
         accessToken
       );
       console.log(result);
+      closeLoading();
     } catch (err) {
       console.log(err);
     }

@@ -7,14 +7,17 @@ import ShoeSuggestList from "./ShoeSuggestList";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addToCartShoe } from "../../../actions/shoe";
 import cartService from "../../../services/cart_KService";
+import { Divider, Form, Radio, Skeleton, Space, Switch } from "antd";
 
 export default function ShoeDetail() {
   const [viewingshoe, setViewingShoe] = useState({});
+  const [isFetching, setIsFetching] = useState(false);
   const [loading, setLoading] = useState(false);
   const [addShoe, setAddShoe] = useState({});
   const dispatch = useDispatch();
   const location = useLocation();
   const idShoe = location.pathname.split("/")[3];
+  const curUser = useSelector((state) => state.user.currentUser);
 
   //ant design
   const Context = React.createContext({
@@ -46,11 +49,26 @@ export default function ShoeDetail() {
     });
   };
 
+  const openErrorNotification = () => {
+    notification.open({
+      message: "Vui lòng đăng nhập",
+      description: "Bạn phải đăng nhập trước",
+      style: {
+        backgroundColor: "#ffffff",
+        border: "2px solid #52c41a",
+        fontWeight: "700",
+      },
+    });
+  };
+
   useEffect(() => {
+    openLoading();
     shoeService
       .getByID(idShoe, "GET")
       .then((res) => {
         setViewingShoe(res.data);
+        setIsFetching(true);
+        closeLoading();
       })
       .catch((err) => console.log(err));
   }, []);
@@ -64,6 +82,10 @@ export default function ShoeDetail() {
     });
   };
   const handleBuy = async () => {
+    if (!curUser) {
+      closeLoading();
+      return openErrorNotification();
+    }
     dispatch(addToCartShoe(addShoe));
     //get token
     // const local = JSON.parse(localStorage.getItem("userToken"));
@@ -116,13 +138,34 @@ export default function ShoeDetail() {
         <div className="row">
           <div className="col-8">
             <div className="shoe__img p-4">
-              <img src={img} alt="" className="my-img img-fluid" />
+              {!isFetching ? (
+                <Skeleton.Image
+                  active={true}
+                  size={350}
+                  shape={"square"}
+                  style={{ width: "350px", height: "350px" }}
+                />
+              ) : (
+                <img src={img} alt="" className="my-img img-fluid" />
+              )}
             </div>
           </div>
           <div className="col-4">
             <div className="shoe__info">
-              <h3 className="shoe__title">{name}</h3>
-              <p className="shoeDetail__price">{price}</p>
+              <h3 className="shoe__title">
+                {!isFetching ? (
+                  <Skeleton.Input active={true} size={size} />
+                ) : (
+                  name
+                )}
+              </h3>
+              <p className="shoeDetail__price">
+                {!isFetching ? (
+                  <Skeleton.Input active={true} size={size} />
+                ) : (
+                  price
+                )}
+              </p>
               <div className="shoeDetail__select">
                 <Select
                   labelInValue

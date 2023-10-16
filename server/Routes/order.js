@@ -3,7 +3,7 @@ const { verifyTokenAndAdmin, verifyTokenAndAuthorize, verifyToken} = require('..
 const orderController=require('../controllers/orderController')
 
 //Get
-router.get('/:userId',verifyTokenAndAuthorize,orderController.getAllOrderByidUser)
+router.get('/:idUser',verifyTokenAndAuthorize,orderController.getAllOrderByidUser)
 
 //Post
 router.post('/makeOrder/:idUser',verifyTokenAndAuthorize,orderController.makeOrderbyiduser)

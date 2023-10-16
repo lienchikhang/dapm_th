@@ -24,6 +24,10 @@ const order = new mongoose.Schema({
     address:{
         type:String,
         require:true
+    },
+    phone:{
+        type:Number,
+        require:true
     }
 }, { timestamps: true })
 module.exports = new mongoose.model("Order",order)

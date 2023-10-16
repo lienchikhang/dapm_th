@@ -20,7 +20,7 @@ const paymentOnline=(idUser,method,data,token)=>{
         method:method,
         data:{
             shoes:data.shoes,
-            ...idUser
+            idUser:idUser
             ,...data.Info
         },
         headers: {

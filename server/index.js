@@ -8,11 +8,16 @@ const cateRoute = require("./Routes/category");
 const orderRoute = require("./Routes/order");
 const stripeRoute = require("./Routes/Stripe");
 const app = express();
-
+app.use(
+  express.json({
+    limit: "5mb",
+    verify: (req, res, buf) => {
+      req.rawBody = buf.toString();
+    },
+  })
+);
 require("dotenv").config();
-
-//cho phép các request gửi lên ở dạng json
-app.use(express.json());
+// app.use(express.json());
 
 //cho phép truy cập path của server từ các tên miền khác
 app.use(cors());

@@ -8,7 +8,7 @@ export default function ShoeItem({ data }) {
         <img className='img-item img-fluid' alt='shoe' src={img} />
       </div>
       <div>
-        <span className='label-text'>{name}</span>
+        <span className='label-text'>{name} ({size})</span>
         <table className='table table-borderless '>
           <tr>
             <td>Qty:</td>

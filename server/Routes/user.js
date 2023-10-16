@@ -14,7 +14,6 @@ router.post('/login',userController.login);
 
 //PUT
 router.put('/resetPass/:id',userController.resetPass)
-
 router.get('/', verifyToken, userController.checkLogin)
 
 module.exports = router;

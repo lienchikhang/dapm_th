@@ -49,10 +49,10 @@ export default function ShoeDetail() {
     });
   };
 
-  const openErrorNotification = () => {
+  const openErrorNotification = (message,desc) => {
     notification.open({
-      message: "Vui lòng đăng nhập",
-      description: "Bạn phải đăng nhập trước",
+      message: message,
+      description: desc,
       style: {
         backgroundColor: "#ffffff",
         border: "2px solid #52c41a",
@@ -84,7 +84,11 @@ export default function ShoeDetail() {
   const handleBuy = async () => {
     if (!curUser) {
       closeLoading();
-      return openErrorNotification();
+      return openErrorNotification("Bạn chưa đăng nhập","Vui lòng đăng nhập trước khi mua hàng");
+    }
+    if(addShoe.size===undefined){
+      closeLoading();
+      return openErrorNotification("Bạn vui lòng chọn size cho sản phẩm")
     }
     dispatch(addToCartShoe(addShoe));
     //get token

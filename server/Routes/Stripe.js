@@ -50,4 +50,53 @@ router.post("/create-checkout-session", async (req, res) => {
     console.log(err);
   }
 });
+
+router.post(
+  "/webhook",
+  express.json({ type: "application/json" }),
+  async (req, res) => {
+    let data;
+    let eventType;
+
+    // Check if webhook signing is configured.
+    let webhookSecret =
+      "whsec_864ecca0ee5001272fdef1db2e13987dca5b5ced4d37332dee19636b7c369b8a";
+    //webhookSecret = process.env.STRIPE_WEB_HOOK;
+
+    if (webhookSecret) {
+      // Retrieve the event by verifying the signature using the raw body and secret.
+      let event;
+      let signature = req.headers["stripe-signature"];
+
+      try {
+        event = stripe.webhooks.constructEvent(
+          req.rawBody,
+          signature,
+          webhookSecret
+        );
+      } catch (err) {
+        console.log(` Webhook signature verification failed:  ${err}`);
+        return res.sendStatus(400);
+      }
+
+      data = event.data.object;
+      eventType = event.type;
+    } else {
+      data = req.body.data.object;
+      eventType = req.body.type;
+    }
+
+    // Handle the checkout.session.completed event
+    if (eventType === "checkout.session.completed") {
+      stripe.customers
+        .retrieve(data.customer)
+        .then(async (customer) => {
+          await makePaymentOnline(customer);
+        })
+        .catch((err) => console.log(err.message));
+    }
+
+    res.status(200).end();
+  }
+);
 module.exports = router;

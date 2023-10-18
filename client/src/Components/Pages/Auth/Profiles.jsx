@@ -53,7 +53,7 @@ export default function Profiles() {
                   </p>
                 </li>
                 <li>
-                  <p>
+                  <p onClick={() => handleChange("developing")}>
                     <i class="fa-solid fa-warehouse"></i> Kho voucher
                   </p>
                 </li>

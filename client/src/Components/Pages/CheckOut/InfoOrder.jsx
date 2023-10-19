@@ -12,25 +12,14 @@ export default function InfoOrder() {
   const [value4, setValue4] = useState("Apple");
   const dispatch = useDispatch();
 
-  const options = [
-    {
-      label: "Thanh toán trực tiếp",
-      value: "COD",
-    },
-    {
-      label: `Thanh toán online`,
-      value: "VNPay",
-    },
-  ];
-
   useEffect(() => {
     dispatch(saveInfo({ phone, address, name, methodPay }));
   }, [change]);
 
-  const onChange = ({ target: { value } }) => {
-    console.log("radio4 checked", value);
-    setMethodPay(value);
+  const onChange = (e) => {
+    setMethodPay(e.target.value);
   };
+
   return (
     <div className="" style={{ width: "100%" }}>
       <form className="">

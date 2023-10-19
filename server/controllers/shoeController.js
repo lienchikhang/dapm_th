@@ -15,52 +15,147 @@ const getShoe = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-  let qShoe = req.query.type;
-  let qColor = req.query.color;
-  let qPrice = req.query.price;
-  let qNew = req.query.new;
+  const filter = req.query.filter;
+  console.log("filer", filter);
+  const qNew = req.query.new;
   let query = {};
-  console.log({ qShoe, qColor, qPrice });
-  try {
-    if (qShoe && qColor && qPrice) {
+  if (filter) {
+    const filterObject = JSON.parse(filter);
+    console.log("fileterObjec", filterObject);
+    if (
+      filterObject.type &&
+      filterObject.color &&
+      filterObject.price &&
+      filterObject.size
+    ) {
       query = {
         $and: [
-          { type: qShoe }, // Kiểm tra type
-          { color: qColor }, // Kiểm tra color
-          { price: { $gte: Number(qPrice) } }, // Kiểm tra color
+          { type: filterObject.type },
+          { color: filterObject.color },
+          { price: { $gte: filterObject.price } },
+          {
+            size: {
+              $elemMatch: { ss: { $in: filterObject.size } },
+            },
+          },
         ],
       };
-    } else if (qShoe && qColor) {
+    } else if (filterObject.type && filterObject.color && filterObject.price) {
       query = {
         $and: [
-          { type: qShoe }, // Kiểm tra type
-          { color: qColor }, // Kiểm tra color
+          { type: filterObject.type },
+          { color: filterObject.color },
+          { price: { $gte: filterObject.price } },
         ],
       };
-    } else if (qColor && qPrice) {
+    } else if (filterObject.type && filterObject.color && filterObject.size) {
       query = {
         $and: [
-          { color: qColor }, // Kiểm tra color
-          { price: { $gte: Number(qPrice) } }, // Kiểm tra color
+          { type: filterObject.type },
+          { color: filterObject.color },
+          {
+            size: {
+              $elemMatch: { ss: { $in: filterObject.size } },
+            },
+          },
         ],
       };
-    } else if (qShoe && qPrice) {
+    } else if (filterObject.price && filterObject.color && filterObject.size) {
       query = {
         $and: [
-          { type: qShoe }, // Kiểm tra color
-          { price: { $gte: Number(qPrice) } }, // Kiểm tra color
+          { price: { $gte: filterObject.price } },
+          { color: filterObject.color },
+          {
+            size: {
+              $elemMatch: { ss: { $in: filterObject.size } },
+            },
+          },
         ],
       };
-    } else if (qShoe) {
-      query = { type: qShoe };
-    } else if (qColor) {
-      query = { color: qColor };
-    } else if (qPrice) {
-      query = { price: { $gte: Number(qPrice) } };
-    } else {
-      query = {};
+    } else if (filterObject.type && filterObject.price && filterObject.size) {
+      query = {
+        $and: [
+          { type: filterObject.type },
+          { price: { $gte: filterObject.price } },
+          {
+            size: {
+              $elemMatch: { ss: { $in: filterObject.size } },
+            },
+          },
+        ],
+      };
+    } else if (filterObject.type && filterObject.color) {
+      query = {
+        $and: [{ type: filterObject.type }, { color: filterObject.color }],
+      };
+    } else if (filterObject.color && filterObject.price) {
+      query = {
+        $and: [
+          { color: filterObject.color },
+          { price: { $gte: filterObject.price } },
+        ],
+      };
+    } else if (filterObject.price && filterObject.size) {
+      query = {
+        $and: [
+          { price: { $gte: filterObject.price } },
+          {
+            size: {
+              $elemMatch: { ss: { $in: filterObject.size } },
+            },
+          },
+        ],
+      };
+    } else if (filterObject.type && filterObject.size) {
+      query = {
+        $and: [
+          { type: { $gte: filterObject.type } },
+          {
+            size: {
+              $elemMatch: { ss: { $in: filterObject.size } },
+            },
+          },
+        ],
+      };
+    } else if (filterObject.type && filterObject.price) {
+      query = {
+        $and: [
+          { type: { $gte: filterObject.type } },
+          { price: { $gte: filterObject.price } },
+        ],
+      };
+    } else if (filterObject.color && filterObject.size) {
+      query = {
+        $and: [
+          { color: { $gte: filterObject.color } },
+          {
+            size: {
+              $elemMatch: { ss: { $in: filterObject.size } },
+            },
+          },
+        ],
+      };
+    } else if (filterObject.type) {
+      query = {
+        type: filterObject.type,
+      };
+    } else if (filterObject.color) {
+      query = {
+        color: filterObject.color,
+      };
+    } else if (filterObject.price) {
+      query = {
+        price: { $gte: filterObject.price },
+      };
+    } else if (filterObject.size) {
+      query = {
+        size: {
+          $elemMatch: { ss: { $in: filterObject.size } },
+        },
+      };
     }
-
+  }
+  try {
     let filterShoes = await Shoe.find(query);
     if (qNew) {
       filterShoes = await Shoe.find().sort({ createdAt: -1 }).limit(5);
@@ -70,8 +165,74 @@ const getAll = async (req, res) => {
     res.status(200).json(filterShoes);
   } catch (err) {
     console.log(err);
-    res.status(500).json(err);
   }
+
+  // let qShoe = req.query.type;
+  // let qColor = req.query.color;
+  // let qPrice = req.query.price;
+  // let qNew = req.query.new;
+  // let qSize = req.query.size;
+  // let query = {};
+  // console.log({ qShoe, qColor, qPrice, qSize });
+  // try {
+  //   if (qShoe && qColor && qPrice) {
+  //     query = {
+  //       $and: [
+  //         { type: qShoe }, // Kiểm tra type
+  //         { color: qColor }, // Kiểm tra color
+  //         { price: { $gte: Number(qPrice) } }, // Kiểm tra color
+  //       ],
+  //     };
+  //   } else if (qShoe && qColor) {
+  //     query = {
+  //       $and: [
+  //         { type: qShoe }, // Kiểm tra type
+  //         { color: qColor }, // Kiểm tra color
+  //       ],
+  //     };
+  //   } else if (qColor && qPrice) {
+  //     query = {
+  //       $and: [
+  //         { color: qColor }, // Kiểm tra color
+  //         { price: { $gte: Number(qPrice) } }, // Kiểm tra color
+  //       ],
+  //     };
+  //   } else if (qShoe && qPrice) {
+  //     query = {
+  //       $and: [
+  //         { type: qShoe }, // Kiểm tra color
+  //         { price: { $gte: Number(qPrice) } }, // Kiểm tra color
+  //       ],
+  //     };
+  //   } else if (qShoe) {
+  //     query = { type: qShoe };
+  //   } else if (qColor) {
+  //     query = { color: qColor };
+  //   } else if (qPrice) {
+  //     query = { price: { $gte: Number(qPrice) } };
+  //   } else if (qSize) {
+  //     qSizeArr = qSize.split(",");
+  //     const numericSizes = qSizeArr.map((size) => parseInt(size, 10));
+  //     query = {
+  //       size: {
+  //         $elemMatch: { ss: { $in: numericSizes } },
+  //       },
+  //     };
+  //   } else {
+  //     query = {};
+  //   }
+
+  //   let filterShoes = await Shoe.find(query);
+  //   if (qNew) {
+  //     filterShoes = await Shoe.find().sort({ createdAt: -1 }).limit(5);
+  //   }
+  //   if (!filterShoes)
+  //     return res.status(500).json({ success: false, message: "cannot query" });
+  //   res.status(200).json(filterShoes);
+  // } catch (err) {
+  //   console.log(err);
+  //   res.status(500).json(err);
+  // }
 };
 
 //POST

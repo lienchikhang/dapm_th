@@ -26,6 +26,8 @@ import { useSelector } from "react-redux";
 import CheckOut from "./Components/Pages/CheckOut/CheckOut";
 import History from "./Components/Pages/UserProfile/History";
 import ChangeInfo from "./Components/Pages/UserProfile/ChangeInfo";
+import Default from "./Components/Pages/UserProfile/Default";
+import Developing from "./Components/Pages/developing/Developing";
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
@@ -33,7 +35,9 @@ function App() {
     <BrowserRouter>
       <Header />
       <Routes>
+        <Route path="*" element={<Developing />} />
         <Route path="/" element={<Home />} />
+        <Route path="/contact" element={<Developing />} />
         <Route path="/product/shoes" element={<Shoes />} />
         {/* <Route path='/cart' element={<Cart/>}/> */}
         <Route path="/product/shoes/:id" element={<ShoeDetail />} />
@@ -47,8 +51,9 @@ function App() {
           path="/auth/profiles"
           element={user ? <Profiles /> : <Navigate to="/auth/login" />}
         >
+          <Route path="" element={<Default />} />
           <Route path="history" element={<History />} />
-          <Route path="change" element={<ChangeInfo />} />
+          <Route path="developing" element={<Developing />} />
         </Route>
         <Route
           path="/cart"

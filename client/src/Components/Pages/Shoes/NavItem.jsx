@@ -12,7 +12,7 @@ export default function NavItem({ data, setType }) {
 
   const onChange = (name) => {
     if (name === "all") {
-      setType(false);
+      setType("");
     } else {
       setType(name);
     }

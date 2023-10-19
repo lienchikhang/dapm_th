@@ -58,6 +58,7 @@ const navbarReducer = createSlice({
     navItem: [],
     selectedCate: "",
     qPrice: 0,
+    qSize: [],
   },
   reducers: {
     queryPrice: (state, action) => {
@@ -77,8 +78,17 @@ const navbarReducer = createSlice({
     selectColor: (state, action) => {
       state.navItem = [...state.navItem, action];
     },
+    selectSize: (state, action) => {
+      state.qSize = action.payload;
+    },
   },
 });
-export const { queryPrice, updateCate, removeCate, selectCate, selectColor } =
-  navbarReducer.actions;
+export const {
+  queryPrice,
+  updateCate,
+  removeCate,
+  selectCate,
+  selectColor,
+  selectSize,
+} = navbarReducer.actions;
 export default navbarReducer.reducer;

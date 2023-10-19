@@ -12,7 +12,8 @@ import {
   Col,
 } from "antd";
 import { useDispatch } from "react-redux";
-import { updateCate } from "../../../reducers/navbar";
+import { selectSize, updateCate } from "../../../reducers/navbar";
+import SizeItem from "./SizeItem";
 export default function Navbar({ openLoadingg, closeLoading }) {
   //states
   const [cates, setCates] = useState([]);
@@ -20,6 +21,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
   const [filter, setFilter] = useState({});
   const [type, setType] = useState("");
   const [inputValue, setInputValue] = useState(0);
+  const [size, setSize] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -81,6 +83,21 @@ export default function Navbar({ openLoadingg, closeLoading }) {
   const onSliderChange = (newValue) => {
     setInputValue(newValue);
   };
+
+  const handleSelectSize = (newSize) => {
+    console.log("newSize", newSize);
+    if (newSize == "") setSize([]);
+    setSize([...size, Number(newSize)]);
+  };
+
+  console.log("sizee", size);
+  useEffect(() => {
+    if (size.length > 0)
+      setFilter({
+        ...filter,
+        size: size,
+      });
+  }, [size]);
 
   return (
     <div>
@@ -280,6 +297,19 @@ export default function Navbar({ openLoadingg, closeLoading }) {
               />
             </Col>
           </Row>
+        </div>
+      </div>
+      {/**size */}
+      <div className="size-section">
+        <h3 className="navbar__subTitle">Kich thuoc</h3>
+        <div className="row">
+          <SizeItem handleSelectSize={handleSelectSize} value={""} />
+          <SizeItem handleSelectSize={handleSelectSize} value={38} />
+          <SizeItem handleSelectSize={handleSelectSize} value={39} />
+          <SizeItem handleSelectSize={handleSelectSize} value={40} />
+          <SizeItem handleSelectSize={handleSelectSize} value={41} />
+          <SizeItem handleSelectSize={handleSelectSize} value={42} />
+          <SizeItem handleSelectSize={handleSelectSize} value={43} />
         </div>
       </div>
     </div>

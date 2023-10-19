@@ -13,6 +13,8 @@ export default function ShoeList({ openLoading, closeLoading }) {
   const cates = useSelector((state) => state.navbar.navItem.payload);
   const selectedCate = useSelector((state) => state.navbar.selectedCate);
 
+  console.log("cates", cates);
+
   //pagination
   const [current, setCurrent] = useState(1);
   const onChange = (page) => {
@@ -23,23 +25,10 @@ export default function ShoeList({ openLoading, closeLoading }) {
 
   useEffect(() => {
     const myAsync = async () => {
-      let queryStr = ``;
-      openLoading();
-      if (cates?.type && cates?.color && cates?.price)
-        queryStr = `?type=${cates.type}&color=${cates.color}&price=${cates.price}`;
-      else if (cates.type && cates.color)
-        queryStr = `?type=${cates.type}&color=${cates.color}`;
-      else if (cates.color && cates.price) {
-        queryStr = `?color=${cates.color}&price=${cates.price}`;
-      } else if (cates.type && cates.price) {
-        queryStr = `?type=${cates.type}&price=${cates.price}`;
-      } else if (cates.type) {
-        queryStr = `?type=${cates.type}`;
-      } else if (cates.color) {
-        queryStr = `?color=${cates.color}`;
-      } else if (cates.price) {
-        queryStr = `?price=${cates.price}`;
-      } else queryStr = ``;
+      let queryStr = "";
+      if (cates.type || cates.price || cates.color || cates.size) {
+        queryStr = `?filter=${JSON.stringify(cates)}`;
+      }
 
       //call api
       try {
@@ -51,7 +40,7 @@ export default function ShoeList({ openLoading, closeLoading }) {
         console.log(err);
       }
     };
-
+    openLoading();
     myAsync();
   }, [cates, current]);
 

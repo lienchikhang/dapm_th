@@ -7,14 +7,13 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY)
 // tao session thanh toan
 router.post('/create-checkout-session', async (req, res) => {
     try {
-        console.log(req.body)
         const user = await stripe.customers.create({
             metadata: {
                 idUser: req.body.idUser,
-                name:req.body.name,
-                phone:req.body.phone,
-                address:req.body.address,
-                methodPay:req.body.methodPay,
+                name: req.body.name,
+                phone: req.body.phone,
+                address: req.body.address,
+                methodPay: req.body.methodPay,
                 shoes: JSON.stringify(req.body.shoes)
             }
         })

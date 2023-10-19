@@ -4,7 +4,19 @@
     border-radius: 25px;
 }
 
+.text-inforOrder {
+    font-weight: 600;
+    display: block
+}
+
 .text-title {
     font-weight: 600;
     font-size: 20px;
+}
+
+.center-btn {
+    justify-content: center;
+    align-items: end;
+    display: flex;
+    flex-direction: column;
 }

@@ -30,15 +30,15 @@ export default function InfoOrder() {
         </div>
         <div className='Info-Input mb-1 mt-2'>
           <label className='label-text mt-0'>Số điện thoại:
-            <input onChange={ (e) => {
-              setPhone(e.target.value)    
+            <input onChange={(e) => {
+              setPhone(e.target.value)
               setChange(!change)
             }} className='ml-1 Info-Input ' type='number' style={{ border: 0, outline: "none" }}  ></input>
           </label>
         </div>
         <div className='Info-Input mb-1 mt-2'>
           <label className='label-text mt-0'>Địa chỉ:
-            <input onChange={ (e) => {
+            <input onChange={(e) => {
               setAddress(e.target.value)
               setChange(!change)
 
@@ -58,7 +58,7 @@ export default function InfoOrder() {
           >
             <Radio.Group onChange={onChange} value={methodPay}>
               <Radio defaultChecked='true' value="COD">COD </Radio>
-              <Radio value="VNPay">VNPay </Radio>
+              <Radio value="VNPay">Stripe <i class="fa-brands fa-cc-stripe"></i> </Radio>
             </Radio.Group>
           </ConfigProvider>
         </div>

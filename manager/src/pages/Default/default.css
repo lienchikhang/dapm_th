@@ -1,0 +1,15 @@
+.default__wrapper {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 16px;
+}
+
+.my-border {
+    border-bottom: 3px solid #efefef;
+}
+
+.stat__item {
+    background-color: red;
+    height: 100px;
+    border-radius: 5px;
+}

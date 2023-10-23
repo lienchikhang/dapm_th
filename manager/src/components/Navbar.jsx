@@ -1,93 +1,63 @@
 import React, { useState } from "react";
-import { Breadcrumb, Layout, Menu, Switch, theme } from "antd";
-import { BrowserRouter, Link, NavLink, Route, Router } from "react-router-dom";
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-  LogoutOutlined,
-  ProfileFilled,
-} from "@ant-design/icons";
-import Test from "./Test";
-import { useDispatch } from "react-redux";
-import { logoutSuccess } from "../redux/reducer/authReducer";
+import { useSelector } from "react-redux";
+import { Collapse } from "antd";
+import "../css/navbar.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
-  const [collapsed, setCollapsed] = useState(false);
-  const { Header, Content, Footer, Sider } = Layout;
-  const dispatch = useDispatch();
-
-  function getItem(label, key, icon, route, children) {
-    return {
-      key,
-      icon,
-      children,
-      route,
-      label,
-    };
-  }
-
-  const handleExit = () => {
-    console.log("yes");
-    localStorage.removeItem("persist:root");
-    dispatch(logoutSuccess());
+  const user = useSelector((state) => state.user.currentUser.payload);
+  const navigate = useNavigate();
+  const onClick = (path) => {
+    navigate(path);
   };
 
   const items = [
-    getItem("Quản lý sản phẩm", "1", <ProfileFilled />, "products"),
-    getItem("Option 2", "2", <DesktopOutlined />, "option2"),
-    getItem("User", "sub1", <UserOutlined />, [
-      getItem("Tom", "3"),
-      getItem("Bill", "4"),
-      getItem("Alex", "5"),
-    ]),
-    getItem("Team", "sub2", <TeamOutlined />, [
-      getItem("Team 1", "6"),
-      getItem("Team 2", "8"),
-    ]),
-    getItem("Files", "9", <FileOutlined />),
+    {
+      key: "1",
+      label: "Quản lý sản phẩm",
+      children: [
+        <p className="nav__manager" onClick={() => onClick("products")}>
+          <i class="fa-solid fa-list"></i> Danh sách sản phẩm
+        </p>,
+        <p className="nav__manager" onClick={() => onClick("products/create")}>
+          <i class="fa-solid fa-plus"></i> Thêm sản phẩm
+        </p>,
+      ],
+    },
+    {
+      key: "2",
+      label: "This is panel header 2",
+      children: <p>b</p>,
+    },
+    {
+      key: "3",
+      label: "This is panel header 3",
+      children: <p>c</p>,
+    },
   ];
+
+  const onChange = (key) => {
+    console.log(key);
+  };
+
   return (
-    <div>
-      <Layout
-        style={{
-          minHeight: "100vh",
-          width: "200px",
-          bodyBg: "#ffffff",
-          colorBgLayout: "#ffffff",
-          backgroundColor: "#ffffff",
-        }}
-      >
-        <Sider
-          theme="light"
-          collapsible
-          collapsed={collapsed}
-          onCollapse={(value) => setCollapsed(value)}
-        >
-          <div className="demo-logo-vertical" />
-          <Menu theme={"light"} mode="inline">
-            {items.map((item) => (
-              <Menu.Item key={item.key}>
-                <Link to={item.route} style={{ textDecoration: "none" }}>
-                  <span>{item.icon}</span>
-                  {!collapsed && <span className="mx-2">{item.label}</span>}
-                </Link>
-              </Menu.Item>
-            ))}
-          </Menu>
-          <div>
-            <button
-              className="btn btn-primary"
-              type="button"
-              onClick={handleExit}
-            >
-              <LogoutOutlined />
-            </button>
+    <div className="nav__wrapper">
+      <div className="user__wrapper">
+        <div className="user__block d-flex align-items-center">
+          <div className="user__icon">
+            <i class="fa-solid fa-user"></i>
           </div>
-        </Sider>
-      </Layout>
+          <div className="user__info">
+            <h4 className="profile__title">dw</h4>
+            <p className="edit__info">
+              <i class="fa-solid fa-pen-to-square"></i> Sửa hồ sơ
+            </p>
+          </div>
+        </div>
+      </div>
+      <nav>
+        <Collapse items={items} defaultActiveKey={["1"]} onChange={onChange} />
+      </nav>
     </div>
   );
 }

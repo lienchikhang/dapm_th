@@ -52,9 +52,9 @@ export default function Cart() {
     // console.log(JSON.parse(local.user).currentUser.payload._id);
   }, [loading]);
 
-  const checkCheckOut=()=>{
-    return cartUser?.shoes ? (true): (false)
-  }
+  const checkCheckOut = () => {
+    return cartUser?.shoes ? true : false;
+  };
   return (
     <div>
       <div className="container cart__wrapper">

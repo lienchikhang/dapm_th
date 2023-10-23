@@ -1,0 +1,51 @@
+.wrapper {
+    background-color: #efefef;
+    padding: 48px;
+}
+
+.nav__wrapper {
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 5px;
+}
+
+.user__wrapper {
+    margin-bottom: 12px;
+}
+
+.user__wrapper::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #efefef;
+
+}
+
+.user__block {
+    margin-bottom: 1rem;
+}
+
+.user__block .user__icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    border-radius: 50%;
+    text-align: center;
+    border: 2px solid #efefef;
+}
+
+.user__block .user__info {
+    margin-left: 12px;
+}
+
+.user__info p, .user__info h4 {
+    margin-bottom: 0;
+}
+
+.nav__manager {
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+}

@@ -21,6 +21,8 @@ import ManageShoes from "./components/ManageShoes";
 import { ConfigProvider } from "antd";
 import Create from "./components/Create";
 import Stat from "./components/Stat";
+import Default from "./pages/Default/Default";
+import CreatePage from "./pages/Create/CreatePage";
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
@@ -43,8 +45,11 @@ function App() {
           path="/dashboard"
           element={admin ? <Dashboard /> : <Navigate to="/login" />}
         >
+          <Route path="" element={<Default />} />
           <Route path="products" element={<ManageShoes />}>
-            <Route path="create" element={<Create />} />
+            <Route path="" element={<Navigate to="list" />} />
+            <Route path="list" element={<Create />} />
+            <Route path="create" element={<CreatePage />} />
             <Route path="stat" element={<Stat />} />
           </Route>
           <Route path="option2" element={<Test2 />} />

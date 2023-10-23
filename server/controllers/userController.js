@@ -2,7 +2,7 @@ let User = require("../models/User");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const crypto = require("crypto-js");
-require("dotenv").config();
+
 
 //GET
 const checkLogin = async (req, res) => {
@@ -141,10 +141,43 @@ const login = async (req, res) => {
   }
 };
 
+const changeInfor = async (req, res) => {
+  try {
+    const idUser = req.params.idUser
+    const { password, birtday, gender, phone } = req.body
+    const hashedPassword = crypto.AES.encrypt(
+      password,
+      process.env.PASS_CRYPTO
+    ).toString();
+    const result = await User.findOneAndUpdate({ _id: idUser }, {
+      password: hashedPassword,
+      birtday: birtday,
+      gender: gender,
+      phone: phone
+    }, { new: true })
+    console.log(result)
+    res.status(200).json({ message: 'update Success', result: result })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+const takeInfoUserById = async (req, res) => {
+  try {
+    const idUser = req.params.idUser
+    const infoUser = await User.findOne({ _id: idUser })
+    res.status(200).json({ message: 'take infor user success', result: infoUser })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 module.exports = {
   register,
   login,
   resetPass,
   stats,
   checkLogin,
+  changeInfor,
+  takeInfoUserById
 };

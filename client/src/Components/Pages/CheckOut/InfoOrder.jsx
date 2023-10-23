@@ -9,7 +9,6 @@ export default function InfoOrder() {
   const [name, setName] = useState();
   const [methodPay, setMethodPay] = useState("COD");
   const [change, setChange] = useState(false);
-  const [value4, setValue4] = useState("Apple");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,6 +17,7 @@ export default function InfoOrder() {
 
   const onChange = (e) => {
     setMethodPay(e.target.value);
+    setChange(!change)
   };
 
   return (
@@ -75,7 +75,7 @@ export default function InfoOrder() {
                 </Radio>
               </div>
               <div className="">
-                <Radio value="VNPay">Thanh toán online </Radio>
+                <Radio value="Stripe">Thanh toán online </Radio>
               </div>
             </Radio.Group>
           </ConfigProvider>

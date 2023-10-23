@@ -13,19 +13,15 @@ import Search from "./Components/Pages/Search/Search";
 import Shoes from "./Components/Pages/Shoes/Shoes";
 import Cart from "./Components/Pages/Cart/Cart";
 import Login from "./Components/Pages/Auth/Login";
-import Register from "./Components/Pages/Auth/Register";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Profiles from "./Components/Pages/Auth/Profiles";
 import ShoeDetail from "./Components/Pages/ShoeDetail/ShoeDetail";
-import Detail from "./Components/Pages/Detail/Detail";
-import Auth from "./Components/Pages/Auth/Auth";
-import AuthContextProvider from "./context/authContext";
 import Dashboard from "./Components/Pages/Admin/Dashboard";
 import { useSelector } from "react-redux";
 import CheckOut from "./Components/Pages/CheckOut/CheckOut";
 import History from "./Components/Pages/UserProfile/History";
-import ChangeInfo from "./Components/Pages/UserProfile/ChangeInfo";
+
 import Default from "./Components/Pages/UserProfile/Default";
 import Developing from "./Components/Pages/developing/Developing";
 

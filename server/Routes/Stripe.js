@@ -17,6 +17,21 @@ router.post('/create-checkout-session', async (req, res) => {
         shoes: JSON.stringify(req.body.shoes)
       }
     })
+    const line_items = req.body.shoes.map((shoe) => {
+      return {
+        price_data: {
+          currency: 'vnd',
+          product_data: {
+            name: shoe.name, images: [shoe.img],
+            metadata: {
+              id: shoe._id
+            }
+          },
+          unit_amount: shoe.price,
+        },
+        quantity: shoe.quantity,
+      }
+    })
 
     const session = await stripe.checkout.sessions.create({
       customer: user.id,

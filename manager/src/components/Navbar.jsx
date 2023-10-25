@@ -26,8 +26,18 @@ export default function Navbar() {
     },
     {
       key: "2",
-      label: "This is panel header 2",
-      children: <p>b</p>,
+      label: "Quản lý người dùng",
+      children: [
+        <p className="nav__manager" onClick={() => onClick("users")}>
+          <i class="fa-solid fa-list"></i> Danh sách người dùng
+        </p>,
+        <p className="nav__manager" onClick={() => onClick("users/create")}>
+          <i class="fa-solid fa-plus"></i> Thêm người dùng
+        </p>,
+        <p className="nav__manager" onClick={() => onClick("users/stat")}>
+          <i class="fa-solid fa-plus"></i> Thống kê người dùng
+        </p>,
+      ],
     },
     {
       key: "3",

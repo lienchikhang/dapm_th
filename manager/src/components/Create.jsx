@@ -24,8 +24,7 @@ export default function Create() {
   const shoeDetail = useSelector((state) => state.shoeDetail.shoeDetail);
   const success = useSelector((state) => state.shoeDetail.success);
   const [arrSize, setArrSize] = useState([]);
-
-  useEffect(() => {}, []);
+  const [change, setChange] = useState(false);
 
   console.log("shoe", shoeDetail);
   const typeOptions = ["Adidas", "Nike", "Puma", "Vans"];
@@ -55,6 +54,27 @@ export default function Create() {
     );
   };
 
+  const handleDelete = (idShoe) => {
+    const user = JSON.parse(localStorage.getItem("userToken"));
+    console.log("usss", user);
+    const accessToken = user.accessToken;
+    console.log("ac", accessToken);
+    axios({
+      url: `http://localhost:5000/api/shoe/delete/${idShoe}`,
+      method: "DELETE",
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        setChange(!change);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleChangeSize = (value) => {
     let newValue = value.map((val) => {
       console.log("bien", val);
@@ -78,10 +98,10 @@ export default function Create() {
 
   const showModal = () => {
     setIsModalOpen(true);
-    axios({
-      url: "http://localhost:5000/api/shoe/${idShoe}",
-      method: "GET",
-    }).then((res) => {});
+    // axios({
+    //   url: `http://localhost:5000/api/shoe/${idShoe}`,
+    //   method: "GET",
+    // }).then((res) => {});
   };
 
   const handleOk = (idShoe) => {
@@ -161,13 +181,18 @@ export default function Create() {
     },
     {
       title: "Thao tác",
-      dataIndex: "action",
+      dataIndex: "_id",
       width: 120,
       key: "action",
-      render: () => {
+      render: (_id) => {
         return (
           <div className="d-flex justify-content-between">
-            <button className="btn btn-danger">
+            <button
+              onClick={() => {
+                handleDelete(_id);
+              }}
+              className="btn btn-danger"
+            >
               <i class="fa-solid fa-trash"></i>
             </button>
             <button onClick={showModal} className="btn btn-primary">
@@ -211,7 +236,7 @@ export default function Create() {
       console.log(res);
       setShoeList(res.data);
     });
-  }, [success]);
+  }, [success, change]);
 
   return (
     <div>

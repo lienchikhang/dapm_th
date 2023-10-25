@@ -23,6 +23,9 @@ import Create from "./components/Create";
 import Stat from "./components/Stat";
 import Default from "./pages/Default/Default";
 import CreatePage from "./pages/Create/CreatePage";
+import UserList from "./pages/Users/UserList/UserList";
+import UserListWrapper from "./pages/Users/UserList/UserListWrapper";
+import UserStat from "./pages/Users/Stat/UserStat";
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
@@ -52,8 +55,11 @@ function App() {
             <Route path="create" element={<CreatePage />} />
             <Route path="stat" element={<Stat />} />
           </Route>
-          <Route path="option2" element={<Test2 />} />
-          <Route path="option3" element={<Test3 />} />
+          <Route path="users" element={<UserListWrapper />}>
+            <Route path="" element={<Navigate to="list" />} />
+            <Route path="list" element={<UserList />} />
+            <Route path="stat" element={<UserStat />} />
+          </Route>
         </Route>
       </Routes>
     </ConfigProvider>

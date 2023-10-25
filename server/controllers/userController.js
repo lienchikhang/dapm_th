@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const crypto = require("crypto-js");
 
-
 //GET
 const checkLogin = async (req, res) => {
   try {
@@ -143,34 +142,52 @@ const login = async (req, res) => {
 
 const changeInfor = async (req, res) => {
   try {
-    const idUser = req.params.idUser
-    const { password, birtday, gender, phone } = req.body
+    const idUser = req.params.idUser;
+    const { password, birtday, gender, phone } = req.body;
     const hashedPassword = crypto.AES.encrypt(
       password,
       process.env.PASS_CRYPTO
     ).toString();
-    const result = await User.findOneAndUpdate({ _id: idUser }, {
-      password: hashedPassword,
-      birtday: birtday,
-      gender: gender,
-      phone: phone
-    }, { new: true })
-    console.log(result)
-    res.status(200).json({ message: 'update Success', result: result })
+    const result = await User.findOneAndUpdate(
+      { _id: idUser },
+      {
+        password: hashedPassword,
+        birtday: birtday,
+        gender: gender,
+        phone: phone,
+      },
+      { new: true }
+    );
+    console.log(result);
+    res.status(200).json({ message: "update Success", result: result });
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-}
+};
 
 const takeInfoUserById = async (req, res) => {
   try {
-    const idUser = req.params.idUser
-    const infoUser = await User.findOne({ _id: idUser })
-    res.status(200).json({ message: 'take infor user success', result: infoUser })
+    const idUser = req.params.idUser;
+    const infoUser = await User.findOne({ _id: idUser });
+    res
+      .status(200)
+      .json({ message: "take infor user success", result: infoUser });
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-}
+};
+
+const getAll = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json({ success: true, message: "get_all", data: users });
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error", error: err });
+  }
+};
 
 module.exports = {
   register,
@@ -179,5 +196,6 @@ module.exports = {
   stats,
   checkLogin,
   changeInfor,
-  takeInfoUserById
+  takeInfoUserById,
+  getAll,
 };

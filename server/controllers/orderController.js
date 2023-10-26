@@ -50,6 +50,7 @@ let makePaymentOnline = async (req, res) => {
         const rawDataBuffer = Buffer.from(shoes); // Dữ liệu dưới dạng Buffer
         const rawDataString = rawDataBuffer.toString(); // Chuyển đổi từ Buffer thành chuỗi
         const jsonData = JSON.parse(rawDataString); // Chuyển đổi thành đối tượng JSON
+        console.log(req.metadata)
         const result = new order({
             userId: idUser,
             shoes: jsonData,

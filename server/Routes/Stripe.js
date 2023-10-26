@@ -56,9 +56,7 @@ router.post(
     let eventType;
 
     // Check if webhook signing is configured.
-    let webhookSecret =
-      "whsec_864ecca0ee5001272fdef1db2e13987dca5b5ced4d37332dee19636b7c369b8a";
-    //webhookSecret = process.env.STRIPE_WEB_HOOK;
+    webhookSecret = process.env.STRIPE_WEB_HOOK;
 
     if (webhookSecret) {
       // Retrieve the event by verifying the signature using the raw body and secret.

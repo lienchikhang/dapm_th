@@ -55,15 +55,13 @@ export default function Create() {
   };
 
   const handleDelete = (idShoe) => {
-    const user = JSON.parse(localStorage.getItem("userToken"));
-    console.log("usss", user);
-    const accessToken = user.accessToken;
-    console.log("ac", accessToken);
+    const { currentUser } = JSON.parse(localStorage.getItem("persist:root"));
+    const user = JSON.parse(currentUser);
     axios({
       url: `http://localhost:5000/api/shoe/delete/${idShoe}`,
       method: "DELETE",
       headers: {
-        token: `Bearer ${accessToken}`,
+        token: `Bearer ${user.payload.accessToken}`,
       },
     })
       .then((res) => {

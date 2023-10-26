@@ -10,9 +10,6 @@ export default function InfoOrder() {
   const [methodPay, setMethodPay] = useState("COD");
   const [change, setChange] = useState(false);
   const dispatch = useDispatch();
-
-  console.log("method pay", methodPay);
-
   useEffect(() => {
     dispatch(saveInfo({ phone, address, name, methodPay }));
   }, [change]);

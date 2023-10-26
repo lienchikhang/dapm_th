@@ -19,12 +19,7 @@ export default function Cart() {
   const openLoading = () => {
     setLoading(true);
   };
-  let total = 0;
-  if (cartUser?.shoes) {
-    total = cartUser.shoes.reduce((accumulate, curVar) => {
-      return accumulate + curVar.price * curVar.quantity;
-    }, 0);
-  }
+  const [total, setTotal] = useState(0)
 
   //call api
   useEffect(() => {
@@ -52,9 +47,12 @@ export default function Cart() {
     // console.log(JSON.parse(local.user).currentUser.payload._id);
   }, [loading]);
 
-  const checkCheckOut = () => {
-    return cartUser?.shoes ? true : false;
-  };
+  useEffect(() => {
+    let Caculate = cartUser.shoes.reduce((accumulate, currentValue) => {
+      return accumulate + currentValue.price * currentValue.quantity
+    }, 0)
+    setTotal(Caculate)
+  }, [cartUser])
   return (
     <div>
       <div className="container cart__wrapper">

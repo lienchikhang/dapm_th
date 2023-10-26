@@ -10,28 +10,27 @@ import {
   Radio,
 } from "antd";
 import moment from 'moment';
+import dayjs from 'dayjs';
 import { useSelector } from "react-redux";
 import UserService from "../../../services/UserService";
+import { genAlertStyle } from "antd/es/alert/style";
 export default function Default() {
   const [value, setValue] = useState();//value la gender
   const [birtday, setBirtday] = useState();
   const [phone, setPhone] = useState();
+  const [change, setChange] = useState(false)
   const { username, password } = useSelector(
     (state) => state.user.currentUser.payload
   );
+  const dateFormat = "YYYY/MM/DD";
+  const disabledDate = (current) => {
+    return (current.year() - 18 < 2005)
+  };
+
   const local = JSON.parse(localStorage.getItem("persist:root"));
   const idUser = JSON.parse(local.user).currentUser.payload._id;
   const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
   const [loading, setLoading] = useState(false);
-  const defaultYear = moment('2005-01-01');
-
-  const disabledDate = (current) => {
-    return current.year() < 2005; // Giới hạn người dùng chỉ có thể chọn năm 2005 hoặc sau đó
-  };
-  const isEighteenYearsAgo = (current) => {
-    const eighteenYearsAgo = moment().subtract(18, 'years');
-    return current && current > eighteenYearsAgo;
-  };
   useEffect(() => {
     let getUserInfo = async () => {
       const userInfo = await UserService.takeInforUser(idUser, 'GET', accessToken)
@@ -42,7 +41,7 @@ export default function Default() {
       setLoading(!loading)
     }
     getUserInfo()
-  }, [])
+  }, [change])
   const onFinish = async (values) => {
     const data = {
       ...values,
@@ -51,6 +50,7 @@ export default function Default() {
       gender: value
     }
     await UserService.changeInfor(idUser, 'PUT', data, accessToken)
+    setChange(!change)
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -58,7 +58,6 @@ export default function Default() {
 
   const onChangeDate = (date, dateString) => {
     setBirtday(dateString)
-    console.log(date)
   };
   const onChangePhone = (value) => {
     setPhone(value)
@@ -88,12 +87,10 @@ export default function Default() {
               maxWidth: 600,
             }}
             initialValues={{
-              remember: true,
               username: username,
               phone: phone,
               gender: value,
-
-
+              password: password,
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -132,8 +129,7 @@ export default function Default() {
                 span: 16,
               }}
             >
-              <DatePicker defaultValue={defaultYear}
-                disabledDate={disabledDate} showToday={false} onChange={onChangeDate} />
+              <DatePicker picker="year" placeholder={birtday} disabledDate={disabledDate} format={dateFormat} showToday={false} onChange={onChangeDate} />
             </Form.Item>
 
             <Form.Item
@@ -163,9 +159,8 @@ export default function Default() {
                 }
               ]}
             >
-              <InputNumber onChange={onChangePhone} minLength={10} maxLength={10} />
+              <InputNumber onChange={onChangePhone} style={{ width: '100%' }} minLength={10} maxLength={10} />
             </Form.Item>
-
             <Form.Item
               wrapperCol={{
                 offset: 6,

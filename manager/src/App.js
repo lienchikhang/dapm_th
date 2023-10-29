@@ -26,6 +26,8 @@ import CreatePage from "./pages/Create/CreatePage";
 import UserList from "./pages/Users/UserList/UserList";
 import UserListWrapper from "./pages/Users/UserList/UserListWrapper";
 import UserStat from "./pages/Users/Stat/UserStat";
+import OrderList from "./pages/Order/OrderList/OrderList";
+import OrderWrapper from "./pages/Order/OrderList/OrderWrapper";
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
@@ -58,6 +60,11 @@ function App() {
           <Route path="users" element={<UserListWrapper />}>
             <Route path="" element={<Navigate to="list" />} />
             <Route path="list" element={<UserList />} />
+            <Route path="stat" element={<UserStat />} />
+          </Route>
+          <Route path="orders" element={<OrderWrapper />}>
+            <Route path="" element={<Navigate to="list" />} />
+            <Route path="list" element={<OrderList />} />
             <Route path="stat" element={<UserStat />} />
           </Route>
         </Route>

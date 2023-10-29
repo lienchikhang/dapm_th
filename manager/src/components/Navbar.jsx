@@ -41,8 +41,15 @@ export default function Navbar() {
     },
     {
       key: "3",
-      label: "This is panel header 3",
-      children: <p>c</p>,
+      label: "Quản lý đơn hàng",
+      children: [
+        <p className="nav__manager" onClick={() => onClick("orders")}>
+          <i class="fa-solid fa-list"></i> Danh sách đơn hàng
+        </p>,
+        <p className="nav__manager" onClick={() => onClick("orders/stat")}>
+          <i class="fa-solid fa-plus"></i> Thống kê đơn hàng
+        </p>,
+      ],
     },
   ];
 

@@ -2,40 +2,66 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ShoeItem from "./ShoeItem";
 import {
-  Button,
+
   Form,
   Input,
   InputNumber,
   Modal,
   Select,
-  Space,
+  notification,
   Table,
 } from "antd";
 import "../css/modal.css";
 import { Option } from "antd/es/mentions";
 import { useDispatch, useSelector } from "react-redux";
 import { changDetail, changeSuccess } from "../redux/reducer/shoeDetailReducer";
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+
 
 export default function Create() {
   const [shoeList, setShoeList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
-  const shoeDetail = useSelector((state) => state.shoeDetail.shoeDetail);
   const success = useSelector((state) => state.shoeDetail.success);
-  const [arrSize, setArrSize] = useState([]);
   const [change, setChange] = useState(false);
 
-  console.log("shoe", shoeDetail);
-  const typeOptions = ["Adidas", "Nike", "Puma", "Vans"];
-  const options = [];
-  for (let i = 37; i < 43; i++) {
-    options.push({
-      label: i,
-      value: i,
-    });
-  }
 
+  const [shoeData, setShoeData] = useState({})
+  const [name, setName] = useState('')
+  const [price, setPrice] = useState(0)
+  const [img, setImg] = useState('')
+  const [desc, setDesc] = useState('')
+  const [type, setType] = useState('Adidas')
+  const [color, setColor] = useState('white')
+  const [size37, setSize37] = useState({})
+  const [size38, setSize38] = useState({})
+  const [size39, setSize39] = useState({})
+  const [size40, setSize40] = useState({})
+  const [size41, setSize41] = useState({})
+  const [size42, setSize42] = useState({})
+  const [size43, setSize43] = useState({})
+
+  const { currentUser } = JSON.parse(localStorage.getItem("persist:root"));
+  const user = JSON.parse(currentUser);
+
+
+  notification.config({
+    placement: "topRight",
+    top: 100,
+    duration: 3,
+    rtl: true,
+  });
+
+  const openNotification = (message, description) => {
+    notification.open({
+      message: message,
+      description: description,
+      style: {
+        backgroundColor: "#ffffff",
+        border: "2px solid #52c41a",
+        fontWeight: "700",
+      },
+    });
+  };
   const onFinish = (values) => {
     console.log("Success:", values);
   };
@@ -44,19 +70,8 @@ export default function Create() {
     console.log("Failed:", errorInfo);
   };
 
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-    dispatch(
-      changDetail({
-        ...shoeDetail,
-        type: value,
-      })
-    );
-  };
-
   const handleDelete = (idShoe) => {
-    const { currentUser } = JSON.parse(localStorage.getItem("persist:root"));
-    const user = JSON.parse(currentUser);
+
     axios({
       url: `http://localhost:5000/api/shoe/delete/${idShoe}`,
       method: "DELETE",
@@ -73,46 +88,50 @@ export default function Create() {
       });
   };
 
-  const handleChangeSize = (value) => {
-    let newValue = value.map((val) => {
-      console.log("bien", val);
-      return {
-        ss: val,
-        cs: 5,
-      };
-    });
-    console.log(`selected ${newValue}`);
-    dispatch(
-      changDetail({
-        ...shoeDetail,
-        size: newValue,
-      })
-    );
-  };
-
-  const handleChangeType = (value) => {
-    console.log(`selected ${value}`);
-  };
-
-  const showModal = () => {
+  const showModal = (_id) => {
+    takeDataToEdit(_id);
     setIsModalOpen(true);
-    // axios({
-    //   url: `http://localhost:5000/api/shoe/${idShoe}`,
-    //   method: "GET",
-    // }).then((res) => {});
   };
 
-  const handleOk = (idShoe) => {
+  const takeDataToEdit = async (_id) => {
+    await axios({
+      url: `http://localhost:5000/api/shoe/${_id}`,
+      method: "GET",
+    }).then((res) => {
+      setShoeData(res.data)
+      setName(res.data.name)
+      setPrice(res.data.price)
+      setImg(res.data.img)
+      setDesc(res.data.desc)
+      setSize37(res.data.size[0])
+      setSize38(res.data.size[1])
+      setSize39(res.data.size[2])
+      setSize40(res.data.size[3])
+      setSize41(res.data.size[4])
+      setSize42(res.data.size[5])
+      setSize43(res.data.size[6])
+    }).catch((err) => console.log(err))
+  }
+
+  const handleEdit = (idShoe) => {
+    const newSize = []
+    newSize.push(size37, size38, size39, size40, size41, size42, size43);
+    const shoeDataUpdate = { name, price, img, size: newSize, desc, type, color }
     axios({
       url: `http://localhost:5000/api/shoe/${idShoe}`,
       method: "PUT",
-      data: shoeDetail,
+      data: shoeDataUpdate,
+      headers: {
+        token: `Bearer ${user.payload.accessToken}`,
+      },
     })
       .then((res) => {
+        openNotification('Chỉnh sửa thành công', 'dữ liệu đã được lưu lại')
         dispatch(changeSuccess());
       })
       .catch((err) => {
         console.log(err);
+        openNotification('chỉnh sửa thất bại', 'Vui lòng thực hiện lại')
       });
     setIsModalOpen(false);
   };
@@ -193,7 +212,7 @@ export default function Create() {
             >
               <i class="fa-solid fa-trash"></i>
             </button>
-            <button onClick={showModal} className="btn btn-primary">
+            <button onClick={() => showModal(_id)} className="btn btn-primary">
               <i class="fa-solid fa-pen"></i>
             </button>
           </div>
@@ -203,219 +222,276 @@ export default function Create() {
   ];
 
   const handleCancel = () => {
+    setShoeData({})
     setIsModalOpen(false);
   };
-
-  const handleChangeForm = (e) => {
-    dispatch(
-      changDetail({
-        ...shoeDetail,
-        [e.target.name]: e.target.value,
-      })
-    );
-  };
-
-  const handleChangeSizes = (value) => {
-    // let arrNewSize = [...arrSize];
-    // arrNewSize.push(value);
-    // dispatch(changDetail({ ...shoeDetail, size: arrNewSize }));
-    dispatch(changDetail({ ...shoeDetail, size: [...arrSize, value] }));
-  };
-
   const renderingUI = () => {
     return <Table dataSource={shoeList} columns={columns} bordered />;
   };
-
   useEffect(() => {
     axios({
       url: `http://localhost:5000/api/shoe`,
       method: "GET",
     }).then((res) => {
-      console.log(res);
       setShoeList(res.data);
     });
   }, [success, change]);
 
+  const renderModal = () => {
+    return (<Modal
+      title="Chỉnh sửa"
+      open={isModalOpen}
+      onOk={() => {
+        handleEdit(shoeData._id);
+        onFinish();
+      }}
+      onFinish={onFinish}
+      onCancel={handleCancel}
+      className="my-modal"
+    >
+      <Form
+        name="basic"
+        labelCol={{
+          span: 6,
+        }}
+        wrapperCol={{
+          span: 16
+        }}
+        style={{
+          maxWidth: 600,
+        }}
+        initialValues={{
+          remember: true,
+        }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+        <Form.Item
+          label="Tên giày"
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: "Vui Lòng nhập tên giày!",
+            },
+          ]}
+        >
+          <Input maxLength={15} defaultValue={shoeData.name} name="name" onChange={(e) => setName(e.target.value)} />
+        </Form.Item>
+
+        <Form.Item
+          label="Giá tiền"
+          name="price"
+          rules={[
+            {
+              required: true,
+              message: "Vui Lòng nhập giá tiền!",
+            },
+          ]}
+        >
+          <InputNumber defaultValue={shoeData.price} name="price" onChange={(value) => setPrice(value)} />
+        </Form.Item>
+
+        <Form.Item
+          label="Hình ảnh"
+          name="image"
+          rules={[
+            {
+              required: true,
+              message: "Vui Lòng nhập link hình!",
+            },
+          ]}
+        >
+          <Input defaultValue={shoeData.img} name="image" onChange={(e) => setImg(e.target.value)} />
+        </Form.Item>
+        <img width={'200px'} src={img ? (img) : (shoeData.img)} alt="" />
+        <Form.Item
+          label="Mô tả"
+          name="desc"
+          rules={[
+            {
+              required: true,
+              message: "Vui Lòng nhập mô tả!",
+            },
+          ]}
+        >
+          <Input defaultValue={shoeData.desc} onChange={(e) => setDesc(e.target.value)} />
+        </Form.Item>
+        <Form.Item
+          label="Hãng"
+          name="type"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng chọn hãng!",
+            },
+          ]}
+        >
+          <Select
+            name="type"
+            defaultValue={shoeData.type}
+            style={{
+              width: 120,
+            }}
+            onChange={(value) => { setType(value) }}
+          >
+            <Option value="Adidas" name="type">
+              Adidas
+            </Option>
+            <Option value="Nike" name="type">
+              Nike
+            </Option>
+            <Option value="Puma" name="type">
+              Puma
+            </Option>
+            <Option value="Vans" name="type">
+              Vans
+            </Option>
+          </Select>
+        </Form.Item>
+        <Form.Item
+          label="Màu sắc"
+          name="color"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng chọn màu sắc!",
+            },
+          ]}
+        >
+          <Select
+            name="color"
+            defaultValue={shoeData.color}
+            style={{
+              width: 120,
+            }}
+            onChange={(value) => { setColor(value) }}
+          >
+            <Option value="white" name="color">
+              Trắng
+            </Option>
+            <Option value="black" name="color">
+              Đen
+            </Option>
+            <Option value="red" name="color">
+              Đỏ
+            </Option>
+            <Option value="blue" name="color">
+              Xanh dương
+            </Option>
+            <Option value="green" name="color">
+              Xanh lá
+            </Option>
+            <Option value="yellow" name="color">
+              Vàng
+            </Option>
+            <Option value="orange" name="color">
+              Cam
+            </Option>
+            <Option value="pink" name="color">
+              Hồng
+            </Option>
+            <Option value="yellow" name="color">
+              Vàng
+            </Option>
+            <Option value="purple" name="color">
+              Tím
+            </Option>
+          </Select>
+        </Form.Item>
+        <Form.Item
+          label="Kích thước 37"
+          name="size 37"
+          rules={[
+            {
+              required: true,
+              message: "Size phải có số lượng!",
+            },
+          ]}
+        >
+          <InputNumber defaultValue={shoeData.size[0].cs} min={0} max={1000} onChange={(value) => setSize37({ ss: 37, cs: value })} />
+        </Form.Item>
+
+        <Form.Item
+          label="Kích thước 38"
+          name="size 38"
+          rules={[
+            {
+              required: true,
+              message: "Size phải có số lượng!",
+            },
+          ]}
+        >
+          <InputNumber defaultValue={(shoeData.size[1].cs)} min={0} max={1000} onChange={(value) => setSize38({ ss: 38, cs: value })} />
+        </Form.Item>
+        <Form.Item
+          label="Kích thước 39"
+          name="size 39"
+          rules={[
+            {
+              required: true,
+              message: "Size phải có số lượng!",
+            },
+          ]}
+        >
+          <InputNumber defaultValue={(shoeData.size[2].cs)} min={0} max={1000} onChange={(value) => setSize39({ ss: 39, cs: value })} />
+        </Form.Item>
+        <Form.Item
+          label="Kích thước 40"
+          name="size 40"
+          rules={[
+            {
+              required: true,
+              message: "Size phải có số lượng!",
+            },
+          ]}
+        >
+          <InputNumber defaultValue={(shoeData.size[3].cs)} min={0} max={1000} onChange={(value) => setSize40({ ss: 40, cs: value })} />
+        </Form.Item>
+        <Form.Item
+          label="Kích thước 41"
+          name="size 41"
+          rules={[
+            {
+              required: true,
+              message: "Size phải có số lượng!",
+            },
+          ]}
+        >
+          <InputNumber defaultValue={(shoeData.size[4].cs)} min={0} max={1000} onChange={(value) => setSize41({ ss: 41, cs: value })} />
+        </Form.Item>
+        <Form.Item
+          label="Kích thước 42"
+          name="size 42"
+          rules={[
+            {
+              required: true,
+              message: "Size phải có số lượng!",
+            },
+          ]}
+        >
+          <InputNumber defaultValue={(shoeData.size[5].cs)} min={0} max={1000} onChange={(value) => setSize42({ ss: 42, cs: value })} />
+        </Form.Item>
+        <Form.Item
+          label="Kích thước 43"
+          name="size 43"
+          rules={[
+            {
+              required: true,
+              message: "Size phải có số lượng!",
+            },
+          ]}
+        >
+          <InputNumber defaultValue={(shoeData.size[6].cs)} min={0} max={1000} onChange={(value) => setSize43({ ss: 43, cs: value })} />
+        </Form.Item>
+      </Form>
+    </Modal>)
+  }
   return (
     <div>
       <div>
-        <Modal
-          title="Create"
-          open={isModalOpen}
-          onOk={() => {
-            // handleOk(shoeDetail._id);
-            onFinish();
-          }}
-          onFinish={onFinish}
-          onCancel={handleCancel}
-          className="my-modal"
-        >
-          <Form
-            name="basic"
-            labelCol={{
-              span: 6,
-            }}
-            wrapperCol={{
-              span: 16,
-            }}
-            style={{
-              maxWidth: 600,
-            }}
-            initialValues={{
-              remember: true,
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
-            <Form.Item
-              label="Tên giày"
-              name="name"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your username!",
-                },
-              ]}
-            >
-              <Input onChange={handleChangeForm} name="name" />
-            </Form.Item>
-
-            <Form.Item
-              label="Giá tiền"
-              name="price "
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-              ]}
-            >
-              <Input onChange={handleChangeForm} name="price" />
-            </Form.Item>
-
-            <Form.Item
-              label="Hình ảnh"
-              name="image"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input your password!",
-                },
-              ]}
-            >
-              <Input onChange={handleChangeForm} name="image" />
-            </Form.Item>
-
-            {/* <Form.Item
-              label="Kích thước"
-              name="size"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-              ]}
-            >
-              <Select
-                mode="multiple"
-                allowClear
-                style={{
-                  width: "100%",
-                }}
-                placeholder="Please select"
-                defaultValue={[{ ss: 36, cs: 5 }]}
-                onChange={handleChangeSize}
-                options={options}
-              />
-            </Form.Item> */}
-
-            <Form.Item
-              label="Kích thước 37"
-              name="size"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input your password!",
-                },
-              ]}
-            >
-              <Space
-                style={{
-                  display: "flex",
-                  marginBottom: 8,
-                }}
-                align="baseline"
-              >
-                {/* <Input onChange={handleChangeForm} name="sizeNum1" /> */}
-                <Input
-                  onChange={(e) => handleChangeSizes(e.target.value)}
-                  name="sizeQty1"
-                />
-              </Space>
-            </Form.Item>
-
-            <Form.Item
-              label="Kích thước 38"
-              name="size"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input your password!",
-                },
-              ]}
-            >
-              <Space
-                style={{
-                  display: "flex",
-                  marginBottom: 8,
-                }}
-                align="baseline"
-              >
-                {/* <Input onChange={handleChangeForm} name="sizeNum2" /> */}
-                <Input
-                  onChange={(e) =>
-                    handleChangeSizes({
-                      ss: 38,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                  name="cs"
-                />
-              </Space>
-            </Form.Item>
-
-            <Form.Item
-              label="Hãng"
-              name="type"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-              ]}
-            >
-              <Select
-                name="type"
-                defaultValue="Adidas"
-                style={{
-                  width: 120,
-                }}
-                onChange={handleChange}
-              >
-                <Option value="Adidas" name="type">
-                  Adidas
-                </Option>
-                <Option value="Nike" name="type">
-                  Nike
-                </Option>
-                <Option value="Puma" name="type">
-                  Puma
-                </Option>
-              </Select>
-            </Form.Item>
-          </Form>
-        </Modal>
+        {isModalOpen && shoeData.name && renderModal()}
       </div>
       <div>{renderingUI()}</div>
     </div>

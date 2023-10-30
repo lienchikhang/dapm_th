@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 export default function CartFooter({ total, disable }) {
-
   return (
     <div className="container">
       <div className="row">
@@ -12,9 +11,9 @@ export default function CartFooter({ total, disable }) {
         <div className="col-6">
           <div className="cart__footer">
             <p className="">
-              Tổng tiền: <span>{total}</span>
+              Tổng tiền: <span>{total ? total : 0}</span>
             </p>
-            {disable.length > 0 ? (
+            {disable?.length > 0 ? (
               <NavLink to="/CheckOut">
                 <button className="">Thanh toán</button>
               </NavLink>

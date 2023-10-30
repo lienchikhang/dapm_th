@@ -300,11 +300,6 @@ const updateShoe = async (req, res) => {
 const DeleteShoeUpdateInCart = async (idShoe) => {
   const AllcartHaveidShoe = await Cart.updateMany({ 'shoes._id': idShoe }, { $pull: { shoes: { _id: idShoe } } }, { new: true })
 }
-
-const querryToMakeOrder = async () => {
-
-}
-
 module.exports = {
   getAll,
   getShoe,

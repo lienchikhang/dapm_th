@@ -5,14 +5,14 @@ require("dotenv").config();
 const router = express.Router();
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 // tao session thanh toan
-router.post('/create-checkout-session', async (req, res) => {
+router.post("/create-checkout-session", async (req, res) => {
   try {
     const shoeList = req.body.shoes
-    shoeList.map((index) => {
+    const shoeListMinimize = shoeList.map((shoe, index) => {
       return {
-        _id: shoeList._id,
-        size: shoeList.size,
-        quantity: shoeList.quantity
+        _id: shoe._id,
+        size: shoe.size,
+        quantity: shoe.quantity
       }
     })
 
@@ -23,25 +23,25 @@ router.post('/create-checkout-session', async (req, res) => {
         phone: req.body.phone,
         address: req.body.address,
         methodPay: req.body.methodPay,
-        shoes: JSON.stringify(shoeList)
+        shoes: JSON.stringify(shoeListMinimize)
       }
     })
-
     const line_items = req.body.shoes.map((shoe) => {
       return {
         price_data: {
-          currency: 'vnd',
+          currency: "vnd",
           product_data: {
-            name: shoe.name, images: [shoe.img],
+            name: shoe.name,
+            images: [shoe.img],
             metadata: {
-              id: shoe._id
-            }
+              id: shoe._id,
+            },
           },
           unit_amount: shoe.price,
         },
         quantity: shoe.quantity,
-      }
-    })
+      };
+    });
 
     const session = await stripe.checkout.sessions.create({
       customer: user.id,
@@ -54,7 +54,7 @@ router.post('/create-checkout-session', async (req, res) => {
 
     res.send({ url: session.url });
   } catch (err) {
-
+    console.log(err)
   }
 });
 

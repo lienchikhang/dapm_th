@@ -19,7 +19,7 @@ export default function Cart() {
   const openLoading = () => {
     setLoading(true);
   };
-  const [total, setTotal] = useState(0)
+  const [total, setTotal] = useState(0);
   //call api
   useEffect(() => {
     let callApi = async () => {
@@ -47,11 +47,11 @@ export default function Cart() {
   }, [loading]);
 
   useEffect(() => {
-    let Caculate = cartUser.shoes.reduce((accumulate, currentValue) => {
-      return accumulate + currentValue.price * currentValue.quantity
-    }, 0)
-    setTotal(Caculate)
-  }, [cartUser])
+    let Caculate = cartUser?.shoes.reduce((accumulate, currentValue) => {
+      return accumulate + currentValue.price * currentValue.quantity;
+    }, 0);
+    setTotal(Caculate);
+  }, [cartUser]);
   return (
     <div>
       <div className="container cart__wrapper">

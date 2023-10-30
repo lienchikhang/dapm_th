@@ -83,12 +83,6 @@ export default function CheckOut() {
         );
         setTimeout(navigate("/"), 4000);
       }
-      // else if (cartUser.shoes.length >= 2 && orderInfo.Info.methodPay !== "COD") {
-      //   openNotification(
-      //     "Hệ thống đang bảo trì với chức năng thanh toán online",
-      //     "Hiện hệ thống chỉ thanh toán được với 2 sản phẩm cùng lúc"
-      //   );
-      // }
       else {
         await checkOutService.paymentOnline(
           idUser,

@@ -58,17 +58,18 @@ let makePaymentOnline = async (req, res) => {
     const { shoes, name, address, phone, methodPay, idUser } = req.metadata;
     const rawDataBuffer = Buffer.from(shoes); // Dữ liệu dưới dạng Buffer
     const rawDataString = rawDataBuffer.toString(); // Chuyển đổi từ Buffer thành chuỗi
-    const jsonData = JSON.parse(rawDataString); // Chuyển đổi thành đối tượng JSON
+    const jsonShoes = JSON.parse(rawDataString); // Chuyển đổi thành đối tượng JSON
+    const ShoeList = await querryToMakeOrder(jsonShoes)
     const result = new order({
       userId: idUser,
-      shoes: jsonData,
+      shoes: ShoeList,
       methodPay: methodPay,
       name: name,
       address: address,
       phone: phone,
     });
     await result.save();
-    await descShoeCountWithSize(jsonData);
+    await descShoeCountWithSize(ShoeList);
     await Cart.findOneAndUpdate(
       { userId: idUser },
       {
@@ -83,6 +84,21 @@ let makePaymentOnline = async (req, res) => {
   }
 };
 
+const querryToMakeOrder = async (shoeList) => {
+  const shoeListMax = await Promise.all(shoeList.map(async (shoe, index) => {
+    let shoeItem = await Shoe.findById(shoe._id);
+    return {
+      ...shoe,
+      price: shoeItem.price,
+      img: shoeItem.img,
+      desc: shoeItem.desc,
+      color: shoeItem.color,
+      type: shoeItem.type,
+      name: shoeItem.name
+    };
+  }));
+  return shoeListMax;
+}
 let descShoeCountWithSize = (shoes) => {
   try {
     shoes.map(async (shoe) => {

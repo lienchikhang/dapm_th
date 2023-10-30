@@ -23,14 +23,20 @@ export default function Default() {
     (state) => state.user.currentUser.payload
   );
   const dateFormat = "YYYY/MM/DD";
-  const disabledDate = (current) => {
-    return (current.year() - 18 < 2005)
-  };
-
   const local = JSON.parse(localStorage.getItem("persist:root"));
   const idUser = JSON.parse(local.user).currentUser.payload._id;
   const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
   const [loading, setLoading] = useState(false);
+  function disabledDate(current) {
+    // Lấy ngày hiện tại
+    const today = new Date();
+    // Đặt ngày tối thiểu là 1900
+    const minDate = new Date('1900-01-01');
+    // Đặt ngày tối đa là 2005
+    const maxDate = new Date('2005-12-31');
+    // So sánh ngày hiện tại với khoảng thời gian đã đặt
+    return current && (current < minDate || current > maxDate || current > today);
+  }
   useEffect(() => {
     let getUserInfo = async () => {
       const userInfo = await UserService.takeInforUser(idUser, 'GET', accessToken)
@@ -115,8 +121,12 @@ export default function Default() {
               rules={[
                 {
                   required: true,
-                  message: "Please input your password!",
+                  message: "Vui lòng nhập mật khẩu",
                 },
+                {
+                  pattern: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                  message: "Mật khẩu phải chứa ít nhất một chữ hoa, một chữ thường, một số và một ký tự đặc biệt, và ít nhất 8 ký tự.",
+                }
               ]}
             >
               <Input.Password />
@@ -129,7 +139,7 @@ export default function Default() {
                 span: 16,
               }}
             >
-              <DatePicker picker="year" placeholder={birtday} disabledDate={disabledDate} format={dateFormat} showToday={false} onChange={onChangeDate} />
+              <DatePicker disabledDate={disabledDate} placeholder={birtday} format={dateFormat} showToday={false} onChange={onChangeDate} />
             </Form.Item>
 
             <Form.Item
@@ -155,11 +165,16 @@ export default function Default() {
               rules={[
                 {
                   required: true,
-                  message: "Please input your Phone!",
+                  message: "Vui lòng nhập số điện thoại",
+                },
+                {
+                  minLength: 10,
+                  maxLength: 10,
+                  message: "Số điện thoại phải có 10 ký tự",
                 }
               ]}
             >
-              <InputNumber onChange={onChangePhone} style={{ width: '100%' }} minLength={10} maxLength={10} />
+              <InputNumber prefix={'+84'} onChange={onChangePhone} style={{ width: '100%' }} />
             </Form.Item>
             <Form.Item
               wrapperCol={{

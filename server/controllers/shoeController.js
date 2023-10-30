@@ -1,3 +1,4 @@
+const Cart = require("../models/Cart.js");
 const Shoe = require("../models/Shoe.js");
 
 //GET
@@ -237,23 +238,17 @@ const getAll = async (req, res) => {
 
 //POST
 const createShoe = async (req, res) => {
-  const { isAdmin } = req.user;
-  if (!isAdmin)
-    return res
-      .status(401)
-      .json({ success: false, message: "you are not authorized" });
-  const newShoe = new Shoe({
-    size: req.body.size,
-    name: req.body.name,
-    price: req.body.price,
-    img: req.body.img,
-    desc: req.body.desc,
-    color: req.body.color,
-    type: req.body.type,
-  });
   try {
+    const shoe = req.body
+    const checkNameShoe = await Shoe.findOne({ name: shoe.name })
+    if (checkNameShoe) {
+      return res.status(400).json({ message: 2 })
+    }
+    const newShoe = new Shoe({
+      ...shoe
+    })
     await newShoe.save();
-    res.status(200).json(newShoe);
+    return res.status(200).json({ message: 1 });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -264,10 +259,12 @@ const deleteShoe = async (req, res) => {
   const idDeleted = req.params.id;
   try {
     const deleteShoe = await Shoe.findByIdAndDelete({ _id: idDeleted });
-    if (!deleteShoe)
+    if (!deleteShoe) {
       return res
         .status(401)
-        .json({ success: false, message: "Shoe not found" });
+        .json({ success: false, message: "Shoe not found" })
+    };
+    DeleteShoeUpdateInCart(idDeleted)
     res.status(200).json({
       success: true,
       message: "Delete successfully!",
@@ -283,16 +280,26 @@ const deleteShoe = async (req, res) => {
 
 //PUT
 const updateShoe = async (req, res) => {
-  const idShoe = req.params.id;
-  const newShoe = req.body;
-  console.log("idShoe", idShoe);
   try {
-    const result = await Shoe.findByIdAndUpdate(idShoe, newShoe, { new: true });
-    res.status(200).json(result);
+    const idShoe = req.params.id;
+    const shoeDataUpdate = req.body;
+    const shoeNameIsExist = await Shoe.findById(idShoe)
+    if (shoeNameIsExist) {
+      return res.status(400).json()
+    }
+    const result = await Shoe.findByIdAndUpdate(idShoe, shoeDataUpdate, { new: true });
+    if (result) {
+      DeleteShoeUpdateInCart(idShoe)
+      res.status(200).json(result);
+    }
   } catch (error) {
     console.log(error);
   }
 };
+
+const DeleteShoeUpdateInCart = async (idShoe) => {
+  const AllcartHaveidShoe = await Cart.updateMany({ 'shoes._id': idShoe }, { $pull: { shoes: { _id: idShoe } } }, { new: true })
+}
 
 module.exports = {
   getAll,

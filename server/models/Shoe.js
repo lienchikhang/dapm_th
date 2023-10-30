@@ -24,10 +24,6 @@ const Shoe = new mongoose.Schema({
     type: String,
     require: true,
   },
-  category: {
-    type: Array,
-    require: true,
-  },
   type: {
     type: String,
     require: true,

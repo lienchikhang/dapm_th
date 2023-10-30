@@ -20,7 +20,6 @@ export default function Cart() {
     setLoading(true);
   };
   const [total, setTotal] = useState(0)
-
   //call api
   useEffect(() => {
     let callApi = async () => {

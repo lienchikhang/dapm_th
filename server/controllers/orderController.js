@@ -20,6 +20,8 @@ let getAllOrderByidUser = async (req, res) => {
   }
 };
 
+
+
 let makeOrderbyiduser = async (req, res) => {
   try {
     let idUser = req.params.idUser;
@@ -82,17 +84,21 @@ let makePaymentOnline = async (req, res) => {
 };
 
 let descShoeCountWithSize = (shoes) => {
-  shoes.map(async (shoe) => {
-    await Shoe.findOneAndUpdate(
-      {
-        _id: shoe._id,
-        "size.ss": shoe.size,
-      },
-      {
-        $inc: { "size.$.cs": -shoe.quantity },
-      }
-    );
-  });
+  try {
+    shoes.map(async (shoe) => {
+      await Shoe.findOneAndUpdate(
+        {
+          _id: shoe._id,
+          "size.ss": shoe.size,
+        },
+        {
+          $inc: { "size.$.cs": -shoe.quantity },
+        }
+      );
+    });
+  } catch (err) {
+    console.log(err)
+  }
 };
 
 let changeStatusByIdOrder = async (req, res) => {
@@ -106,6 +112,9 @@ let changeStatusByIdOrder = async (req, res) => {
         $set: {
           status: textStatus,
         },
+      },
+      {
+        new: true
       }
     );
     res
@@ -132,10 +141,41 @@ let getAllOrders = async (req, res) => {
   }
 };
 
+let deleteOrder = async (req, res) => {
+  try {
+    const orderId = req.params.orderId
+    const shoeList = req.body.shoes
+    IncrShoeBydeleteOrder(shoeList)
+    const orderDelete = await Order.findByIdAndDelete({ _id: orderId }, { new: true })
+    res.status(200).json({ message: "delete order success" })
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
+
+let IncrShoeBydeleteOrder = (shoes) => {
+  try {
+    shoes.map(async (shoe) => {
+      await Shoe.findOneAndUpdate(
+        {
+          _id: shoe._id,
+          "size.ss": shoe.size,
+        },
+        {
+          $inc: { "size.$.cs": shoe.quantity },
+        }
+      );
+    });
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 module.exports = {
   getAllOrderByidUser,
   changeStatusByIdOrder,
   makeOrderbyiduser,
   makePaymentOnline,
   getAllOrders,
+  deleteOrder
 };

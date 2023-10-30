@@ -20,7 +20,7 @@ export default function ProductList() {
   }, []);
 
   const convertStr = (string) => {
-    if (string.length > 20) return string.slice(0, 10) + "...";
+    if (string.length > 20) { return string.slice(0, 10) + "..."; }
     return string;
   };
 
@@ -40,7 +40,7 @@ export default function ProductList() {
         </p>
       </div>
       <div className="row">
-        {shoes.length == 0 ? (
+        {shoes.length === 0 ? (
           <Skeleton active />
         ) : (
           shoes.map((shoe, index) => {
@@ -53,7 +53,7 @@ export default function ProductList() {
                       <img
                         className="card-top mx-auto img-fluid d-block my-4    "
                         src={img}
-                        alt="Card image cap"
+                        alt="CardImageCap"
                         width={200}
                       />
                     </div>

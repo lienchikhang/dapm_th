@@ -20,9 +20,18 @@ router.post(
   verifyTokenAndAuthorize,
   orderController.makeOrderbyiduser
 );
-router.post(
+
+//Put
+router.put(
   "/:orderId",
-  verifyTokenAndAuthorize,
+  verifyTokenAndAdmin,
   orderController.changeStatusByIdOrder
 );
+
+//Delete
+router.delete(
+  "/:orderId",
+  verifyTokenAndAdmin,
+  orderController.deleteOrder
+)
 module.exports = router;

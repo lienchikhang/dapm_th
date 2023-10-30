@@ -16,6 +16,7 @@ import { Option } from "antd/es/mentions";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 export default function CreatePage() {
+  const { TextArea } = Input
   const { currentUser } = JSON.parse(localStorage.getItem("persist:root"));
   const user = JSON.parse(currentUser);
   const [name, setName] = useState('')
@@ -115,7 +116,7 @@ export default function CreatePage() {
           },
         ]}
       >
-        <InputNumber name="price" onChange={(value) => setPrice(value)} />
+        <InputNumber min={500000} max={10000000} name="price" onChange={(value) => setPrice(value)} />
       </Form.Item>
 
       <Form.Item
@@ -141,7 +142,7 @@ export default function CreatePage() {
           },
         ]}
       >
-        <Input name="desc" onChange={(e) => setDesc(e.target.value)} />
+        <TextArea rows={4} onChange={(e) => [setDesc(e.target.value)]} maxLength={200} />
       </Form.Item>
       <Form.Item
         label="Hãng"

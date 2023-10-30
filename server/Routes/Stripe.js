@@ -7,6 +7,15 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 // tao session thanh toan
 router.post('/create-checkout-session', async (req, res) => {
   try {
+    const shoeList = req.body.shoes
+    shoeList.map((index) => {
+      return {
+        _id: shoeList._id,
+        size: shoeList.size,
+        quantity: shoeList.quantity
+      }
+    })
+
     const user = await stripe.customers.create({
       metadata: {
         idUser: req.body.idUser,
@@ -14,9 +23,10 @@ router.post('/create-checkout-session', async (req, res) => {
         phone: req.body.phone,
         address: req.body.address,
         methodPay: req.body.methodPay,
-        shoes: JSON.stringify(req.body.shoes)
+        shoes: JSON.stringify(shoeList)
       }
     })
+
     const line_items = req.body.shoes.map((shoe) => {
       return {
         price_data: {
@@ -44,7 +54,7 @@ router.post('/create-checkout-session', async (req, res) => {
 
     res.send({ url: session.url });
   } catch (err) {
-    console.log(err);
+
   }
 });
 

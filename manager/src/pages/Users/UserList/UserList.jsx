@@ -31,9 +31,19 @@ export default function UserList() {
       key: "name",
     },
     {
-      title: "Mật khẩu",
-      dataIndex: "password",
-      key: "age",
+      title: "Giới tính",
+      dataIndex: "gender",
+      key: "gender",
+    },
+    {
+      title: "Ngày sinh",
+      dataIndex: "birtday",
+      key: "birtday",
+    },
+    {
+      title: "Số điện thoại",
+      dataIndex: "phone",
+      key: "phone",
     },
     {
       title: "Vai trò",

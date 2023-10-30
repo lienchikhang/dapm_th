@@ -49,7 +49,7 @@ export default function ShoeDetail() {
     });
   };
 
-  const openErrorNotification = (message,desc) => {
+  const openErrorNotification = (message, desc) => {
     notification.open({
       message: message,
       description: desc,
@@ -75,6 +75,7 @@ export default function ShoeDetail() {
 
   const handleChange = (value) => {
     console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
+    console.log(viewingshoe)
     setAddShoe({
       ...viewingshoe,
       size: value.key,
@@ -84,9 +85,9 @@ export default function ShoeDetail() {
   const handleBuy = async () => {
     if (!curUser) {
       closeLoading();
-      return openErrorNotification("Bạn chưa đăng nhập","Vui lòng đăng nhập trước khi mua hàng");
+      return openErrorNotification("Bạn chưa đăng nhập", "Vui lòng đăng nhập trước khi mua hàng");
     }
-    if(addShoe.size===undefined){
+    if (addShoe.size === undefined) {
       closeLoading();
       return openErrorNotification("Bạn vui lòng chọn size cho sản phẩm")
     }
@@ -94,7 +95,7 @@ export default function ShoeDetail() {
     //get token
     // const local = JSON.parse(localStorage.getItem("userToken"));
     // const accessToken = local.accessToken;
-    
+
     const local = JSON.parse(localStorage.getItem("persist:root"));
     const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
 
@@ -116,12 +117,12 @@ export default function ShoeDetail() {
   const openLoading = () => {
     setLoading(true);
   };
-  const checkSizeAndCount=(count)=>{
-    return count>0? (count):"Het size"
+  const checkSizeAndCount = (count) => {
+    return count > 0 ? (count) : "Het size"
   }
 
   const renderingUI = () => {
-    const { name, img, price, size} = viewingshoe;
+    const { name, img, price, size, color, type, desc } = viewingshoe;
     return (
       <div className="container shoeDetail__wrapper">
         <div className={`loadingScreen ${loading ? "active" : ""}`}>
@@ -186,8 +187,8 @@ export default function ShoeDetail() {
                     size.map((item) => {
                       return {
                         value: item.ss,
-                        label: `${item.ss} `+"SL:"+checkSizeAndCount(item.cs),
-                        disabled: checkSizeAndCount(item.cs)==="Het size" ?(true):(false)                        
+                        label: `${item.ss} ` + "SL:" + checkSizeAndCount(item.cs),
+                        disabled: checkSizeAndCount(item.cs) === "Het size" ? (true) : (false)
                       };
                     })
                   }
@@ -209,11 +210,11 @@ export default function ShoeDetail() {
               <ul className="shoeDetail__subInfo">
                 <li>
                   <span>Màu sắc</span>
-                  <span>black</span>
+                  <span>{color}</span>
                 </li>
                 <li>
                   <span>Nhãn hiệu</span>
-                  <span>Vans</span>
+                  <span>{type}</span>
                 </li>
               </ul>
             </div>
@@ -224,12 +225,7 @@ export default function ShoeDetail() {
             <div className="shoeDetail__desc">
               <h3 className="desc__title">Mô tả</h3>
               <p className="desc__body">
-                Được nhà thiết kế ưu ái khi sử dụng tone màu Tradewinds mới lạ,
-                Vans Old Skool 36 DX thể hiện sự độc đáo và quyến rũ đầy tinh
-                tế. “Tradewinds" là cụm từ để chỉ những cơn gió thường xuyên
-                thổi từ hướng Đông ra phía Tây vùng nhiệt đới trên bề mặt biển.
-                Gió này thường xuất hiện ở khu vực xung quanh xích đạo và thường
-                mang theo một cảm giác dịu mát và thoải mái.
+                {desc}
               </p>
             </div>
           </div>

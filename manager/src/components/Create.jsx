@@ -18,6 +18,7 @@ import { changDetail, changeSuccess } from "../redux/reducer/shoeDetailReducer";
 
 
 export default function Create() {
+  const { TextArea } = Input
   const [shoeList, setShoeList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
@@ -290,7 +291,7 @@ export default function Create() {
             },
           ]}
         >
-          <InputNumber defaultValue={shoeData.price} name="price" onChange={(value) => setPrice(value)} />
+          <InputNumber min={500000} max={10000000} defaultValue={shoeData.price} name="price" onChange={(value) => setPrice(value)} />
         </Form.Item>
 
         <Form.Item
@@ -316,7 +317,7 @@ export default function Create() {
             },
           ]}
         >
-          <Input defaultValue={shoeData.desc} onChange={(e) => setDesc(e.target.value)} />
+          <TextArea defaultValue={shoeData.desc} rows={4} onChange={(e) => [setDesc(e.target.value)]} maxLength={200} />
         </Form.Item>
         <Form.Item
           label="Hãng"

@@ -5,7 +5,6 @@ import "../css/navbar.css";
 import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
-  const user = useSelector((state) => state.user.currentUser.payload);
   const navigate = useNavigate();
   const onClick = (path) => {
     navigate(path);
@@ -30,9 +29,6 @@ export default function Navbar() {
       children: [
         <p className="nav__manager" onClick={() => onClick("users")}>
           <i class="fa-solid fa-list"></i> Danh sách người dùng
-        </p>,
-        <p className="nav__manager" onClick={() => onClick("users/create")}>
-          <i class="fa-solid fa-plus"></i> Thêm người dùng
         </p>,
         <p className="nav__manager" onClick={() => onClick("users/stat")}>
           <i class="fa-solid fa-plus"></i> Thống kê người dùng
@@ -65,10 +61,7 @@ export default function Navbar() {
             <i class="fa-solid fa-user"></i>
           </div>
           <div className="user__info">
-            <h4 className="profile__title">dw</h4>
-            <p className="edit__info">
-              <i class="fa-solid fa-pen-to-square"></i> Sửa hồ sơ
-            </p>
+            <h4 className="profile__title">Các chức năng</h4>
           </div>
         </div>
       </div>

@@ -9,6 +9,10 @@
     border-radius: 5px;
 }
 
+.my-wrap {
+    height: 100vh;
+}
+
 .user__wrapper {
     margin-bottom: 12px;
 }

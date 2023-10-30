@@ -1,9 +1,11 @@
 import { Statistic } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { BarChart } from "@mui/x-charts/BarChart";
+import { LineChart } from "@mui/x-charts/LineChart";
 
 export default function UserStat() {
-  const [statArr, setStatArr] = useState(null);
+  const [statArr, setStatArr] = useState([]);
 
   useEffect(() => {
     const { currentUser } = JSON.parse(localStorage.getItem("persist:root"));
@@ -15,10 +17,7 @@ export default function UserStat() {
         token: `Bearer ${user.payload.accessToken}`,
       },
     })
-      .then((res) => [
-        console.log("res", res.data.data),
-        setStatArr(res.data.data),
-      ])
+      .then((res) => [console.log("res", res.data), setStatArr(res.data.data)])
       .catch((err) => console.log(err));
   }, []);
 
@@ -27,21 +26,54 @@ export default function UserStat() {
       statArr &&
       statArr.map((stat) => {
         return (
-          <div>
-            <Statistic
-              title={`Số người dùng trong tháng ${stat._id}`}
-              value={stat.total}
-            />
-          </div>
+          <tr>
+            <td>{stat._id}</td>
+            <td>{stat.total}</td>
+          </tr>
         );
       })
     );
   };
 
   return (
-    <div>
-      <div className="stat__section">{renderingUI()}</div>
-      <div></div>
+    <div className="row">
+      <div className="col-6">
+        <div>
+          <BarChart
+            xAxis={[
+              {
+                id: "barCategories",
+                data:
+                  statArr.length > 0
+                    ? statArr.map((stat) => `Tháng ${stat._id}`)
+                    : [1, 2, 3],
+                scaleType: "band",
+              },
+            ]}
+            series={[
+              {
+                data:
+                  statArr.length > 0
+                    ? statArr.map((stat) => stat.total)
+                    : [1, 2, 3],
+              },
+            ]}
+            width={500}
+            height={300}
+          />
+        </div>
+      </div>
+      <div className="col-6">
+        <div className="stat__section p-4">
+          <table className="table table-bordered">
+            <thead>
+              <th>Tháng</th>
+              <th>Số lượng</th>
+            </thead>
+            <tbody>{renderingUI()}</tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

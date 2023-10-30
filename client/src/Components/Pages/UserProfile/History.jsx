@@ -26,31 +26,32 @@ export default function History() {
           <div className="mt-4" key={order._id}>
             <div className="box-historyOrder">
               <div>
-                <span className="text-inforOrder">người nhận:{order.name}</span>
-                <span className="text-inforOrder">SDT:{order.phone}</span>
-                <span className="text-inforOrder">Địa chỉ đặt hàng:{order.address}</span>
-                <span className="text-inforOrder">Trạng thái đơn hàng:{order.status}</span>
+                <div>
+                  <span className="title__receiver">Người nhận:</span>
+                  <span className="">{order.name}</span>
+                </div>
+                <div>
+                  <span className="title__phone">Số điện thoại:</span>
+                  <span className="">{order.phone}</span>
+                </div>
+                <div>
+                  <span className="title__address">Địa chỉ đặt hàng:</span>
+                  <span className="">{order.address}</span>
+                </div>
+                <div>
+                  <span className="title__status">Trạng thái đơn hàng:</span>
+                  <span className="">{order.status}</span>
+                </div>
               </div>
               <OrderItem data={order}></OrderItem>
             </div>
           </div>
         );
       });
-    }
-    else {
-      return (<div className="center">
-        khong co don hang
-      </div>)
+    } else {
+      return <div className="center">khong co don hang</div>;
     }
   };
 
-  return (
-
-    <div className="container">
-
-      {rendering()}
-
-    </div>
-
-  );
+  return <div className="container">{rendering()}</div>;
 }

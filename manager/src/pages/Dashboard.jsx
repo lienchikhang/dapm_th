@@ -6,7 +6,7 @@ import "../css/navbar.css";
 
 export default function Dashboard() {
   return (
-    <div className="bg-light">
+    <div className="bg-light my-wrap">
       <Top />
       <div className="wrapper">
         <div className="container-fluid">

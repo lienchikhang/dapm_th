@@ -4,6 +4,12 @@
     border-radius: 25px;
 }
 
+.title__receiver, .title__phone, .title__address, .title__status{
+    font-weight: 700;
+    display: inline-block;
+    width: 170px;
+}
+
 .text-inforOrder {
     font-weight: 600;
     display: block

@@ -24,6 +24,7 @@ import History from "./Components/Pages/UserProfile/History";
 
 import Default from "./Components/Pages/UserProfile/Default";
 import Developing from "./Components/Pages/developing/Developing";
+import Register from "./Components/Pages/Auth/Register";
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
@@ -44,8 +45,12 @@ function App() {
           element={user ? <Navigate to="/" /> : <Login />}
         />
         <Route
+          path="auth/register"
+          element={user ? <Navigate to="/auth/profiles" /> : <Register />}
+        />
+        <Route
           path="/auth/profiles"
-          element={user ? <Profiles /> : <Navigate to="/auth/login" />}
+          element={user ? <Profiles /> : <Navigate to="/auth/register" />}
         >
           <Route path="" element={<Default />} />
           <Route path="history" element={<History />} />

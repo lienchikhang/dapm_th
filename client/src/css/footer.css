@@ -13,11 +13,11 @@
 .footer__heading {
     color: white;
 }
-li > span:first-child {
+.my-footer li > span:first-child {
     font-weight: 500;
 }
 
-li > span:last-child {
+.my-footer li > span:last-child {
     width: 150px;
     margin-right: 90px;
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import orderService from "../../../services/orderService";
 import OrderItem from "./OrderItem";
 import "../../../css/OrderHistory.css";
+import { Tag } from "antd";
 export default function History() {
   const local = JSON.parse(localStorage.getItem("persist:root"));
   const idUser = JSON.parse(local.user).currentUser.payload._id;
@@ -25,23 +26,29 @@ export default function History() {
         return (
           <div className="mt-4" key={order._id}>
             <div className="box-historyOrder">
+              <div className="history__title">
+                <span className="khang__heading-his">Mã đơn:</span>
+                <Tag color="green">{order._id}</Tag>
+              </div>
               <div>
-                <div>
-                  <span className="title__receiver">Người nhận:</span>
-                  <span className="">{order.name}</span>
-                </div>
-                <div>
-                  <span className="title__phone">Số điện thoại:</span>
-                  <span className="">{order.phone}</span>
-                </div>
-                <div>
-                  <span className="title__address">Địa chỉ đặt hàng:</span>
-                  <span className="">{order.address}</span>
-                </div>
-                <div>
-                  <span className="title__status">Trạng thái đơn hàng:</span>
-                  <span className="">{order.status}</span>
-                </div>
+                <table className="table table-bordered">
+                  <thead>
+                    <th>Người nhận</th>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ đặt hàng</th>
+                    <th>Trạng thái đơn hàng</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{order.name}</td>
+                      <td>{order.phone}</td>
+                      <td>{order.address}</td>
+                      <td>
+                        <Tag color="red">{order.status}</Tag>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
               <OrderItem data={order}></OrderItem>
             </div>

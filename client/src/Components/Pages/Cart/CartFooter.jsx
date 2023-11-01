@@ -11,7 +11,7 @@ export default function CartFooter({ total, disable }) {
         <div className="col-6">
           <div className="cart__footer">
             <p className="">
-              Tổng tiền: <span>{total ? total : 0}</span>
+              Tổng tiền: <span>{total.toLocaleString() ? total : 0}</span>
             </p>
             {disable?.length > 0 ? (
               <NavLink to="/CheckOut">

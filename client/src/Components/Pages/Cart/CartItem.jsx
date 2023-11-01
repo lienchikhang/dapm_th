@@ -93,10 +93,10 @@ export default function Cart_item({
         </button>
       </td>
       <td>
-        <span>{price}</span>
+        <span>{price.toLocaleString()}</span>
       </td>
       <td>
-        <span>{price * quantity}</span>
+        <span>{(price * quantity).toLocaleString()}</span>
       </td>
       <td>
         <button

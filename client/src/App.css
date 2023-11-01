@@ -32,6 +32,51 @@
   color: #61dafb;
 }
 
+.khang-btn {
+  background-color: #000;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-size: 18px;
+    color: #fff;
+    font-weight: 500;
+    width: 100%;
+    border: 1px solid #000;
+    margin-bottom: 4px;
+}
+
+.khang-btn-sub {
+  background-color: #fff;
+  color: #000;
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-size: 18px;
+  font-weight: 700;
+  width: 100%;
+  border: 1px solid #000;
+  margin-bottom: 4px;
+}
+
+.my-table-khang {
+  list-style: none;
+}
+
+.my-table-khang li {
+  margin-bottom: 6px;
+  width: 100px;
+
+}
+
+.my-sl {
+  width: 80px;
+  display: block;
+  text-align: center;
+  font-size: 18px;
+}
+
+.my-table-khang li span {
+  font-size: 18px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

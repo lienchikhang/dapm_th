@@ -80,10 +80,10 @@ export default function Cart() {
                 <th className="my-w">SỐ LƯỢNG</th>
                 <th className="my-w">GIÁ</th>
                 <th className="my-w">TỔNG</th>
-                <th className="my-w"></th>
+                <th className="my-w">THAO TÁC</th>
               </thead>
             </table>
-            <div className="max__height">
+            <div className="cart__max__height">
               <table className="table table-borderless">
                 <tbody>
                   {cartUser?.shoes &&

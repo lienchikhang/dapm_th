@@ -1,5 +1,5 @@
 .cart__wrapper {
-    padding: 80px;
+    padding: 80px 16px;
 }
 
 .cart__title {
@@ -49,12 +49,12 @@
     padding: 8px 16px;
 }
 
-.max__height {
+.cart__max__height{
     max-height: 500px;
     overflow: scroll;
 }
 
-.max__height::-webkit-scrollbar {
+.cart__max__height::-webkit-scrollbar {
     display: none;
 }
 
@@ -63,19 +63,19 @@
 }
 
 .my-w:nth-child(2) {
-    width: 236px
+    width: 248px
 }
 
 
 .my-w:nth-child(3) {
-    width: 160px
+    width: 180px
 }
 
 .my-w:nth-child(4) {
-    width: 140px
+    width: 165px
 }
 
 
 .my-w:last-child {
-    width: 100px
+    width: 130px
 }

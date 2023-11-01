@@ -8,6 +8,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { addToCartShoe } from "../../../actions/shoe";
 import cartService from "../../../services/cart_KService";
 import { Divider, Form, Radio, Skeleton, Space, Switch } from "antd";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ShoeDetail() {
   const [viewingshoe, setViewingShoe] = useState({});
@@ -30,34 +32,17 @@ export default function ShoeDetail() {
     []
   );
 
-  notification.config({
-    placement: "topRight",
-    top: 100,
-    duration: 3,
-    rtl: true,
-  });
-
   const openNotification = () => {
-    notification.open({
-      message: "Đã thêm vào giỏ hàng",
-      description: "Vui lòng kiểm tra giỏ hàng",
-      style: {
-        backgroundColor: "#ffffff",
-        border: "2px solid #52c41a",
-        fontWeight: "700",
-      },
+    toast.success("Đã thêm vào giỏ hàng !", {
+      position: toast.POSITION.TOP_RIGHT,
+      style: { top: "70px" },
     });
   };
 
   const openErrorNotification = (message, desc) => {
-    notification.open({
-      message: message,
-      description: desc,
-      style: {
-        backgroundColor: "#ffffff",
-        border: "2px solid #52c41a",
-        fontWeight: "700",
-      },
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      style: { top: "70px" },
     });
   };
 
@@ -75,21 +60,25 @@ export default function ShoeDetail() {
 
   const handleChange = (value) => {
     console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
-    console.log(viewingshoe)
+    console.log(viewingshoe);
     setAddShoe({
       ...viewingshoe,
       size: value.key,
       quantity: 1,
     });
   };
+
   const handleBuy = async () => {
     if (!curUser) {
       closeLoading();
-      return openErrorNotification("Bạn chưa đăng nhập", "Vui lòng đăng nhập trước khi mua hàng");
+      return openErrorNotification(
+        "Bạn chưa đăng nhập",
+        "Vui lòng đăng nhập trước khi mua hàng"
+      );
     }
     if (addShoe.size === undefined) {
       closeLoading();
-      return openErrorNotification("Bạn vui lòng chọn size cho sản phẩm")
+      return openErrorNotification("Bạn vui lòng chọn size cho sản phẩm");
     }
     dispatch(addToCartShoe(addShoe));
     //get token
@@ -118,13 +107,14 @@ export default function ShoeDetail() {
     setLoading(true);
   };
   const checkSizeAndCount = (count) => {
-    return count > 0 ? (count) : "Het size"
-  }
+    return count > 0 ? count : "Het size";
+  };
 
   const renderingUI = () => {
     const { name, img, price, size, color, type, desc } = viewingshoe;
     return (
       <div className="container shoeDetail__wrapper">
+        <ToastContainer />
         <div className={`loadingScreen ${loading ? "active" : ""}`}>
           <ConfigProvider
             theme={{
@@ -140,19 +130,21 @@ export default function ShoeDetail() {
             <Spin size="large" spinning={loading} />
           </ConfigProvider>
         </div>
-        <div className="row">
+        <div className="row mb-4">
           <div className="col-8">
-            <div className="shoe__img p-4">
-              {!isFetching ? (
-                <Skeleton.Image
-                  active={true}
-                  size={350}
-                  shape={"square"}
-                  style={{ width: "350px", height: "350px" }}
-                />
-              ) : (
-                <img src={img} alt="" className="my-img img-fluid" />
-              )}
+            <div className="img__wrapper">
+              <div className="shoe__img p-4">
+                {!isFetching ? (
+                  <Skeleton.Image
+                    active={true}
+                    size={350}
+                    shape={"square"}
+                    style={{ width: "350px", height: "350px" }}
+                  />
+                ) : (
+                  <img src={img} alt="" className="my-img img-fluid" />
+                )}
+              </div>
             </div>
           </div>
           <div className="col-4">
@@ -168,10 +160,11 @@ export default function ShoeDetail() {
                 {!isFetching ? (
                   <Skeleton.Input active={true} size={size} />
                 ) : (
-                  price
+                  price.toLocaleString() + " VND"
                 )}
               </p>
               <div className="shoeDetail__select">
+                <span className="mr-4">Kích thước</span>
                 <Select
                   labelInValue
                   defaultValue={{
@@ -187,13 +180,15 @@ export default function ShoeDetail() {
                     size.map((item) => {
                       return {
                         value: item.ss,
-                        label: `${item.ss} ` + "SL:" + checkSizeAndCount(item.cs),
-                        disabled: checkSizeAndCount(item.cs) === "Het size" ? (true) : (false)
+                        label: `${item.ss} `, //+ "SL:" + checkSizeAndCount(item.cs)
+                        disabled:
+                          checkSizeAndCount(item.cs) === "Het size"
+                            ? true
+                            : false,
                       };
                     })
                   }
                 />
-                <span className="ml-4">Size</span>
               </div>
               <Context.Provider>
                 {/* {contextHolder} */}
@@ -208,11 +203,11 @@ export default function ShoeDetail() {
                 </button>
               </Context.Provider>
               <ul className="shoeDetail__subInfo">
-                <li>
+                <li className="shoeDetail__li">
                   <span>Màu sắc</span>
                   <span>{color}</span>
                 </li>
-                <li>
+                <li className="shoeDetail__li">
                   <span>Nhãn hiệu</span>
                   <span>{type}</span>
                 </li>
@@ -224,9 +219,7 @@ export default function ShoeDetail() {
           <div className="col-8">
             <div className="shoeDetail__desc">
               <h3 className="desc__title">Mô tả</h3>
-              <p className="desc__body">
-                {desc}
-              </p>
+              <p className="desc__body">{desc}</p>
             </div>
           </div>
         </div>

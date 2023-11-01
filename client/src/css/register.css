@@ -1,0 +1,16 @@
+.my-padding {
+    padding: 60px;
+    height: 100vh;
+}
+
+.register__heading {
+    margin-bottom: 48px;
+}
+
+.register__heading2 {
+    margin-bottom: 32px;
+}
+
+.register__content {
+    max-height: 500px;
+}

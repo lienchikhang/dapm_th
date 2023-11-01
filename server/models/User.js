@@ -14,7 +14,7 @@ const User = new mongoose.Schema(
       require: true,
       default: false,
     },
-    birtday: {
+    birthday: {
       type: String,
       require: true,
     },

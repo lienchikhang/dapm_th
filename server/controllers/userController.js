@@ -15,8 +15,8 @@ const checkLogin = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  const { username, password } = req.body;
-
+  const { username, password, gender, phone, birth } = req.body;
+  console.log({ username, password, gender, phone, birth });
   //check null
   if (!username || !password)
     return res
@@ -38,6 +38,9 @@ const register = async (req, res) => {
     const newUser = new User({
       username,
       password: hashedPassword,
+      gender,
+      phone,
+      birthday: birth,
     });
     await newUser.save();
     res.status(200).json({ success: true, message: "Register successfully!" });

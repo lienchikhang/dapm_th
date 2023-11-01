@@ -9,16 +9,16 @@ import {
   InputNumber,
   Radio,
 } from "antd";
-import moment from 'moment';
-import dayjs from 'dayjs';
+import moment from "moment";
+import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import UserService from "../../../services/UserService";
 import { genAlertStyle } from "antd/es/alert/style";
 export default function Default() {
-  const [value, setValue] = useState();//value la gender
+  const [value, setValue] = useState(); //value la gender
   const [birtday, setBirtday] = useState();
   const [phone, setPhone] = useState();
-  const [change, setChange] = useState(false)
+  const [change, setChange] = useState(false);
   const { username, password } = useSelector(
     (state) => state.user.currentUser.payload
   );
@@ -31,50 +31,57 @@ export default function Default() {
     // Lấy ngày hiện tại
     const today = new Date();
     // Đặt ngày tối thiểu là 1900
-    const minDate = new Date('1900-01-01');
+    const minDate = new Date("1900-01-01");
     // Đặt ngày tối đa là 2005
-    const maxDate = new Date('2005-12-31');
+    const maxDate = new Date("2005-12-31");
     // So sánh ngày hiện tại với khoảng thời gian đã đặt
-    return current && (current < minDate || current > maxDate || current > today);
+    return (
+      current && (current < minDate || current > maxDate || current > today)
+    );
   }
   useEffect(() => {
     let getUserInfo = async () => {
-      const userInfo = await UserService.takeInforUser(idUser, 'GET', accessToken)
-      let info = userInfo.data.result
-      setValue(info.gender)
-      setPhone(info.phone)
-      setBirtday(info.birtday)
-      setLoading(!loading)
-    }
-    getUserInfo()
-  }, [change])
+      const userInfo = await UserService.takeInforUser(
+        idUser,
+        "GET",
+        accessToken
+      );
+      let info = userInfo.data.result;
+      console.log("userinfo", info);
+      setValue(info.gender);
+      setPhone(info.phone);
+      setBirtday(info.birtday);
+      setLoading(!loading);
+    };
+    getUserInfo();
+  }, [change]);
   const onFinish = async (values) => {
     const data = {
       ...values,
       phone: phone,
       birtday: birtday,
-      gender: value
-    }
-    await UserService.changeInfor(idUser, 'PUT', data, accessToken)
-    setChange(!change)
+      gender: value,
+    };
+    await UserService.changeInfor(idUser, "PUT", data, accessToken);
+    setChange(!change);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
   const onChangeDate = (date, dateString) => {
-    setBirtday(dateString)
+    setBirtday(dateString);
   };
   const onChangePhone = (value) => {
-    setPhone(value)
-  }
+    setPhone(value);
+  };
 
   const onChangeGender = (e) => {
     setValue(e.target.value);
   };
 
   const rendering = () => {
-    return (loading ? (
+    return loading ? (
       <div>
         <div className="heading">
           <h4>Hồ sơ của tôi</h4>
@@ -124,9 +131,11 @@ export default function Default() {
                   message: "Vui lòng nhập mật khẩu",
                 },
                 {
-                  pattern: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-                  message: "Mật khẩu phải chứa ít nhất một chữ hoa, một chữ thường, một số và một ký tự đặc biệt, và ít nhất 8 ký tự.",
-                }
+                  pattern:
+                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                  message:
+                    "Mật khẩu phải chứa ít nhất một chữ hoa, một chữ thường, một số và một ký tự đặc biệt, và ít nhất 8 ký tự.",
+                },
               ]}
             >
               <Input.Password />
@@ -134,12 +143,18 @@ export default function Default() {
 
             <Form.Item
               label="Ngày sinh"
-              name='birtday'
+              name="birtday"
               wrapperCol={{
                 span: 16,
               }}
             >
-              <DatePicker disabledDate={disabledDate} placeholder={birtday} format={dateFormat} showToday={false} onChange={onChangeDate} />
+              <DatePicker
+                disabledDate={disabledDate}
+                placeholder={birtday}
+                format={dateFormat}
+                showToday={false}
+                onChange={onChangeDate}
+              />
             </Form.Item>
 
             <Form.Item
@@ -149,10 +164,13 @@ export default function Default() {
                 span: 18,
               }}
             >
-              <Radio.Group onChange={onChangeGender} value={value}>
-                <Radio value="Nam">Nam</Radio>
-                <Radio value="Nữ">Nữ</Radio>
-                <Radio value="Khác">Khác</Radio>
+              <Radio.Group
+                onChange={onChangeGender}
+                value={value}
+                defaultValue={value}
+              >
+                <Radio value={1}>Nam</Radio>
+                <Radio value={0}>Nữ</Radio>
               </Radio.Group>
             </Form.Item>
 
@@ -171,10 +189,14 @@ export default function Default() {
                   minLength: 10,
                   maxLength: 10,
                   message: "Số điện thoại phải có 10 ký tự",
-                }
+                },
               ]}
             >
-              <InputNumber prefix={'+84'} onChange={onChangePhone} style={{ width: '100%' }} />
+              <InputNumber
+                prefix={"+84"}
+                onChange={onChangePhone}
+                style={{ width: "100%" }}
+              />
             </Form.Item>
             <Form.Item
               wrapperCol={{
@@ -189,11 +211,9 @@ export default function Default() {
           </Form>
         </div>
       </div>
-    ) : (false))
-  }
-  return (
-    <div className="default__wrapper">
-      {rendering()}
-    </div>
-  );
+    ) : (
+      false
+    );
+  };
+  return <div className="default__wrapper">{rendering()}</div>;
 }

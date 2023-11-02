@@ -14,22 +14,38 @@ import {
 import { Form } from "react-router-dom";
 
 export default function Register() {
-  const valUsername = useRef();
-  const valPassword = useRef();
-  const valRePassword = useRef();
+  const valUsername = useRef(null);
+  const valPassword = useRef(null);
+  const valPassword2 = useRef(null);
+  const valRePassword = useRef(null);
+  const valBirthday = useRef(null);
+  const valPhone = useRef(null);
+  const valPhone2 = useRef(null);
+  const refUsername = useRef(null);
+  const refPassword = useRef(null);
+  const refRePassword = useRef(null);
+  const refBirthday = useRef(null);
+  const refPhone = useRef(null);
+  const valAgree = useRef(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rePassword, setrePassword] = useState("");
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({ gender: 1 });
   const [buttonClicked, setButtonClicked] = useState(false);
   const [current, setCurrent] = useState(0);
   const [toggle, setToggle] = useState(false);
-  const [userBirth, setUserBirth] = useState(0);
+  const [userBirth, setUserBirth] = useState();
+  const [agree, setAgree] = useState(false);
 
   //func support UI
-  const onChangeDate = (value) => {
-    console.log("onOk: ", value.toString());
-    setUserBirth(value);
+  const onChangeDate = (date, dateString) => {
+    let newDate = dateString;
+    console.log("onOk: ", dateString);
+    setUserBirth(newDate);
+    setUser({
+      ...user,
+      birth: newDate,
+    });
   };
 
   const onOk = (value) => {
@@ -37,16 +53,10 @@ export default function Register() {
     setUserBirth(value);
   };
 
-  useEffect(() => {
-    setUser({
-      ...user,
-      birth: userBirth,
-    });
-  }, userBirth);
-
   const onChange = (value) => {
     console.log("onChange:", value);
-    setCurrent(value);
+    let valid = handleValidate();
+    if (valid) setCurrent(value);
   };
 
   const handleChangeInfo = (e) => {
@@ -67,6 +77,7 @@ export default function Register() {
           <div className="form-group">
             <label htmlFor="">* Tên tài khoản</label>
             <input
+              ref={refUsername}
               type="text"
               className="form-control"
               name="username"
@@ -82,6 +93,7 @@ export default function Register() {
           <div className="form-group">
             <label htmlFor="">* Mật khẩu</label>
             <input
+              ref={refPassword}
               type="password"
               className="form-control"
               name="password"
@@ -91,20 +103,28 @@ export default function Register() {
               value={user.password}
               onChange={handleChangeInfo}
             />
-            <span style={{ color: "red" }} ref={valPassword}></span>
+            <span
+              style={{ color: "red", display: "block" }}
+              ref={valPassword}
+            ></span>
+            <span
+              style={{ color: "red", display: "block" }}
+              ref={valPassword2}
+            ></span>
           </div>
           <div className="form-group">
             <label htmlFor="">*Nhập lại mật khẩu</label>
             <input
+              ref={refRePassword}
               type="password"
               className="form-control"
               name="repassword"
               id
               aria-describedby="helpId"
               placeholder="Password"
-              value={password}
+              value={rePassword}
               onChange={(e) => {
-                setPassword(e.target.value);
+                setrePassword(e.target.value);
               }}
             />
             <span style={{ color: "red" }} ref={valRePassword}></span>
@@ -123,21 +143,30 @@ export default function Register() {
             <DatePicker
               onChange={onChangeDate}
               onOk={onOk}
-              format={"DD/MM/YYYY"}
+              format={"YYYY/MM/DD"}
+              ref={refBirthday}
             />
+            <span style={{ color: "red" }} ref={valBirthday}></span>
           </div>
           <div className="form-group">
             <label htmlFor="">Số điện thoại</label>
             <input
+              ref={refPhone}
               type="text"
               className="form-control"
               name="phone"
-              id
-              aria-describedby="helpId"
-              placeholder="Số điện thoại"
               value={user.phone}
+              placeholder="Số điện thoại"
               onChange={handleChangeInfo}
             />
+            <span
+              style={{ color: "red", display: "block" }}
+              ref={valPhone}
+            ></span>
+            <span
+              style={{ color: "red", display: "block" }}
+              ref={valPhone2}
+            ></span>
           </div>
           <div className="form-group">
             <label htmlFor="">Giới tính</label>
@@ -147,6 +176,7 @@ export default function Register() {
                   type="radio"
                   className="mr-2"
                   name="gender"
+                  defaultChecked={true}
                   id
                   aria-describedby="helpId"
                   placeholder="Số điện thoại"
@@ -201,9 +231,16 @@ export default function Register() {
             </li>
           </ul>
           <div className="mt-3">
-            <input type="checkbox" name="" id="agree" className="mr-3" />
+            <input
+              type="checkbox"
+              name=""
+              id="agree"
+              className="mr-3"
+              onChange={() => setAgree(!agree)}
+            />
             <label htmlFor="agree">Tôi đã đọc và đồng ý với điều khoản</label>
           </div>
+          <span style={{ color: "red" }} ref={valAgree}></span>
         </div>
       ),
     },
@@ -218,14 +255,31 @@ export default function Register() {
 
   //func support UI
 
-  // const isValid = (value, ref, str) => {
-  //   let valid = !validate.isNull(value, "isNull");
-  //   // isNull.current.value = "Invalid";
-  //   return valid;
-  // };
+  const handleValidate = () => {
+    let valid;
+    if (current == 0) {
+      valid =
+        validate.isNotNull(refUsername?.current?.value, valUsername?.current) &
+        validate.isNotNull(refPassword?.current?.value, valPassword?.current) &
+        validate.validPass(refPassword?.current?.value, valPassword2?.current) &
+        validate.isCorrect(
+          refPassword?.current?.value,
+          refRePassword?.current?.value,
+          valRePassword?.current
+        );
+    } else if (current == 1) {
+      console.log("bdc", refBirthday.current);
+      valid =
+        validate.isNotNull(userBirth, valBirthday?.current) &
+        validate.isNotNull(refPhone?.current?.value, valPhone?.current) &
+        validate.validPhone(refPhone?.current?.value, valPhone2?.current);
+    }
+    return valid;
+  };
 
   const next = () => {
-    setCurrent(current + 1);
+    let valid = handleValidate();
+    if (valid) setCurrent(current + 1);
   };
 
   const prev = () => {
@@ -236,24 +290,16 @@ export default function Register() {
 
   //React hook
 
-  useEffect(() => {
-    if (buttonClicked) {
-      axios({
-        url: "http://localhost:5000/api/user/register",
-        method: "POST",
-        data: user,
-      }).then((res) => {
-        if (res.data.success) {
-          message.success("dang ky thanh cong");
-          setUsername("");
-          setPassword("");
-          setTimeout(() => {
-            window.location = "/auth/login";
-          }, 1000);
-        }
-      });
+  const handleDone = () => {
+    if (agree) {
+      valAgree.current.innerText = "";
+      handleRegister();
+      return;
+    } else {
+      valAgree.current.innerText = "Vui lòng đọc và đánh dấu";
+      return;
     }
-  }, [buttonClicked, user]);
+  };
 
   const handleRegister = async () => {
     try {
@@ -267,6 +313,7 @@ export default function Register() {
         window.location = "/auth/login";
       }, 1000);
     } catch (error) {
+      message.error(error.response.data.message);
       console.log(error);
     }
   };
@@ -274,49 +321,51 @@ export default function Register() {
   //end react hook
 
   return (
-    <div className="container my-padding">
-      <div className="row">
-        <div className="col-6">
-          <Lottie
-            animationData={registerLottie} // Đường dẫn đến tệp JSON
-            loop={true} // Tuỳ chọn: lặp hoặc không lặp
-            autoplay={true} // Tuỳ chọn: tự động phát khi trang web được nạp
-          />
-        </div>
-        <div className="col-6">
-          <div>
-            <h1 className="text-center display-5 register__heading">
-              ĐĂNG KÝ TÀI KHOẢN
-            </h1>
-            <div className="register__heading2">
-              <Steps current={current} onChange={onChange} items={items} />
-            </div>
-            <div>{steps[current].content}</div>
-            <div
-              style={{
-                marginTop: 24,
-              }}
-            >
-              {current < steps.length - 1 && (
-                <Button type="primary" onClick={() => next()}>
-                  Next
-                </Button>
-              )}
-              {current === steps.length - 1 && (
-                <Button type="primary" onClick={handleRegister}>
-                  Done
-                </Button>
-              )}
-              {current > 0 && (
-                <Button
-                  style={{
-                    margin: "0 8px",
-                  }}
-                  onClick={() => prev()}
-                >
-                  Previous
-                </Button>
-              )}
+    <div className="container-fluid">
+      <div className="container my-padding">
+        <div className="row">
+          <div className="col-6">
+            <Lottie
+              animationData={registerLottie} // Đường dẫn đến tệp JSON
+              loop={true} // Tuỳ chọn: lặp hoặc không lặp
+              autoplay={true} // Tuỳ chọn: tự động phát khi trang web được nạp
+            />
+          </div>
+          <div className="col-6">
+            <div>
+              <h1 className="text-center display-5 register__heading">
+                ĐĂNG KÝ TÀI KHOẢN
+              </h1>
+              <div className="register__heading2">
+                <Steps current={current} onChange={onChange} items={items} />
+              </div>
+              <div>{steps[current].content}</div>
+              <div
+                style={{
+                  marginTop: 24,
+                }}
+              >
+                {current < steps.length - 1 && (
+                  <Button type="primary" onClick={() => next()}>
+                    Next
+                  </Button>
+                )}
+                {current === steps.length - 1 && (
+                  <Button type="primary" onClick={handleDone}>
+                    Done
+                  </Button>
+                )}
+                {current > 0 && (
+                  <Button
+                    style={{
+                      margin: "0 8px",
+                    }}
+                    onClick={() => prev()}
+                  >
+                    Previous
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
         </div>

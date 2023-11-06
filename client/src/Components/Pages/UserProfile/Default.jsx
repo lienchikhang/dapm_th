@@ -9,17 +9,18 @@ import {
   InputNumber,
   Radio,
 } from "antd";
-import moment from "moment";
-import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import UserService from "../../../services/UserService";
-import { genAlertStyle } from "antd/es/alert/style";
+import { notification } from "antd";
+
+import { ToastContainer, toast } from "react-toastify";
 export default function Default() {
   const [value, setValue] = useState(); //value la gender
   const [birtday, setBirtday] = useState();
   const [phone, setPhone] = useState();
+  const [password, setPassword] = useState()
   const [change, setChange] = useState(false);
-  const { username, password } = useSelector(
+  const { username } = useSelector(
     (state) => state.user.currentUser.payload
   );
   const dateFormat = "YYYY/MM/DD";
@@ -39,6 +40,9 @@ export default function Default() {
       current && (current < minDate || current > maxDate || current > today)
     );
   }
+
+
+
   useEffect(() => {
     let getUserInfo = async () => {
       const userInfo = await UserService.takeInforUser(
@@ -47,33 +51,56 @@ export default function Default() {
         accessToken
       );
       let info = userInfo.data.result;
-      console.log("userinfo", info);
       setValue(info.gender);
       setPhone(info.phone);
       setBirtday(info.birtday);
-      setLoading(!loading);
+      setPassword(info.password)
+      setLoading(true);
     };
     getUserInfo();
   }, [change]);
+
+  notification.config({
+    placement: "topRight",
+    top: 100,
+    duration: 3,
+    rtl: true,
+  });
+
+  const openNotification = (message, description) => {
+    notification.open({
+      message: message,
+      description: description,
+      style: {
+        backgroundColor: "#ffffff",
+        border: "2px solid #52c41a",
+        fontWeight: "700",
+      },
+    });
+  };
+
   const onFinish = async (values) => {
     const data = {
-      ...values,
+      username: values.username,
+      password: values.password,
       phone: phone,
       birtday: birtday,
       gender: value,
     };
     await UserService.changeInfor(idUser, "PUT", data, accessToken);
-    setChange(!change);
+    openNotification('Cập nhập thông tin thành công')
+    setChange(!change)
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
   const onChangeDate = (date, dateString) => {
+    console.log(dateString)
     setBirtday(dateString);
   };
-  const onChangePhone = (value) => {
-    setPhone(value);
+  const onChangePhone = (e) => {
+    setPhone(e.target.value);
   };
 
   const onChangeGender = (e) => {
@@ -169,8 +196,8 @@ export default function Default() {
                 value={value}
                 defaultValue={value}
               >
-                <Radio value={1}>Nam</Radio>
-                <Radio value={0}>Nữ</Radio>
+                <Radio value={0}>Nam</Radio>
+                <Radio value={1}>Nữ</Radio>
               </Radio.Group>
             </Form.Item>
 
@@ -186,14 +213,14 @@ export default function Default() {
                   message: "Vui lòng nhập số điện thoại",
                 },
                 {
-                  minLength: 10,
-                  maxLength: 10,
+                  minLength: 9,
+                  maxLength: 11,
                   message: "Số điện thoại phải có 10 ký tự",
                 },
               ]}
             >
-              <InputNumber
-                prefix={"+84"}
+              <Input
+                type="Number"
                 onChange={onChangePhone}
                 style={{ width: "100%" }}
               />

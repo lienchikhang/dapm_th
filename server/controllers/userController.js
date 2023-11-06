@@ -161,7 +161,6 @@ const changeInfor = async (req, res) => {
       },
       { new: true }
     );
-    console.log(result);
     res.status(200).json({ message: "update Success", result: result });
   } catch (err) {
     console.log(err);
@@ -172,6 +171,8 @@ const takeInfoUserById = async (req, res) => {
   try {
     const idUser = req.params.idUser;
     const infoUser = await User.findOne({ _id: idUser });
+    infoUser.password = crypto.AES.decrypt(infoUser.password, process.env.PASS_CRYPTO).toString(crypto.enc.Utf8);
+    console.log(infoUser)
     res
       .status(200)
       .json({ message: "take infor user success", result: infoUser });

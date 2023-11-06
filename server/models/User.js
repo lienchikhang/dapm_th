@@ -14,16 +14,16 @@ const User = new mongoose.Schema(
       require: true,
       default: false,
     },
-    birthday: {
+    birtday: {
       type: String,
       require: true,
     },
     gender: {
-      type: String,
+      type: Number,
       require: true,
     },
     phone: {
-      type: Number,
+      type: String,
       require: true,
     },
     isBlocked: {

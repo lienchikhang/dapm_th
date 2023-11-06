@@ -30,7 +30,7 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rePassword, setrePassword] = useState("");
-  const [user, setUser] = useState({ gender: 1 });
+  const [user, setUser] = useState({ gender: 1, phone: "" });
   const [buttonClicked, setButtonClicked] = useState(false);
   const [current, setCurrent] = useState(0);
   const [toggle, setToggle] = useState(false);
@@ -152,7 +152,7 @@ export default function Register() {
             <label htmlFor="">Số điện thoại</label>
             <input
               ref={refPhone}
-              type="text"
+              type="number"
               className="form-control"
               name="phone"
               value={user.phone}
@@ -347,12 +347,12 @@ export default function Register() {
               >
                 {current < steps.length - 1 && (
                   <Button type="primary" onClick={() => next()}>
-                    Next
+                    Tiếp theo
                   </Button>
                 )}
                 {current === steps.length - 1 && (
                   <Button type="primary" onClick={handleDone}>
-                    Done
+                    Hoàn thành
                   </Button>
                 )}
                 {current > 0 && (

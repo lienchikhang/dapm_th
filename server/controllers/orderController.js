@@ -20,8 +20,6 @@ let getAllOrderByidUser = async (req, res) => {
   }
 };
 
-
-
 let makeOrderbyiduser = async (req, res) => {
   try {
     let idUser = req.params.idUser;
@@ -59,7 +57,7 @@ let makePaymentOnline = async (req, res) => {
     const rawDataBuffer = Buffer.from(shoes); // Dữ liệu dưới dạng Buffer
     const rawDataString = rawDataBuffer.toString(); // Chuyển đổi từ Buffer thành chuỗi
     const jsonShoes = JSON.parse(rawDataString); // Chuyển đổi thành đối tượng JSON
-    const ShoeList = await querryToMakeOrder(jsonShoes)
+    const ShoeList = await querryToMakeOrder(jsonShoes);
     const result = new order({
       userId: idUser,
       shoes: ShoeList,
@@ -85,20 +83,22 @@ let makePaymentOnline = async (req, res) => {
 };
 
 const querryToMakeOrder = async (shoeList) => {
-  const shoeListMax = await Promise.all(shoeList.map(async (shoe, index) => {
-    let shoeItem = await Shoe.findById(shoe._id);
-    return {
-      ...shoe,
-      price: shoeItem.price,
-      img: shoeItem.img,
-      desc: shoeItem.desc,
-      color: shoeItem.color,
-      type: shoeItem.type,
-      name: shoeItem.name
-    };
-  }));
+  const shoeListMax = await Promise.all(
+    shoeList.map(async (shoe, index) => {
+      let shoeItem = await Shoe.findById(shoe._id);
+      return {
+        ...shoe,
+        price: shoeItem.price,
+        img: shoeItem.img,
+        desc: shoeItem.desc,
+        color: shoeItem.color,
+        type: shoeItem.type,
+        name: shoeItem.name,
+      };
+    })
+  );
   return shoeListMax;
-}
+};
 let descShoeCountWithSize = (shoes) => {
   try {
     shoes.map(async (shoe) => {
@@ -113,7 +113,7 @@ let descShoeCountWithSize = (shoes) => {
       );
     });
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 };
 
@@ -130,7 +130,7 @@ let changeStatusByIdOrder = async (req, res) => {
         },
       },
       {
-        new: true
+        new: true,
       }
     );
     res
@@ -143,6 +143,24 @@ let changeStatusByIdOrder = async (req, res) => {
 };
 
 let getAllOrders = async (req, res) => {
+  const { idOrder } = req.query;
+  if (idOrder) {
+    try {
+      const order = await Order.findById(idOrder);
+      if (!order)
+        return res
+          .status(204)
+          .json({ success: true, message: "Cannot find any order" });
+      return res
+        .status(200)
+        .json({ success: true, message: "Happy hacking", data: order });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal Server Error", error: err });
+    }
+  }
   try {
     const orders = await Order.find();
     if (!orders)
@@ -159,15 +177,18 @@ let getAllOrders = async (req, res) => {
 
 let deleteOrder = async (req, res) => {
   try {
-    const orderId = req.params.orderId
-    const shoeList = req.body.shoes
-    IncrShoeBydeleteOrder(shoeList)
-    const orderDelete = await Order.findByIdAndDelete({ _id: orderId }, { new: true })
-    res.status(200).json({ message: "delete order success" })
+    const orderId = req.params.orderId;
+    const shoeList = req.body.shoes;
+    IncrShoeBydeleteOrder(shoeList);
+    const orderDelete = await Order.findByIdAndDelete(
+      { _id: orderId },
+      { new: true }
+    );
+    res.status(200).json({ message: "delete order success" });
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json(err);
   }
-}
+};
 
 let IncrShoeBydeleteOrder = (shoes) => {
   try {
@@ -183,9 +204,9 @@ let IncrShoeBydeleteOrder = (shoes) => {
       );
     });
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-}
+};
 
 module.exports = {
   getAllOrderByidUser,
@@ -193,5 +214,5 @@ module.exports = {
   makeOrderbyiduser,
   makePaymentOnline,
   getAllOrders,
-  deleteOrder
+  deleteOrder,
 };

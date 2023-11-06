@@ -12,6 +12,7 @@ router.get(
   verifyTokenAndAuthorize,
   orderController.getAllOrderByidUser
 );
+// router.get('/getDetail/:')
 router.get("/", verifyTokenAndAdmin, orderController.getAllOrders);
 
 //Post
@@ -29,9 +30,5 @@ router.put(
 );
 
 //Delete
-router.delete(
-  "/:orderId",
-  verifyTokenAndAdmin,
-  orderController.deleteOrder
-)
+router.delete("/:orderId", verifyTokenAndAdmin, orderController.deleteOrder);
 module.exports = router;

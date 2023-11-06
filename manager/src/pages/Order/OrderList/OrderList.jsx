@@ -1,5 +1,7 @@
 import {
-  Table, Tag, Button,
+  Table,
+  Tag,
+  Button,
   Form,
   Input,
   InputNumber,
@@ -11,13 +13,16 @@ import {
 import { Option } from "antd/es/mentions";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function OrderList() {
   const [orders, setOrders] = useState([]);
   const { currentUser } = JSON.parse(localStorage.getItem("persist:root"));
   const user = JSON.parse(currentUser);
-  const [change, setChange] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [change, setChange] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+
   notification.config({
     placement: "topRight",
     top: 100,
@@ -39,9 +44,9 @@ export default function OrderList() {
 
   const formatDate = (inputDate) => {
     const date = new Date(inputDate);
-    const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
-    return date.toLocaleDateString('en-US', options);
-  }
+    const options = { year: "2-digit", month: "2-digit", day: "2-digit" };
+    return date.toLocaleDateString("en-US", options);
+  };
 
   useEffect(() => {
     axios({
@@ -60,7 +65,7 @@ export default function OrderList() {
       url: `http://localhost:5000/api/order/${_id}`,
       method: "PUT",
       data: {
-        textStatus: textStatus
+        textStatus: textStatus,
       },
       headers: {
         token: `Bearer ${user.payload.accessToken}`,
@@ -68,37 +73,47 @@ export default function OrderList() {
     })
       .then((res) => {
         if (res.status === 200) {
-          openNotification("Đổi trạng thái đơn hàng thành công", "Trạng thái đơn hàng đã được cập nhập")
-          setChange(!change)
+          openNotification(
+            "Đổi trạng thái đơn hàng thành công",
+            "Trạng thái đơn hàng đã được cập nhập"
+          );
+          setChange(!change);
         }
       })
-      .catch((err) => openNotification("đổi trạng thái đơn hàng thất bại", "Vui lòng thử lại lúc khác"));
-  }
+      .catch((err) =>
+        openNotification(
+          "đổi trạng thái đơn hàng thất bại",
+          "Vui lòng thử lại lúc khác"
+        )
+      );
+  };
 
   const deleteOrder = async (_id, record) => {
-    console.log('record', record.shoes)
+    console.log("record", record.shoes);
     await axios({
       url: `http://localhost:5000/api/order/${_id}`,
       method: "DELETE",
       data: {
-        shoes: record.shoes
+        shoes: record.shoes,
       },
       headers: {
         token: `Bearer ${user.payload.accessToken}`,
       },
-    }).then(res => {
-      openNotification("Xóa đơn hàng thành công", "Dữ liệu đã được cập nhập")
-      setChange(!change)
-    }).catch(err => {
-      console.log(err)
-      openNotification("Xóa đơn hàng thất bại", "Vui lòng thử lại sau")
     })
-  }
+      .then((res) => {
+        openNotification("Xóa đơn hàng thành công", "Dữ liệu đã được cập nhập");
+        setChange(!change);
+      })
+      .catch((err) => {
+        console.log(err);
+        openNotification("Xóa đơn hàng thất bại", "Vui lòng thử lại sau");
+      });
+  };
 
-  const viewOrderDetail = () => {
-
-  }
-
+  const viewOrderDetail = (id) => {
+    console.log("yes");
+    navigate(`detail/${id}`);
+  };
 
   const columns = [
     {
@@ -121,8 +136,8 @@ export default function OrderList() {
       dataIndex: "createdAt",
       key: "createdAt",
       render: (createAt) => {
-        return <span>{formatDate(createAt)}</span>
-      }
+        return <span>{formatDate(createAt)}</span>;
+      },
     },
     {
       title: "Phương thức thanh toán",
@@ -135,7 +150,8 @@ export default function OrderList() {
       key: "status",
       render: (status) => {
         if (status === "Chưa giao") return <Tag color="red">Chưa giao</Tag>;
-        else if (status === "Đang giao") return <Tag color="yellow">Đang giao</Tag>;
+        else if (status === "Đang giao")
+          return <Tag color="yellow">Đang giao</Tag>;
         return <Tag color="green">Đã giao</Tag>;
       },
     },
@@ -171,7 +187,7 @@ export default function OrderList() {
               </div>
               <button
                 onClick={() => {
-                  deleteOrder(text, record)
+                  deleteOrder(text, record);
                 }}
                 className="btn btn-danger"
               >
@@ -179,13 +195,13 @@ export default function OrderList() {
               </button>
               <button
                 onClick={() => {
-                  deleteOrder(text)
+                  // deleteOrder(text)
+                  viewOrderDetail(record._id);
                 }}
                 className="btn btn-success"
               >
                 <i class="fa-solid fa-info"></i>
               </button>
-
             </div>
           </div>
         );
@@ -197,10 +213,5 @@ export default function OrderList() {
     return <Table dataSource={orders} columns={columns} bordered />;
   };
 
-  return (
-    <div>
-      {renderingUI()}
-    </div>
-  );
+  return <div>{renderingUI()}</div>;
 }
-

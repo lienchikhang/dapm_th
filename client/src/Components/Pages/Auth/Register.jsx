@@ -155,7 +155,6 @@ export default function Register() {
               type="text"
               className="form-control"
               name="phone"
-              value={user.phone}
               placeholder="Số điện thoại"
               onChange={handleChangeInfo}
             />
@@ -251,6 +250,7 @@ export default function Register() {
     title: item.title,
   }));
 
+  console.log("bit", refPhone);
   //end-rendering
 
   //func support UI

@@ -103,7 +103,7 @@ export default function Cart() {
               </table>
             </div>
           </div>
-          <CartFooter total={total} disable={cartUser.shoes} />
+          <CartFooter total={total} disable={cartUser?.shoes} />
         </div>
       </div>
     </div>

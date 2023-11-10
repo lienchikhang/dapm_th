@@ -5,9 +5,11 @@ import {
   Form,
   Input,
   InputNumber,
+  DatePicker,
   Modal,
   Select,
   Space,
+  Radio,
   notification,
 } from "antd";
 import { Option } from "antd/es/mentions";
@@ -22,7 +24,11 @@ export default function OrderList() {
   const [change, setChange] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-
+  const [searchOrders, setSearchOrders] = useState();
+  const [status, setStatus] = useState("Chưa giao")
+  const [name, setName] = useState()
+  const [phone, setPhone] = useState()
+  const [day, setDay] = useState()
   notification.config({
     placement: "topRight",
     top: 100,
@@ -56,7 +62,7 @@ export default function OrderList() {
         token: `Bearer ${user.payload.accessToken}`,
       },
     })
-      .then((res) => [console.log(res.data.orders), setOrders(res.data.orders)])
+      .then((res) => [console.log(res.data.orders), setOrders(res.data.orders), setSearchOrders(res.data.orders)])
       .catch((err) => console.log(err));
   }, [change]);
 
@@ -111,7 +117,6 @@ export default function OrderList() {
   };
 
   const viewOrderDetail = (id) => {
-    console.log("yes");
     navigate(`detail/${id}`);
   };
 
@@ -209,9 +214,97 @@ export default function OrderList() {
     },
   ];
 
+  const onFinish = async () => {
+    const data = {
+      name: name,
+      phone: phone,
+      status: status,
+      day: day
+    }
+    console.log(data)
+    await axios({
+      url: 'http://localhost:5000/api/order/searchOrder/search',
+      method: "POST",
+      data: data,
+      headers: {
+        token: `Bearer ${user.payload.accessToken}`,
+      },
+    }).then((res) => [setOrders(res.data.orders)])
+      .catch((err) => console.log(err))
+  }
+
+
   const renderingUI = () => {
     return <Table dataSource={orders} columns={columns} bordered />;
   };
 
-  return <div>{renderingUI()}</div>;
+
+  return (
+    <div>
+      <div>
+        <Form
+          onFinish={onFinish}
+          name="basic"
+          labelCol={{
+            span: 12,
+          }}
+          style={{
+            width: '100%',
+          }}
+          layout="inline"
+        >
+          <Form.Item
+            label="Tên Khách hàng"
+            name="NameUser"
+
+          >
+            <Input onChange={(e) => setName(e.target.value)} />
+          </Form.Item>
+
+          <Form.Item
+            label="Số điện thoại"
+            name="Phone"
+          >
+            <Input type="Number" onChange={(e) => setPhone(e.target.value)} />
+          </Form.Item>
+
+          <Form.Item
+            label="Ngày đặt"
+            name="day"
+
+          >
+            <DatePicker
+              showToday={false}
+              onChange={(date, dateString) => { setDay(dateString) }}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Tình Trạng"
+            name="status"
+
+          >
+            <Select defaultValue={"Chưa giao"} onChange={(value) => setStatus(value)}>
+              <option value="Chưa giao">Chưa giao</option>
+              <option value="Đang giao">Đang giao</option>
+              <option value="Đã giao">Đã giao</option>
+            </Select>
+          </Form.Item>
+
+        </Form>
+
+        <Button className="ml-4" onClick={onFinish} type="primary" htmlType="submit">
+          Tìm kiếm
+        </Button>
+        <Button className="ml-4" onClick={() => { setChange(!change) }} type="primary" htmlType="submit">
+          Clear
+        </Button>
+
+
+      </div>
+      <div>
+        {renderingUI()}
+      </div>
+    </div>
+  );
 }

@@ -228,6 +228,7 @@ let SearchOrder = async (req, res) => {
     if (status) {
       querry.status = status;
     }
+    console.log(querry)
     const orders = await Order.find(querry);
     res.status(200).json({ message: "success Search", orders });
   } catch (err) {
@@ -256,7 +257,7 @@ const getStatAllOrder = async (req, res) => {
       },
     ]);
     res.status(200).json({ success: true, message: "Happing Stat", data });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 module.exports = {
@@ -266,4 +267,6 @@ module.exports = {
   makePaymentOnline,
   getAllOrders,
   deleteOrder,
+  getStatAllOrder,
+  SearchOrder
 };

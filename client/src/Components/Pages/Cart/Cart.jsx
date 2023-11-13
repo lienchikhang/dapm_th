@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { ConfigProvider, Spin } from "antd";
 import "../../../css/ShoeList.css";
 import { updateCartList } from "../../../reducers/cartReducer";
+import Lottie from "lottie-react";
+import emptyCart from "../../../utils/emptyCart.json";
 
 export default function Cart() {
   const cartUser = useSelector((state) => state.cart.cartUser);
@@ -83,25 +85,39 @@ export default function Cart() {
                 <th className="my-w">THAO TÁC</th>
               </thead>
             </table>
-            <div className="cart__max__height">
-              <table className="table table-borderless">
-                <tbody>
-                  {cartUser?.shoes &&
-                    cartUser?.shoes.map((shoe, index) => {
-                      return (
-                        <CartItem
-                          key={index}
-                          data={shoe}
-                          cartId={cartUser._id}
-                          idUser={cartUser.userId}
-                          openLoading={openLoading}
-                          closeLoading={closeLoading}
-                        />
-                      );
-                    })}
-                </tbody>
-              </table>
-            </div>
+            {total ? (
+              <div className="cart__max__height">
+                <table className="table table-borderless">
+                  <tbody>
+                    {cartUser?.shoes &&
+                      cartUser?.shoes.map((shoe, index) => {
+                        return (
+                          <CartItem
+                            key={index}
+                            data={shoe}
+                            cartId={cartUser._id}
+                            idUser={cartUser.userId}
+                            openLoading={openLoading}
+                            closeLoading={closeLoading}
+                          />
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="my-emptyCart row justify-content-center align-items-center">
+                <div className="">
+                  <Lottie
+                    animationData={emptyCart} // Đường dẫn đến tệp JSON
+                    loop={true} // Tuỳ chọn: lặp hoặc không lặp
+                    autoplay={true} // Tuỳ chọn: tự động phát khi trang web được nạp
+                    height={400}
+                    width={400}
+                  />
+                </div>
+              </div>
+            )}
           </div>
           <CartFooter total={total} disable={cartUser?.shoes} />
         </div>

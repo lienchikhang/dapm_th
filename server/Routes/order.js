@@ -7,6 +7,7 @@ const {
 const orderController = require("../controllers/orderController");
 
 //Get
+router.get("/stat", verifyTokenAndAdmin, orderController.getStatAllOrder);
 router.get(
   "/:idUser",
   verifyTokenAndAuthorize,

@@ -301,14 +301,16 @@ export default function Navbar({ openLoadingg, closeLoading }) {
       {/**size */}
       <div className="size-section">
         <h3 className="navbar__subTitle">Kich thuoc</h3>
-        <div className="row">
-          <SizeItem handleSelectSize={handleSelectSize} value={""} />
+        <div className="row my-2">
           <SizeItem handleSelectSize={handleSelectSize} value={38} />
           <SizeItem handleSelectSize={handleSelectSize} value={39} />
           <SizeItem handleSelectSize={handleSelectSize} value={40} />
           <SizeItem handleSelectSize={handleSelectSize} value={41} />
           <SizeItem handleSelectSize={handleSelectSize} value={42} />
           <SizeItem handleSelectSize={handleSelectSize} value={43} />
+        </div>
+        <div className="row my-2">
+          <SizeItem handleSelectSize={handleSelectSize} value={"X"} />
         </div>
       </div>
     </div>

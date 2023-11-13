@@ -208,6 +208,33 @@ let IncrShoeBydeleteOrder = (shoes) => {
   }
 };
 
+let SearchOrder = async (req, res) => {
+  try {
+    const { name, phone, day, status } = req.body;
+    const querry = {};
+    if (name) {
+      querry.name = name;
+    }
+    if (phone) {
+      querry.phone = phone;
+    }
+    if (day) {
+      const SearchDate = new Date(`${day}T00:00:00.000Z`);
+      querry.createdAt = {
+        $gte: SearchDate,
+        $lte: new Date(SearchDate.getTime() + 24 * 60 * 60 * 1000),
+      };
+    }
+    if (status) {
+      querry.status = status;
+    }
+    const orders = await Order.find(querry);
+    res.status(200).json({ message: "success Search", orders });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const getStatAllOrder = async (req, res) => {
   const date = new Date();
   const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
@@ -239,5 +266,4 @@ module.exports = {
   makePaymentOnline,
   getAllOrders,
   deleteOrder,
-  getStatAllOrder,
 };

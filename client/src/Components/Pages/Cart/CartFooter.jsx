@@ -19,7 +19,7 @@ export default function CartFooter({ total, disable }) {
               </NavLink>
             ) : (
               <NavLink to="/CheckOut">
-                <button className="" disabled>
+                <button className="" disabled style={{ cursor: "crosshair" }}>
                   Thanh toán
                 </button>
               </NavLink>

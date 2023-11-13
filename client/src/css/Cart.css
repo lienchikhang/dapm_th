@@ -1,5 +1,6 @@
 .cart__wrapper {
     padding: 80px 16px;
+    min-height: 600px;
 }
 
 .cart__title {
@@ -78,4 +79,8 @@
 
 .my-w:last-child {
     width: 130px
+}
+
+.my-emptyCart {
+    height: 200px !important;
 }

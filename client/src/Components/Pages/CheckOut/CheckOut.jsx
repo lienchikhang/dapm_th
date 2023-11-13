@@ -50,7 +50,7 @@ export default function CheckOut() {
     const { name, phone, address, methodPay } = orderInfo.Info;
     return (
       name &&
-      phone &&
+      phone.length === 10 &&
       address &&
       methodPay &&
       name !== "" &&
@@ -94,7 +94,11 @@ export default function CheckOut() {
           accessToken
         );
       }
-    } else {
+    }
+    else if (orderInfo.Info.phone === 10) {
+      openNotification("Số điện thoại phải có 10 chữ số", "Vui lòng nhập lại")
+    }
+    else {
       openNotification(
         "Bạn chưa điền đầy đủ thông tin nhận hàng",
         "Vui lòng điền đầy đủ thông tin"

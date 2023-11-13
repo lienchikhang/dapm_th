@@ -33,10 +33,10 @@ const getAll = async (req, res) => {
         $and: [
           { type: filterObject.type },
           { color: filterObject.color },
-          { price: { $gte: filterObject.price } },
+          { price: { $lte: filterObject.price } },
           {
             size: {
-              $elemMatch: { ss: { $in: filterObject.size } },
+              $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
             },
           },
         ],
@@ -46,7 +46,7 @@ const getAll = async (req, res) => {
         $and: [
           { type: filterObject.type },
           { color: filterObject.color },
-          { price: { $gte: filterObject.price } },
+          { price: { $lte: filterObject.price } },
         ],
       };
     } else if (filterObject.type && filterObject.color && filterObject.size) {
@@ -56,7 +56,7 @@ const getAll = async (req, res) => {
           { color: filterObject.color },
           {
             size: {
-              $elemMatch: { ss: { $in: filterObject.size } },
+              $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
             },
           },
         ],
@@ -64,11 +64,11 @@ const getAll = async (req, res) => {
     } else if (filterObject.price && filterObject.color && filterObject.size) {
       query = {
         $and: [
-          { price: { $gte: filterObject.price } },
+          { price: { $lte: filterObject.price } },
           { color: filterObject.color },
           {
             size: {
-              $elemMatch: { ss: { $in: filterObject.size } },
+              $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
             },
           },
         ],
@@ -77,10 +77,10 @@ const getAll = async (req, res) => {
       query = {
         $and: [
           { type: filterObject.type },
-          { price: { $gte: filterObject.price } },
+          { price: { $lte: filterObject.price } },
           {
             size: {
-              $elemMatch: { ss: { $in: filterObject.size } },
+              $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
             },
           },
         ],
@@ -93,16 +93,16 @@ const getAll = async (req, res) => {
       query = {
         $and: [
           { color: filterObject.color },
-          { price: { $gte: filterObject.price } },
+          { price: { $lte: filterObject.price } },
         ],
       };
     } else if (filterObject.price && filterObject.size) {
       query = {
         $and: [
-          { price: { $gte: filterObject.price } },
+          { price: { $lte: filterObject.price } },
           {
             size: {
-              $elemMatch: { ss: { $in: filterObject.size } },
+              $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
             },
           },
         ],
@@ -113,7 +113,7 @@ const getAll = async (req, res) => {
           { type: { $gte: filterObject.type } },
           {
             size: {
-              $elemMatch: { ss: { $in: filterObject.size } },
+              $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
             },
           },
         ],
@@ -122,7 +122,7 @@ const getAll = async (req, res) => {
       query = {
         $and: [
           { type: { $gte: filterObject.type } },
-          { price: { $gte: filterObject.price } },
+          { price: { $lte: filterObject.price } },
         ],
       };
     } else if (filterObject.color && filterObject.size) {
@@ -131,7 +131,7 @@ const getAll = async (req, res) => {
           { color: { $gte: filterObject.color } },
           {
             size: {
-              $elemMatch: { ss: { $in: filterObject.size } },
+              $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
             },
           },
         ],
@@ -146,12 +146,12 @@ const getAll = async (req, res) => {
       };
     } else if (filterObject.price) {
       query = {
-        price: { $gte: filterObject.price },
+        price: { $lte: filterObject.price },
       };
     } else if (filterObject.size) {
       query = {
         size: {
-          $elemMatch: { ss: { $in: filterObject.size } },
+          $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
         },
       };
     }

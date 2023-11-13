@@ -34,6 +34,12 @@ export default function UserList() {
       title: "Giới tính",
       dataIndex: "gender",
       key: "gender",
+      render: (gender) => {
+        if (gender === 0) {
+          return "Nam"
+        }
+        return "Nữ"
+      }
     },
     {
       title: "Ngày sinh",

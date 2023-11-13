@@ -36,7 +36,7 @@ export default function InfoOrder() {
         </div>
         <div className="Info-Input mb-3">
           <label className="label-text mt-0">Số điện thoại:</label>
-          <input
+          <input minLength={'9'} maxLength={'11'}
             onChange={(e) => {
               setPhone(e.target.value);
               setChange(!change);

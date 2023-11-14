@@ -193,6 +193,23 @@ const getAll = async (req, res) => {
   }
 };
 
+const searchUser = async (req, res) => {
+  try {
+    const { name, phone } = req.body
+    const querry = {}
+    if (name) {
+      querry.username = name
+    }
+    if (phone) {
+      querry.phone = phone
+    }
+    const users = await User.find(querry)
+    res.status(200).json({ users })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -202,4 +219,5 @@ module.exports = {
   changeInfor,
   takeInfoUserById,
   getAll,
+  searchUser
 };

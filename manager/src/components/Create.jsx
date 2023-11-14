@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ShoeItem from "./ShoeItem";
 import {
-
   Form,
   Input,
   InputNumber,
@@ -10,6 +9,8 @@ import {
   Select,
   notification,
   Table,
+  Button,
+  DatePicker,
 } from "antd";
 import "../css/modal.css";
 import { Option } from "antd/es/mentions";
@@ -24,8 +25,8 @@ export default function Create() {
   const dispatch = useDispatch();
   const success = useSelector((state) => state.shoeDetail.success);
   const [change, setChange] = useState(false);
-
-
+  const [nameSearch, SetNameSearch] = useState()
+  const [typeSearch, SetTypeSearch] = useState()
   const [shoeData, setShoeData] = useState({})
   const [name, setName] = useState('')
   const [price, setPrice] = useState(0)
@@ -147,7 +148,7 @@ export default function Create() {
       title: "Hình ảnh",
       dataIndex: "img",
       key: "age",
-      render: (img) => <img src={img} width={100} />,
+      render: (img) => <img src={img} width={100} alt="" />,
     },
     {
       title: "Giá tiền",
@@ -237,6 +238,21 @@ export default function Create() {
       setShoeList(res.data);
     });
   }, [success, change]);
+
+  const onFinishSearch = () => {
+    axios({
+      url: 'http://localhost:5000/api/shoe/SearchShoe',
+      method: "POST",
+      data: {
+        name: nameSearch,
+        type: typeSearch
+      }
+    }).then((res) => {
+      setShoeList(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
 
   const renderModal = () => {
     return (<Modal
@@ -491,6 +507,57 @@ export default function Create() {
   }
   return (
     <div>
+      <div>
+        <Form
+          onFinish={onFinish}
+          name="basic"
+          labelCol={{
+            span: 12,
+          }}
+          style={{
+            width: '100%',
+          }}
+          layout="inline"
+        >
+          <Form.Item
+            label="Tên Sản phẩm"
+            name="NameProduct"
+          >
+            <Input onChange={(e) => SetNameSearch(e.target.value)} />
+          </Form.Item>
+
+          <Form.Item
+            label="Hãng giày"
+            name="Type"
+          >
+            <Select
+              style={{
+                width: 120,
+              }}
+              onChange={(value) => SetTypeSearch(value)}
+            >
+              <Option value="Adidas">
+                Adidas
+              </Option>
+              <Option value="Nike">
+                Nike
+              </Option>
+              <Option value="Puma">
+                Puma
+              </Option>
+              <Option value="Vans">
+                Vans
+              </Option>
+            </Select>
+          </Form.Item>
+          <Button className="ml-4" onClick={onFinishSearch} type="primary" htmlType="submit">
+            Tìm kiếm
+          </Button>
+          <Button className="ml-4" onClick={() => { setChange(!change) }} type="primary" htmlType="submit">
+            Clear
+          </Button>
+        </Form>
+      </div>
       <div>
         {isModalOpen && shoeData.name && renderModal()}
       </div>

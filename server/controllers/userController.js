@@ -40,7 +40,7 @@ const register = async (req, res) => {
       password: hashedPassword,
       gender,
       phone,
-      birthday: birth,
+      birtday: birth,
     });
     await newUser.save();
     res.status(200).json({ success: true, message: "Register successfully!" });

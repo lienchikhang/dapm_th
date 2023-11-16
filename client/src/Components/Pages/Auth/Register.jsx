@@ -37,6 +37,18 @@ export default function Register() {
   const [userBirth, setUserBirth] = useState();
   const [agree, setAgree] = useState(false);
 
+  function disabledDate(current) {
+    // Lấy ngày hiện tại
+    const today = new Date();
+    // Đặt ngày tối thiểu là 1900
+    const minDate = new Date("1900-01-01");
+    // Đặt ngày tối đa là 2005
+    const maxDate = new Date("2005-12-31");
+    // So sánh ngày hiện tại với khoảng thời gian đã đặt
+    return (
+      current && (current < minDate || current > maxDate || current > today)
+    );
+  }
   //func support UI
   const onChangeDate = (date, dateString) => {
     let newDate = dateString;
@@ -145,6 +157,7 @@ export default function Register() {
               onOk={onOk}
               format={"YYYY/MM/DD"}
               ref={refBirthday}
+              disabledDate={disabledDate}
             />
             <span style={{ color: "red" }} ref={valBirthday}></span>
           </div>
@@ -257,7 +270,7 @@ export default function Register() {
 
   const handleValidate = () => {
     let valid;
-    if (current == 0) {
+    if (current === 0) {
       valid =
         validate.isNotNull(refUsername?.current?.value, valUsername?.current) &
         validate.isNotNull(refPassword?.current?.value, valPassword?.current) &
@@ -267,7 +280,7 @@ export default function Register() {
           refRePassword?.current?.value,
           valRePassword?.current
         );
-    } else if (current == 1) {
+    } else if (current === 1) {
       console.log("bdc", refBirthday.current);
       valid =
         validate.isNotNull(userBirth, valBirthday?.current) &
@@ -303,6 +316,7 @@ export default function Register() {
 
   const handleRegister = async () => {
     try {
+      console.log(user)
       const res = await axios({
         url: "http://localhost:5000/api/user/register",
         method: "POST",

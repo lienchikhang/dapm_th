@@ -10,7 +10,9 @@ export default function Cart_item({
   idUser,
   openLoading,
   closeLoading,
+  sizeShoe,
 }) {
+  console.log("size in cart item", data.size);
   const cartUser = useSelector((state) => state.cart.cartUser);
   const dispatch = useDispatch();
   const { _id, img, name, price, quantity, size } = data;
@@ -24,7 +26,8 @@ export default function Cart_item({
         idUser,
         cartId,
         idShoe,
-        accessToken
+        accessToken,
+        data?.size
       );
       console.log(result);
       closeLoading();

@@ -10,6 +10,7 @@ import cartService from "../../../services/cart_KService";
 import { Divider, Form, Radio, Skeleton, Space, Switch } from "antd";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { hasNewItem } from "../../../reducers/cartReducer";
 
 export default function ShoeDetail() {
   const [viewingshoe, setViewingShoe] = useState({});
@@ -197,6 +198,7 @@ export default function ShoeDetail() {
                   onClick={() => {
                     openLoading();
                     handleBuy();
+                    dispatch(hasNewItem(true));
                   }}
                 >
                   Thêm vào giỏ hàng

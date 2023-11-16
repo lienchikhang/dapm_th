@@ -82,5 +82,9 @@
 .product:hover .button {
     transform: translateX(0);
     opacity: 1;
+}
 
+.my-card-top {
+    min-height: 250px;
+    max-height: 300px;
 }

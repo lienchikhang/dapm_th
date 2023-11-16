@@ -91,6 +91,7 @@ export default function Cart() {
                   <tbody>
                     {cartUser?.shoes &&
                       cartUser?.shoes.map((shoe, index) => {
+                        console.log("shoenee", shoe);
                         return (
                           <CartItem
                             key={index}
@@ -99,6 +100,7 @@ export default function Cart() {
                             idUser={cartUser.userId}
                             openLoading={openLoading}
                             closeLoading={closeLoading}
+                            sizeShoe={cartUser.size}
                           />
                         );
                       })}

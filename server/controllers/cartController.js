@@ -158,7 +158,8 @@ const deleteCart = async (req, res) => {
   //PROBLEM: cartId = undefined
   const cartId = req.params.cartId;
   const idShoeDel = req.params.idShoeDel;
-  console.log("cartId", cartId);
+  const shoeSize = req.params.sizeShoe;
+  console.log({ cartId, idShoeDel, shoeSize });
   try {
     // const cartUser = await Cart.find({_id: cartId})
     // console.log('cartUser muon xoa shoe o trong', cartUser)
@@ -167,9 +168,10 @@ const deleteCart = async (req, res) => {
     // }
     const updatedCart = await Cart.findOneAndUpdate(
       { _id: cartId },
-      { $pull: { shoes: { _id: idShoeDel } } },
+      { $pull: { shoes: { _id: idShoeDel, size: Number(shoeSize) } } },
       { new: true }
     );
+    console.log("updateCảt", updatedCart);
     if (updatedCart) {
       // Đã cập nhật thành công
       res.json({

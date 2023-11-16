@@ -16,7 +16,6 @@ router.get(
 // router.get('/getDetail/:')
 router.get("/", verifyTokenAndAdmin, orderController.getAllOrders);
 
-
 //Post
 router.post(
   "/makeOrder/:idUser",
@@ -24,7 +23,11 @@ router.post(
   orderController.makeOrderbyiduser
 );
 
-router.post("/searchOrder/search", verifyTokenAndAdmin, orderController.SearchOrder)
+router.post(
+  "/searchOrder/search",
+  verifyTokenAndAdmin,
+  orderController.SearchOrder
+);
 
 //Put
 router.put(

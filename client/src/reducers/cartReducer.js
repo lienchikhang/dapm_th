@@ -21,13 +21,17 @@ const cartReducer = createSlice({
   name: "cart",
   initialState: {
     cartUser: 0,
+    hasNewItem: false,
   },
   reducers: {
     updateCartList: (state, action) => {
       state.cartUser = action.payload;
     },
+    hasNewItem: (state, action) => {
+      state.hasNewItem = action.payload;
+    },
   },
 });
 
-export const { updateCartList } = cartReducer.actions;
+export const { updateCartList, hasNewItem } = cartReducer.actions;
 export default cartReducer.reducer;

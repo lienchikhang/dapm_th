@@ -20,7 +20,9 @@ export default function ProductList() {
   }, []);
 
   const convertStr = (string) => {
-    if (string.length > 20) { return string.slice(0, 10) + "..."; }
+    if (string.length > 20) {
+      return string.slice(0, 10) + "...";
+    }
     return string;
   };
 
@@ -49,12 +51,13 @@ export default function ProductList() {
               <div className={`mb-3 ${index > 2 ? "col" : "col-4"}`}>
                 <div className="product">
                   <div className="card">
-                    <div className="card-top">
+                    <div className="card-top my-card-top">
                       <img
                         className="card-top mx-auto img-fluid d-block my-4    "
                         src={img}
                         alt="CardImageCap"
                         width={200}
+                        height={200}
                       />
                     </div>
                     <div className="card-body">

@@ -266,4 +266,6 @@ module.exports = {
   makePaymentOnline,
   getAllOrders,
   deleteOrder,
+  getStatAllOrder,
+  SearchOrder,
 };

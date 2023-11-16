@@ -16,7 +16,7 @@ router.get("/getAll", verifyTokenAndAdmin, userController.getAll);
 //POST
 router.post("/register", userController.register);
 router.post("/login", userController.login);
-
+router.post("/Search", userController.searchUser)
 //PUT
 router.put("/resetPass/:id", userController.resetPass);
 router.put("/changeInfor/:idUser", verifyToken, userController.changeInfor);

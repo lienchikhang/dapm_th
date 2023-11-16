@@ -15,7 +15,7 @@ router.put("/:id", shoeController.updateShoe);
 
 //POST
 router.post("/create", verifyTokenAndAdmin, shoeController.createShoe);
-
+router.post("/SearchShoe", shoeController.SearchShoe);
 //DELETE
 router.delete("/delete/:id", verifyTokenAndAdmin, shoeController.deleteShoe);
 

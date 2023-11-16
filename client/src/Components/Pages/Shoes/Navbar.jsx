@@ -20,7 +20,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
   const [block, setBlock] = useState(false);
   const [filter, setFilter] = useState({});
   const [type, setType] = useState("");
-  const [inputValue, setInputValue] = useState(0);
+  const [inputValue, setInputValue] = useState(15000000);
   const [size, setSize] = useState([]);
 
   const dispatch = useDispatch();
@@ -127,7 +127,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
                   },
                 }}
               >
-                <Radio value={false}></Radio>
+                <Radio value={"white"}></Radio> {/* sao lai la false */}
               </ConfigProvider>
               <ConfigProvider
                 theme={{
@@ -268,7 +268,6 @@ export default function Navbar({ openLoadingg, closeLoading }) {
                     Slider: {
                       /* here is your component tokens */
                       colorPrimary: "#000000",
-                      colorPrimary: "#000",
                       trackBg: "#000",
                       dotActiveBorderColor: "#000",
                       handleColor: "#000",
@@ -281,7 +280,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
                   min={0}
                   max={15000000}
                   onChange={onSliderChange}
-                  value={typeof inputValue === "number" ? inputValue : 0}
+                  value={typeof inputValue === "number" ? inputValue : 15000000}
                 />
               </ConfigProvider>
             </Col>

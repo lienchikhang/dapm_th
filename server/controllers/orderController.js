@@ -228,6 +228,7 @@ let SearchOrder = async (req, res) => {
     if (status) {
       querry.status = status;
     }
+    console.log(querry);
     const orders = await Order.find(querry);
     res.status(200).json({ message: "success Search", orders });
   } catch (err) {

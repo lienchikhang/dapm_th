@@ -12,8 +12,8 @@ export default function HeaderRight({ account, user }) {
   useEffect(() => {
     let callApi = async () => {
       const local = JSON.parse(localStorage.getItem("persist:root"));
-      const idUser = JSON.parse(local.user).currentUser.payload._id;
-      const accessToken = JSON.parse(local.user).currentUser.payload
+      const idUser = JSON.parse(local.user).currentUser?.payload._id;
+      const accessToken = JSON.parse(local.user).currentUser?.payload
         .accessToken;
 
       // const { _id, accessToken } = local;

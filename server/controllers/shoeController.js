@@ -23,136 +23,18 @@ const getAll = async (req, res) => {
   if (filter) {
     const filterObject = JSON.parse(filter);
     console.log("fileterObjec", filterObject);
-    if (
-      filterObject.type &&
-      filterObject.color &&
-      filterObject.price &&
-      filterObject.size
-    ) {
-      query = {
-        $and: [
-          { type: filterObject.type },
-          { color: filterObject.color },
-          { price: { $lte: filterObject.price } },
-          {
-            size: {
-              $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
-            },
-          },
-        ],
-      };
-    } else if (filterObject.type && filterObject.color && filterObject.price) {
-      query = {
-        $and: [
-          { type: filterObject.type },
-          { color: filterObject.color },
-          { price: { $lte: filterObject.price } },
-        ],
-      };
-    } else if (filterObject.type && filterObject.color && filterObject.size) {
-      query = {
-        $and: [
-          { type: filterObject.type },
-          { color: filterObject.color },
-          {
-            size: {
-              $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
-            },
-          },
-        ],
-      };
-    } else if (filterObject.price && filterObject.color && filterObject.size) {
-      query = {
-        $and: [
-          { price: { $lte: filterObject.price } },
-          { color: filterObject.color },
-          {
-            size: {
-              $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
-            },
-          },
-        ],
-      };
-    } else if (filterObject.type && filterObject.price && filterObject.size) {
-      query = {
-        $and: [
-          { type: filterObject.type },
-          { price: { $lte: filterObject.price } },
-          {
-            size: {
-              $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
-            },
-          },
-        ],
-      };
-    } else if (filterObject.type && filterObject.color) {
-      query = {
-        $and: [{ type: filterObject.type }, { color: filterObject.color }],
-      };
-    } else if (filterObject.color && filterObject.price) {
-      query = {
-        $and: [
-          { color: filterObject.color },
-          { price: { $lte: filterObject.price } },
-        ],
-      };
-    } else if (filterObject.price && filterObject.size) {
-      query = {
-        $and: [
-          { price: { $lte: filterObject.price } },
-          {
-            size: {
-              $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
-            },
-          },
-        ],
-      };
-    } else if (filterObject.type && filterObject.size) {
-      query = {
-        $and: [
-          { type: { $gte: filterObject.type } },
-          {
-            size: {
-              $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
-            },
-          },
-        ],
-      };
-    } else if (filterObject.type && filterObject.price) {
-      query = {
-        $and: [
-          { type: { $gte: filterObject.type } },
-          { price: { $lte: filterObject.price } },
-        ],
-      };
-    } else if (filterObject.color && filterObject.size) {
-      query = {
-        $and: [
-          { color: { $gte: filterObject.color } },
-          {
-            size: {
-              $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
-            },
-          },
-        ],
-      };
-    } else if (filterObject.type) {
-      query = {
-        type: filterObject.type,
-      };
-    } else if (filterObject.color) {
-      query = {
-        color: filterObject.color,
-      };
-    } else if (filterObject.price) {
-      query = {
-        price: { $lte: filterObject.price },
-      };
-    } else if (filterObject.size) {
-      query = {
-        size: {
-          $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
-        },
+    if (filterObject?.type) {
+      query.type = filterObject.type;
+    }
+    if (filterObject?.color) {
+      query.color = filterObject.color;
+    }
+    if (filterObject?.price) {
+      query.price = { $lte: filterObject.price };
+    }
+    if (filterObject?.size) {
+      query.size = {
+        $elemMatch: { ss: { $in: filterObject.size }, cs: { $gt: 0 } },
       };
     }
   }
@@ -167,86 +49,19 @@ const getAll = async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-
-  // let qShoe = req.query.type;
-  // let qColor = req.query.color;
-  // let qPrice = req.query.price;
-  // let qNew = req.query.new;
-  // let qSize = req.query.size;
-  // let query = {};
-  // console.log({ qShoe, qColor, qPrice, qSize });
-  // try {
-  //   if (qShoe && qColor && qPrice) {
-  //     query = {
-  //       $and: [
-  //         { type: qShoe }, // Kiểm tra type
-  //         { color: qColor }, // Kiểm tra color
-  //         { price: { $gte: Number(qPrice) } }, // Kiểm tra color
-  //       ],
-  //     };
-  //   } else if (qShoe && qColor) {
-  //     query = {
-  //       $and: [
-  //         { type: qShoe }, // Kiểm tra type
-  //         { color: qColor }, // Kiểm tra color
-  //       ],
-  //     };
-  //   } else if (qColor && qPrice) {
-  //     query = {
-  //       $and: [
-  //         { color: qColor }, // Kiểm tra color
-  //         { price: { $gte: Number(qPrice) } }, // Kiểm tra color
-  //       ],
-  //     };
-  //   } else if (qShoe && qPrice) {
-  //     query = {
-  //       $and: [
-  //         { type: qShoe }, // Kiểm tra color
-  //         { price: { $gte: Number(qPrice) } }, // Kiểm tra color
-  //       ],
-  //     };
-  //   } else if (qShoe) {
-  //     query = { type: qShoe };
-  //   } else if (qColor) {
-  //     query = { color: qColor };
-  //   } else if (qPrice) {
-  //     query = { price: { $gte: Number(qPrice) } };
-  //   } else if (qSize) {
-  //     qSizeArr = qSize.split(",");
-  //     const numericSizes = qSizeArr.map((size) => parseInt(size, 10));
-  //     query = {
-  //       size: {
-  //         $elemMatch: { ss: { $in: numericSizes } },
-  //       },
-  //     };
-  //   } else {
-  //     query = {};
-  //   }
-
-  //   let filterShoes = await Shoe.find(query);
-  //   if (qNew) {
-  //     filterShoes = await Shoe.find().sort({ createdAt: -1 }).limit(5);
-  //   }
-  //   if (!filterShoes)
-  //     return res.status(500).json({ success: false, message: "cannot query" });
-  //   res.status(200).json(filterShoes);
-  // } catch (err) {
-  //   console.log(err);
-  //   res.status(500).json(err);
-  // }
 };
 
 //POST
 const createShoe = async (req, res) => {
   try {
-    const shoe = req.body
-    const checkNameShoe = await Shoe.findOne({ name: shoe.name })
+    const shoe = req.body;
+    const checkNameShoe = await Shoe.findOne({ name: shoe.name });
     if (checkNameShoe) {
-      return res.status(400).json({ message: 2 })
+      return res.status(400).json({ message: 2 });
     }
     const newShoe = new Shoe({
-      ...shoe
-    })
+      ...shoe,
+    });
     await newShoe.save();
     return res.status(200).json({ message: 1 });
   } catch (err) {
@@ -262,9 +77,9 @@ const deleteShoe = async (req, res) => {
     if (!deleteShoe) {
       return res
         .status(401)
-        .json({ success: false, message: "Shoe not found" })
-    };
-    DeleteShoeUpdateInCart(idDeleted)
+        .json({ success: false, message: "Shoe not found" });
+    }
+    DeleteShoeUpdateInCart(idDeleted);
     res.status(200).json({
       success: true,
       message: "Delete successfully!",
@@ -283,13 +98,15 @@ const updateShoe = async (req, res) => {
   try {
     const idShoe = req.params.id;
     const shoeDataUpdate = req.body;
-    const shoeNameIsExist = await Shoe.findOne({ name: shoeDataUpdate.name })
+    const shoeNameIsExist = await Shoe.findOne({ name: shoeDataUpdate.name });
     if (shoeNameIsExist) {
-      return res.status(400).json()
+      return res.status(400).json();
     }
-    const result = await Shoe.findByIdAndUpdate(idShoe, shoeDataUpdate, { new: true });
+    const result = await Shoe.findByIdAndUpdate(idShoe, shoeDataUpdate, {
+      new: true,
+    });
     if (result) {
-      DeleteShoeUpdateInCart(idShoe)
+      DeleteShoeUpdateInCart(idShoe);
       res.status(200).json(result);
     }
   } catch (error) {
@@ -299,30 +116,35 @@ const updateShoe = async (req, res) => {
 
 const SearchShoe = async (req, res) => {
   try {
-    const { name, type } = req.body
+    const { name, type } = req.body;
 
-    const query = {}
+    const query = {};
     if (name) {
-      query.name = name
+      query.name = name;
     }
     if (type) {
-      query.type = type
+      query.type = type;
     }
-    const shoes = await Shoe.find(query)
-    res.status(200).json(shoes)
+    const shoes = await Shoe.find(query);
+    res.status(200).json(shoes);
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-}
+};
 
 const DeleteShoeUpdateInCart = async (idShoe) => {
-  const AllcartHaveidShoe = await Cart.updateMany({ 'shoes._id': idShoe }, { $pull: { shoes: { _id: idShoe } } }, { new: true })
-}
+  const AllcartHaveidShoe = await Cart.updateMany(
+    { "shoes._id": idShoe },
+    { $pull: { shoes: { _id: idShoe } } },
+    { new: true }
+  );
+};
+
 module.exports = {
   getAll,
   getShoe,
   createShoe,
   deleteShoe,
   updateShoe,
-  SearchShoe
+  SearchShoe,
 };

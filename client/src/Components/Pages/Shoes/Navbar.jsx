@@ -11,9 +11,10 @@ import {
   Space,
   Col,
 } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectSize, updateCate } from "../../../reducers/navbar";
 import SizeItem from "./SizeItem";
+import { updateFilter } from "../../../reducers/FilterReducer";
 export default function Navbar({ openLoadingg, closeLoading }) {
   //states
   const [cates, setCates] = useState([]);
@@ -22,6 +23,13 @@ export default function Navbar({ openLoadingg, closeLoading }) {
   const [type, setType] = useState("");
   const [inputValue, setInputValue] = useState(15000000);
   const [size, setSize] = useState([]);
+  const [reset, setReset] = useState(false);
+  const [unCheck, setUncheck] = useState(false);
+  const catesss = useSelector((state) => state.navbar.navItem.payload);
+
+  useEffect(() => {
+    setUncheck(true);
+  }, [catesss]);
 
   const dispatch = useDispatch();
 
@@ -54,6 +62,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
   useEffect(() => {
     // dispatch({ type: "UPDATE_CATES", payload: filter });
     dispatch(updateCate(filter));
+    dispatch(updateFilter(filter));
   }, [filter]);
 
   //change filter with price
@@ -90,13 +99,28 @@ export default function Navbar({ openLoadingg, closeLoading }) {
     setSize([...size, Number(newSize)]);
   };
 
+  const handleCancelQuerySize = () => {
+    setSize([]);
+    setReset(true);
+  };
+
+  const handleSetReset = () => {
+    setReset(false);
+  };
+
   console.log("sizee", size);
   useEffect(() => {
-    if (size.length > 0)
+    if (size.length > 0) {
       setFilter({
         ...filter,
         size: size,
       });
+    } else {
+      setFilter({
+        ...filter,
+        size: null,
+      });
+    }
   }, [size]);
 
   return (
@@ -127,7 +151,8 @@ export default function Navbar({ openLoadingg, closeLoading }) {
                   },
                 }}
               >
-                <Radio value={"white"}></Radio> {/* sao lai la false */}
+                <Radio value={"white"} checked={unCheck}></Radio>{" "}
+                {/* sao lai la false */}
               </ConfigProvider>
               <ConfigProvider
                 theme={{
@@ -142,7 +167,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
                   },
                 }}
               >
-                <Radio value={"black"}></Radio>
+                <Radio value={"black"} checked={unCheck}></Radio>
               </ConfigProvider>
               <ConfigProvider
                 theme={{
@@ -157,7 +182,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
                   },
                 }}
               >
-                <Radio value={"red"}></Radio>
+                <Radio value={"red"} checked={unCheck}></Radio>
               </ConfigProvider>
               <ConfigProvider
                 theme={{
@@ -172,7 +197,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
                   },
                 }}
               >
-                <Radio value={"blue"}></Radio>
+                <Radio value={"blue"} checked={unCheck}></Radio>
               </ConfigProvider>
               <ConfigProvider
                 theme={{
@@ -187,7 +212,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
                   },
                 }}
               >
-                <Radio value={"green"}></Radio>
+                <Radio value={"green"} checked={unCheck}></Radio>
               </ConfigProvider>
             </div>
             <div className="row">
@@ -204,7 +229,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
                   },
                 }}
               >
-                <Radio value={"yellow"}></Radio>
+                <Radio value={"yellow"} checked={unCheck}></Radio>
               </ConfigProvider>
               <ConfigProvider
                 theme={{
@@ -219,7 +244,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
                   },
                 }}
               >
-                <Radio value={"pink"}></Radio>
+                <Radio value={"pink"} checked={unCheck}></Radio>
               </ConfigProvider>
               <ConfigProvider
                 theme={{
@@ -234,7 +259,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
                   },
                 }}
               >
-                <Radio value={"orange"}></Radio>
+                <Radio value={"orange"} checked={unCheck}></Radio>
               </ConfigProvider>
               <ConfigProvider
                 theme={{
@@ -250,7 +275,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
                   },
                 }}
               >
-                <Radio value={"purple"}></Radio>
+                <Radio value={"purple"} checked={unCheck}></Radio>
               </ConfigProvider>
             </div>
           </Radio.Group>
@@ -300,17 +325,53 @@ export default function Navbar({ openLoadingg, closeLoading }) {
       </div>
       {/**size */}
       <div className="size-section">
-        <h3 className="navbar__subTitle">Kich thuoc</h3>
+        <h3 className="navbar__subTitle">Kích thước</h3>
         <div className="row my-2">
-          <SizeItem handleSelectSize={handleSelectSize} value={38} />
-          <SizeItem handleSelectSize={handleSelectSize} value={39} />
-          <SizeItem handleSelectSize={handleSelectSize} value={40} />
-          <SizeItem handleSelectSize={handleSelectSize} value={41} />
-          <SizeItem handleSelectSize={handleSelectSize} value={42} />
-          <SizeItem handleSelectSize={handleSelectSize} value={43} />
+          <SizeItem
+            isReset={reset}
+            handleSelectSize={handleSelectSize}
+            value={38}
+            handleSetReset={handleSetReset}
+          />
+          <SizeItem
+            isReset={reset}
+            handleSelectSize={handleSelectSize}
+            value={39}
+            handleSetReset={handleSetReset}
+          />
+          <SizeItem
+            isReset={reset}
+            handleSelectSize={handleSelectSize}
+            value={40}
+            handleSetReset={handleSetReset}
+          />
+          <SizeItem
+            isReset={reset}
+            handleSelectSize={handleSelectSize}
+            value={41}
+            handleSetReset={handleSetReset}
+          />
+          <SizeItem
+            isReset={reset}
+            handleSelectSize={handleSelectSize}
+            value={42}
+            handleSetReset={handleSetReset}
+          />
+          <SizeItem
+            isReset={reset}
+            handleSelectSize={handleSelectSize}
+            value={43}
+            handleSetReset={handleSetReset}
+          />
         </div>
+        {/* cần cách fix làm sao nhấn reset => các button hủy active */}
         <div className="row my-2">
-          <SizeItem handleSelectSize={handleSelectSize} value={"X"} />
+          <SizeItem
+            isReset={reset}
+            handleSelectSize={handleCancelQuerySize}
+            value={"X"}
+          />
+          <button onClick={handleCancelQuerySize}>Reset</button>
         </div>
       </div>
     </div>

@@ -12,6 +12,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Form } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const valUsername = useRef(null);
@@ -248,6 +249,7 @@ export default function Register() {
               name=""
               id="agree"
               className="mr-3"
+              checked={agree}
               onChange={() => setAgree(!agree)}
             />
             <label htmlFor="agree">Tôi đã đọc và đồng ý với điều khoản</label>
@@ -316,13 +318,13 @@ export default function Register() {
 
   const handleRegister = async () => {
     try {
-      console.log(user)
+      console.log(user);
       const res = await axios({
         url: "http://localhost:5000/api/user/register",
         method: "POST",
         data: user,
       });
-      message.success("dang ky thanh cong");
+      message.success("Đăng ký tài khoản thành công!");
       setTimeout(() => {
         window.location = "/auth/login";
       }, 1000);

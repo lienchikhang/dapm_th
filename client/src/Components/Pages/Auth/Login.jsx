@@ -16,6 +16,7 @@ import Lottie from "lottie-react";
 import loginLottie from "../../../utils/login.json";
 import "../../../css/login.css";
 import LOGO from "../../../utils/LOGO.png";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -24,7 +25,10 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const login = useSelector((state) => state.authReducer.user);
+  const status = useSelector((state) => state.authReducer?.user);
+  if (status?.error) {
+    message.error("Tài khoản hoặc mật khẩu không đúng");
+  }
 
   const onChangeForm = (e) => {
     setUser({
@@ -74,6 +78,7 @@ export default function Login() {
                   placeholder="Mật khẩu"
                   value={user.password}
                   onChange={onChangeForm}
+                  required={true}
                 />
               </div>
               <button

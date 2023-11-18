@@ -364,15 +364,6 @@ export default function Navbar({ openLoadingg, closeLoading }) {
             handleSetReset={handleSetReset}
           />
         </div>
-        {/* cần cách fix làm sao nhấn reset => các button hủy active */}
-        <div className="row my-2">
-          <SizeItem
-            isReset={reset}
-            handleSelectSize={handleCancelQuerySize}
-            value={"X"}
-          />
-          <button onClick={handleCancelQuerySize}>Reset</button>
-        </div>
       </div>
     </div>
   );

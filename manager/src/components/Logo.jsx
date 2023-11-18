@@ -1,5 +1,7 @@
 import React from "react";
-
+import LOGO from "../utils/LOGO.png"
 export default function Logo() {
-  return <h1 className="display-5 text-white">LOGO</h1>;
+  return <img width={'75'}
+    src={LOGO} alt=""
+  />;
 }

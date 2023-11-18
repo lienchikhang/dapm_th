@@ -226,12 +226,12 @@ export default function ShoeDetail() {
           </div>
         </div>
 
-        <div className="row">
+        {/* <div className="row">
           <div className="col-12">
             <h3 className="suggest__title">Gợi ý</h3>
             <ShoeSuggestList />
           </div>
-        </div>
+        </div> */}
       </div>
     );
   };

@@ -131,7 +131,7 @@ export default function CreatePage() {
       >
         <Input name="image" onChange={(e) => setImg(e.target.value)} />
       </Form.Item>
-      <img width={'200px'} src={img} alt="" />
+      <img style={{ marginLeft: '20%' }} width={'200px'} src={img} alt="" />
       <Form.Item
         label="Mô tả"
         name="desc"

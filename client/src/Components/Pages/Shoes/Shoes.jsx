@@ -43,7 +43,7 @@ export default function Shoes() {
             <ColorPicker />
           </div>
           <div className="col-8">
-            {/* <Search /> */}
+            <Search />
             <ShoeList openLoading={openLoading} closeLoading={closeLoading} />
           </div>
         </div>

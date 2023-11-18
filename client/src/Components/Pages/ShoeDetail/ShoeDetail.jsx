@@ -36,14 +36,14 @@ export default function ShoeDetail() {
   const openNotification = () => {
     toast.success("Đã thêm vào giỏ hàng !", {
       position: toast.POSITION.TOP_RIGHT,
-      style: { top: "70px" },
+      style: { top: "110px" },
     });
   };
 
   const openErrorNotification = (message, desc) => {
     toast.error(message, {
       position: toast.POSITION.TOP_RIGHT,
-      style: { top: "70px" },
+      style: { top: "110px" },
     });
   };
 

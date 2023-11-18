@@ -3,12 +3,13 @@ import shoeService from "../../../services/shoeService";
 import ShoeItem from "./ShoeItem";
 import "../../../css/ShoeList.css";
 import { Pagination } from "antd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTotalFinded } from "../../../reducers/FilterReducer";
 export default function ShoeList({ openLoading, closeLoading }) {
   const [shoeList, setShoeList] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(6); // Số mục trên mỗi trang
   const [displayedShoeList, setDisplayedShoeList] = useState([]);
-
+  const dispatch = useDispatch();
   //get cate
   const cates = useSelector((state) => state.navbar.navItem.payload);
   const selectedCate = useSelector((state) => state.navbar.selectedCate);
@@ -53,6 +54,7 @@ export default function ShoeList({ openLoading, closeLoading }) {
     const endIndex = startIndex + itemsPerPage;
     const displayedList = shoeList.slice(startIndex, endIndex);
     setDisplayedShoeList(displayedList);
+    dispatch(updateTotalFinded(shoeList.length));
   }, [shoeList]);
 
   const renderingUI = () => {

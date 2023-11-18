@@ -10,6 +10,10 @@ export default function HeaderRight({ account, user }) {
   const [shoeArr, setShoeArr] = useState([]);
 
   useEffect(() => {
+    updateBadge();
+  }, [shoeArr]);
+
+  useEffect(() => {
     let callApi = async () => {
       const local = JSON.parse(localStorage.getItem("persist:root"));
       const idUser = JSON.parse(local.user).currentUser?.payload._id;
@@ -27,7 +31,7 @@ export default function HeaderRight({ account, user }) {
       }
     };
     callApi();
-  }, []);
+  }, [cartUser]);
 
   // useEffect(() => {
   //   setShoeArr(cartUser);

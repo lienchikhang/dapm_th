@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../../css/SizeItem.css";
 
-export default function SizeItem({ value, handleSelectSize }) {
+export default function SizeItem({
+  isReset,
+  value,
+  handleSelectSize,
+  handleSetReset,
+}) {
   const [active, setActive] = useState(false);
+
   return (
     <div className="col-2">
       <div

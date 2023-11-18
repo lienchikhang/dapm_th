@@ -4,6 +4,8 @@
 
 .header__wrapper {
     border-bottom: 2px solid #ccc;
+    position: relative;
+    z-index: 9999999999999999 !important;
 }
 
 .header__logo {

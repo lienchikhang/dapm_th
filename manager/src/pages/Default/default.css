@@ -13,3 +13,55 @@
     height: 100px;
     border-radius: 5px;
 }
+
+.stat__itemm {
+    padding: 16px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.stat__itemm h2 {
+    font-size: 20px;
+}
+
+.stat__itemm span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.stat__itemm {
+    background-color: orangered;
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 17px );
+    -webkit-backdrop-filter: blur( 17px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.col-6:last-child .stat__itemm {
+    background-color: green;
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 17px );
+    -webkit-backdrop-filter: blur( 17px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.stat__itemmm {
+    padding: 24px;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 17px );
+    -webkit-backdrop-filter: blur( 17px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.stat__itemmm h2 {
+    font-size: 24px;
+    display: inline-block;
+    padding: 8px;
+    background-color: #2c63f6;
+    border-radius: 5px;
+    color: white;
+}

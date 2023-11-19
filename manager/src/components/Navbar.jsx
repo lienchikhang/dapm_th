@@ -53,6 +53,10 @@ export default function Navbar() {
     console.log(key);
   };
 
+  const handleDirectMain = () => {
+    navigate("/");
+  };
+
   return (
     <div className="nav__wrapper">
       <div className="user__wrapper">
@@ -68,6 +72,11 @@ export default function Navbar() {
       <nav>
         <Collapse items={items} defaultActiveKey={["1"]} onChange={onChange} />
       </nav>
+      <div className="mt-4">
+        <button className="btn btn-primary" onClick={handleDirectMain}>
+          Quay về trang chủ
+        </button>
+      </div>
     </div>
   );
 }

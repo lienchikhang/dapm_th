@@ -77,10 +77,24 @@ export default function Default() {
   return (
     <div className="default__wrapper">
       <div className="stat__wrapper">
+        <div className="row mb-4">
+          <div className="col-6">
+            <div className="stat__itemm">
+              <h2>Tổng doanh thu ước tính</h2>
+              <span>{tongDoanhThuUocTinh()?.toLocaleString()}</span>
+            </div>
+          </div>
+          <div className="col-6">
+            <div className="stat__itemm">
+              <h2>Tổng doanh thu thực tế:</h2>
+              <span>{tongDoanhThuThucTe()?.toLocaleString()}</span>
+            </div>
+          </div>
+        </div>
         <div className="row">
           <div className="col-9">
-            <div className="stat__itemm">
-              <h2>Thống kê số lượng đơn hàng trong năms </h2>
+            <div className="stat__itemmm">
+              <h2>Bảng thống kê số lượng đơn hàng trong năm</h2>
               <BarChart
                 xAxis={[
                   {
@@ -101,35 +115,6 @@ export default function Default() {
                 width={500}
                 height={300}
               />
-              <h2>Thống kê số lượng đơn hàng đã giao trong năm</h2>
-              <BarChart
-                xAxis={[
-                  {
-                    id: "barCategories",
-                    data: dataOrder
-                      ? dataOrder.map((stat) => `Tháng ${stat._id}`)
-                      : [1, 2, 3],
-                    scaleType: "band",
-                  },
-                ]}
-                series={[
-                  {
-                    data: allOrder
-                      ? allOrder.filter((stat) => stat.status == "Đã giao")
-                      : [1, 2, 3],
-                  },
-                ]}
-                width={500}
-                height={300}
-              />
-            </div>
-          </div>
-          <div className="col-3">
-            <div className="stat__itemm">
-              <h2>Tổng doanh thu ước tính các đơn hàng</h2>
-              <span>{tongDoanhThuUocTinh()?.toLocaleString()}</span>
-              <h2>Tổng doanh thu thực tế:</h2>
-              <span>{tongDoanhThuThucTe()?.toLocaleString()}</span>
             </div>
           </div>
         </div>

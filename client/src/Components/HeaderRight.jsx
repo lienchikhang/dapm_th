@@ -5,7 +5,7 @@ import { Badge } from "antd";
 import { useSelector } from "react-redux";
 import cartService from "../services/cart_KService";
 export default function HeaderRight({ account, user }) {
-  const cartUser = useSelector((state) => state.cart.cartUser.shoes);
+  const cartUser = useSelector((state) => state.cart.cartUser?.shoes);
   const hasNewItem = useSelector((state) => state.cart.hasNewItem);
   const [shoeArr, setShoeArr] = useState([]);
 

@@ -21,7 +21,7 @@ export default function Auth({ authRoute }) {
       }
 
       try {
-        const response = await axios.get(`http://localhost:5000/api/user`);
+        const response = await axios.get(`http://localhost:5050/api/user`);
         console.log("ré", response);
         if (response.data.success) {
           dispatch({

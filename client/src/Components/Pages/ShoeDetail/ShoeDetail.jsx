@@ -11,6 +11,7 @@ import { Divider, Form, Radio, Skeleton, Space, Switch } from "antd";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { hasNewItem } from "../../../reducers/cartReducer";
+import { Services } from "../../../classes/Services";
 
 export default function ShoeDetail() {
   const [viewingshoe, setViewingShoe] = useState({});
@@ -90,12 +91,14 @@ export default function ShoeDetail() {
     const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
 
     //call api
-    const result = await cartService.addCart(
-      "add",
-      "POST",
-      addShoe,
-      accessToken
-    );
+    // const result = await cartService.addCart(
+    //   "add",
+    //   "POST",
+    //   addShoe,
+    //   accessToken
+    // );
+    let service = new Services();
+    const result = service.createService('cart').addCart('add', {})
     closeLoading();
     openNotification();
   };

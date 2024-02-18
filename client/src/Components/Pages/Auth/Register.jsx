@@ -320,7 +320,7 @@ export default function Register() {
     try {
       console.log(user);
       const res = await axios({
-        url: "http://localhost:5000/api/user/register",
+        url: "http://localhost:5050/api/user/register",
         method: "POST",
         data: user,
       });

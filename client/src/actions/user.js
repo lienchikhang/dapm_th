@@ -1,18 +1,18 @@
 import axios from "axios";
 import { loginFailure, loginStart, loginSuccess } from "../reducers/userReducer"
 
-export const login = (dispatch, data) => { 
+export const login = (dispatch, data) => {
     dispatch(loginStart());
     axios({
-        url: `http://localhost:5000/api/user/login`,
-        method:'POST',
+        url: `http://localhost:5050/api/user/login`,
+        method: 'POST',
         data: data
     })
-    .then((res) => {
-        dispatch(loginSuccess(res.data.user));
-    })
-    .catch((err) => {
-        console.log(err);
-        dispatch(loginFailure());
-    })
+        .then((res) => {
+            dispatch(loginSuccess(res.data.user));
+        })
+        .catch((err) => {
+            console.log(err);
+            dispatch(loginFailure());
+        })
 }

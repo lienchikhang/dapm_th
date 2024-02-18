@@ -49,7 +49,7 @@ export default function Cart() {
   }, [loading]);
 
   useEffect(() => {
-    let Caculate = cartUser?.shoes.reduce((accumulate, currentValue) => {
+    let Caculate = cartUser?.shoes?.reduce((accumulate, currentValue) => {
       return accumulate + currentValue.price * currentValue.quantity;
     }, 0);
     setTotal(Caculate);

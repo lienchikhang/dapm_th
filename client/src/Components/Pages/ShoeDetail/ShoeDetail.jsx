@@ -13,6 +13,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { hasNewItem } from "../../../reducers/cartReducer";
 import { Services } from "../../../classes/Services";
 
+let service = new Services();
+
 export default function ShoeDetail() {
   const [viewingshoe, setViewingShoe] = useState({});
   const [isFetching, setIsFetching] = useState(false);
@@ -83,10 +85,8 @@ export default function ShoeDetail() {
       return openErrorNotification("Bạn vui lòng chọn size cho sản phẩm");
     }
     dispatch(addToCartShoe(addShoe));
-    //get token
-    // const local = JSON.parse(localStorage.getItem("userToken"));
-    // const accessToken = local.accessToken;
 
+    //get accessToken
     const local = JSON.parse(localStorage.getItem("persist:root"));
     const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
 
@@ -97,8 +97,8 @@ export default function ShoeDetail() {
     //   addShoe,
     //   accessToken
     // );
-    let service = new Services();
-    const result = service.createService('cart').addCart('add', {})
+    service = new Services();
+    service.createService("cart").addCart("add", addShoe, accessToken);
     closeLoading();
     openNotification();
   };
@@ -110,6 +110,7 @@ export default function ShoeDetail() {
   const openLoading = () => {
     setLoading(true);
   };
+
   const checkSizeAndCount = (count) => {
     return count > 0 ? count : "Het size";
   };

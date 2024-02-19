@@ -13,8 +13,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { hasNewItem } from "../../../reducers/cartReducer";
 import { Services } from "../../../classes/Services";
 
-let service = new Services();
-
 export default function ShoeDetail() {
   const [viewingshoe, setViewingShoe] = useState({});
   const [isFetching, setIsFetching] = useState(false);
@@ -91,14 +89,8 @@ export default function ShoeDetail() {
     const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
 
     //call api
-    // const result = await cartService.addCart(
-    //   "add",
-    //   "POST",
-    //   addShoe,
-    //   accessToken
-    // );
-    service = new Services();
-    await service.createService("cart").addCart("add", addShoe, accessToken);
+    let service = new Services(accessToken);
+    await service.createService("cart").addCart("add", addShoe);
     closeLoading();
     openNotification();
   };

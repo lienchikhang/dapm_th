@@ -25,14 +25,7 @@ export default function Cart_item({
     try {
       await services
         .createService("cart")
-        .deleteCart("delete", idUser, cartId, idShoe, accessToken, data?.size);
-      // const result = await cartService.deleteCart(
-      //   idUser,
-      //   cartId,
-      //   idShoe,
-      //   accessToken,
-      //   data?.size
-      // );
+        .deleteCart(idUser, cartId, idShoe, data?.size);
       closeLoading();
     } catch (err) {
       console.log(err);
@@ -43,7 +36,7 @@ export default function Cart_item({
     try {
       const cartUser = await services
         .createService("cart")
-        .descCart("desc", { size: size, shoeId: _id }, accessToken);
+        .descCart("desc", { size: size, shoeId: _id });
       // const cartUser = await cartService.descCart(
       //   "desc",
       //   "POST",
@@ -60,7 +53,7 @@ export default function Cart_item({
     try {
       const cartUser = await services
         .createService("cart")
-        .increaseCart("increase", { size: size, shoeId: _id }, accessToken);
+        .increaseCart("increase", { size: size, shoeId: _id });
       // const cartUser = await cartService.increaseCart(
       //   "increase",
       //   "POST",

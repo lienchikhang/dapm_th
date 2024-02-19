@@ -9,8 +9,7 @@ import { updateCartList } from "../../../reducers/cartReducer";
 import Lottie from "lottie-react";
 import emptyCart from "../../../utils/emptyCart.json";
 import { Services } from "../../../classes/Services";
-
-let services = new Services();
+import Path from "../../../classes/Path";
 
 export default function Cart() {
   const cartUser = useSelector((state) => state.cart.cartUser);
@@ -34,15 +33,9 @@ export default function Cart() {
 
       // const { _id, accessToken } = local;
       try {
-        const result = await services
-          .createService("cart")
-          .getCart(idUser, accessToken);
-        // const result = await cartService.getCart(idUser, accessToken);
+        let services = new Services(accessToken);
+        const result = await services.createService("cart").getCart(idUser);
         closeLoading();
-        // dispatch({
-        //   type: "UPDATE_CART_LIST",
-        //   payload: result.data.cart,
-        // });
         dispatch(updateCartList(result.data.cart));
       } catch (err) {
         console.log(err);

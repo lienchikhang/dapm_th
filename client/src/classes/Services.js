@@ -82,15 +82,17 @@ class Cart {
     //   });
   };
 
-  // getCart = (idUser, headers) => {
-  //     return axios({
-  //         url: `http://localhost:5000/api/cart/${idUser}`,
-  //         method: "GET",
-  //         headers: {
-  //             token: `Bearer ${headers}`,
-  //         },
-  //     });
-  // };
+  getCart = (idUser, token) => {
+    const rs = HttpSingleton.getInstance(token).get(this.#path + "/" + idUser);
+    return rs;
+    //   return axios({
+    //       url: `http://localhost:5000/api/cart/${idUser}`,
+    //       method: "GET",
+    //       headers: {
+    //           token: `Bearer ${headers}`,
+    //       },
+    //   });
+  };
 
   // deleteCart = (idUser, idCart, idShoe, token, sizeShoe) => {
   //     return axios({

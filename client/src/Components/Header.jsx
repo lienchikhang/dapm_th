@@ -5,12 +5,11 @@ import Right from "./HeaderRight";
 import HeaderNav from "./HeaderNav";
 import HeaderRight from "./HeaderRight";
 import { useSelector } from "react-redux";
-import LOGO from "../utils/LOGO.png"
+import LOGO from "../utils/LOGO.png";
 export default function Header() {
   //connect redux
   //lấy state từ redux
   const user = useSelector((state) => state.user.currentUser);
-  console.log("header ", user);
   return (
     <div className="header__wrapper">
       <div className="container">

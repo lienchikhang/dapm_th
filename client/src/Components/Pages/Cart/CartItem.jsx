@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import "../../../css/Cart.css";
-import cartService from "../../../services/cart_KService";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCartList } from "../../../reducers/cartReducer";
 import { Services } from "../../../classes/Services";

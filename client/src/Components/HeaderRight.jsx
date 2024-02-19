@@ -13,32 +13,32 @@ export default function HeaderRight({ account, user }) {
     updateBadge();
   }, [shoeArr]);
 
-  useEffect(() => {
-    let callApi = async () => {
-      const local = JSON.parse(localStorage.getItem("persist:root"));
-      const idUser = JSON.parse(local.user).currentUser?.payload._id;
-      const accessToken = JSON.parse(local.user).currentUser?.payload
-        .accessToken;
+  // useEffect(() => {
+  //   let callApi = async () => {
+  //     const local = JSON.parse(localStorage.getItem("persist:root"));
+  //     const idUser = JSON.parse(local.user).currentUser?.payload._id;
+  //     const accessToken = JSON.parse(local.user).currentUser?.payload
+  //       .accessToken;
 
-      // const { _id, accessToken } = local;
-      try {
-        const result = await cartService.getCart(idUser, accessToken);
-        // closeLoading();
-        console.log("result", result.data.cart.shoes);
-        setShoeArr(result.data.cart.shoes);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    callApi();
-  }, [cartUser]);
+  //     // const { _id, accessToken } = local;
+  //     try {
+  //       const result = await cartService.getCart(idUser, accessToken);
+  //       // closeLoading();
+  //       console.log("result", result.data.cart.shoes);
+  //       setShoeArr(result.data.cart.shoes);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   callApi();
+  // }, [cartUser]);
 
   // useEffect(() => {
   //   setShoeArr(cartUser);
   // }, [cartUser]);
 
   const updateBadge = () => {
-    return shoeArr.reduce((accumulate, curCart) => {
+    return cartUser.reduce((accumulate, curCart) => {
       return accumulate + curCart.quantity;
     }, 0);
   };

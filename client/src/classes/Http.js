@@ -78,6 +78,11 @@ class Http {
     return rs;
   }
 
+  async delete(url) {
+    const rs = await this.axiosInstance.delete(url);
+    return rs;
+  }
+
   async patch(url, data) {
     const rs = await this.axiosInstance.patch(url, data);
     return rs;

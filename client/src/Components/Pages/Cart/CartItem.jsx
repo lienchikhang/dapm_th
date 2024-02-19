@@ -4,6 +4,10 @@ import "../../../css/Cart.css";
 import cartService from "../../../services/cart_KService";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCartList } from "../../../reducers/cartReducer";
+import { Services } from "../../../classes/Services";
+
+let services = new Services();
+
 export default function Cart_item({
   data,
   cartId,
@@ -12,53 +16,58 @@ export default function Cart_item({
   closeLoading,
   sizeShoe,
 }) {
-  console.log("size in cart item", data.size);
   const cartUser = useSelector((state) => state.cart.cartUser);
   const dispatch = useDispatch();
   const { _id, img, name, price, quantity, size } = data;
   const local = JSON.parse(localStorage.getItem("persist:root"));
-  // const idUser = JSON.parse(local.user).currentUser.payload._id;
   const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
 
   const handleDelete = async (idShoe) => {
     try {
-      const result = await cartService.deleteCart(
-        idUser,
-        cartId,
-        idShoe,
-        accessToken,
-        data?.size
-      );
-      console.log(result);
+      await services
+        .createService("cart")
+        .deleteCart("delete", idUser, cartId, idShoe, accessToken, data?.size);
+      // const result = await cartService.deleteCart(
+      //   idUser,
+      //   cartId,
+      //   idShoe,
+      //   accessToken,
+      //   data?.size
+      // );
       closeLoading();
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleDesc = async (idShoe) => {
+  const handleDesc = async () => {
     try {
-      const cartUser = await cartService.descCart(
-        "desc",
-        "POST",
-        { size: size, shoeId: _id },
-        accessToken
-      );
+      const cartUser = await services
+        .createService("cart")
+        .descCart("desc", { size: size, shoeId: _id }, accessToken);
+      // const cartUser = await cartService.descCart(
+      //   "desc",
+      //   "POST",
+      //   { size: size, shoeId: _id },
+      //   accessToken
+      // );
       dispatch(updateCartList(cartUser.data.newListCart));
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleIncre = async (idShoe) => {
+  const handleIncre = async () => {
     try {
-      const cartUser = await cartService.increaseCart(
-        "increase",
-        "POST",
-        { size: size, shoeId: _id },
-        accessToken
-      );
-      console.log("cartItem cartUser", cartUser.data.newListCart);
+      const cartUser = await services
+        .createService("cart")
+        .increaseCart("increase", { size: size, shoeId: _id }, accessToken);
+      // const cartUser = await cartService.increaseCart(
+      //   "increase",
+      //   "POST",
+      //   { size: size, shoeId: _id },
+      //   accessToken
+      // );
       dispatch(updateCartList(cartUser.data.newListCart));
     } catch (err) {
       console.log(err);
@@ -80,7 +89,7 @@ export default function Cart_item({
         <button
           className="btn"
           onClick={() => {
-            handleDesc(_id);
+            handleDesc();
           }}
         >
           <i class="fa-solid fa-minus"></i>
@@ -89,7 +98,7 @@ export default function Cart_item({
         <button
           className="btn"
           onClick={() => {
-            handleIncre(_id);
+            handleIncre();
           }}
         >
           <i class="fa-solid fa-plus"></i>

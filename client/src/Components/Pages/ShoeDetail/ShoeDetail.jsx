@@ -98,7 +98,7 @@ export default function ShoeDetail() {
     //   accessToken
     // );
     service = new Services();
-    service.createService("cart").addCart("add", addShoe, accessToken);
+    await service.createService("cart").addCart("add", addShoe, accessToken);
     closeLoading();
     openNotification();
   };

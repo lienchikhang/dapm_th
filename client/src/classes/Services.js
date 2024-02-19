@@ -31,30 +31,56 @@ class Cart {
       this.#path + "/" + path,
       shoe
     );
-    console.log("rssssss", rs);
+    return rs;
   };
 
-  // increaseCart = (path, method, shoe, headers = "") => {
-  //     return axios({
-  //         url: `http://localhost:5000/api/cart/${path}`,
-  //         method: method,
-  //         data: shoe,
-  //         headers: {
-  //             token: `Bearer ${headers}`,
-  //         },
-  //     });
-  // };
+  deleteCart = (url, idUser, idCart, idShoe, token, sizeShoe) => {
+    const path = `${
+      this.#path + "/" + url
+    }/${idUser}/${idCart}/${idShoe}/${sizeShoe}`;
+    const rs = HttpSingleton.getInstance(token).delete(path);
+    console.log("rssssss", rs);
+    return rs;
+    // return axios({
+    //   url: `http://localhost:5000/api/cart/delete/${idUser}/${idCart}/${idShoe}/${sizeShoe}`,
+    //   method: "DELETE",
+    //   headers: {
+    //     token: `Bearer ${token}`,
+    //   },
+    // });
+  };
 
-  // descCart = (path, method, shoe, headers = "") => {
-  //     return axios({
-  //         url: `http://localhost:5000/api/cart/${path}`,
-  //         method: method,
-  //         data: shoe,
-  //         headers: {
-  //             token: `Bearer ${headers}`,
-  //         },
-  //     });
-  // };
+  increaseCart = (path, shoe, token = "") => {
+    const rs = HttpSingleton.getInstance(token).post(
+      this.#path + "/" + path,
+      shoe
+    );
+    return rs;
+    //   return axios({
+    //       url: `http://localhost:5000/api/cart/${path}`,
+    //       method: method,
+    //       data: shoe,
+    //       headers: {
+    //           token: `Bearer ${headers}`,
+    //       },
+    //   });
+  };
+
+  descCart = (path, shoe, token = "") => {
+    const rs = HttpSingleton.getInstance(token).post(
+      this.#path + "/" + path,
+      shoe
+    );
+    return rs;
+    //   return axios({
+    //       url: `http://localhost:5000/api/cart/${path}`,
+    //       method: method,
+    //       data: shoe,
+    //       headers: {
+    //           token: `Bearer ${headers}`,
+    //       },
+    //   });
+  };
 
   // getCart = (idUser, headers) => {
   //     return axios({

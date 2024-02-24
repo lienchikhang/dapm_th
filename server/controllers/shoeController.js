@@ -1,6 +1,6 @@
 const Cart = require("../models/Cart.js");
 const Shoe = require("../models/Shoe.js");
-
+const { shoeBuilder } = require("../Pattern/BuilderPattern/BuilderPattern.js")
 //GET
 const getShoe = async (req, res) => {
   const idShoe = req.params.id;
@@ -59,10 +59,19 @@ const createShoe = async (req, res) => {
     if (checkNameShoe) {
       return res.status(400).json({ message: 2 });
     }
-    const newShoe = new Shoe({
-      ...shoe,
-    });
-    await newShoe.save();
+    const newShoe = new shoeBuilder()
+      .setSize(shoe.size)
+      .setName(shoe.name)
+      .setPrice(shoe.price)
+      .setImg(shoe.img)
+      .setDesc(shoe.desc)
+      .setColor(shoe.color)
+      .setType(shoe.type)
+      .builder()
+    const shoeSave = new Shoe({
+      ...newShoe
+    })
+    await shoeSave.save();
     return res.status(200).json({ message: 1 });
   } catch (err) {
     res.status(500).json(err);

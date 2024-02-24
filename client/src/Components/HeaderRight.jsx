@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, json } from "react-router-dom";
 import "../css/header.css";
 import { Badge } from "antd";
 import { useSelector } from "react-redux";
@@ -13,23 +13,32 @@ export default function HeaderRight({ account, user }) {
     updateBadge();
   }, [shoeArr]);
 
-  useEffect(() => {
-    let callApi = async () => {
-      const local = JSON.parse(localStorage.getItem("persist:root"));
-      const idUser = JSON.parse(local.user).currentUser?.payload._id;
-      const accessToken = JSON.parse(local.user).currentUser?.payload
-        .accessToken;
+  let callApi = async () => {
+    const local = JSON.parse(localStorage.getItem("persist:root"));
 
-      // const { _id, accessToken } = local;
-      try {
-        const result = await cartService.getCart(idUser, accessToken);
-        // closeLoading();
-        console.log("result", result.data.cart.shoes);
-        setShoeArr(result.data.cart.shoes);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+    let idUser
+    if (local && local.user) {
+      idUser = JSON.parse(local.user).currentUser?.payload._id;
+    }
+
+
+
+    let accessToken
+    if (local && local.user) {
+      accessToken = JSON.parse(local.user).currentUser?.payload
+        .accessToken;
+    }
+    // const { _id, accessToken } = local;
+    try {
+      const result = await cartService.getCart(idUser, accessToken);
+      // closeLoading();
+
+      setShoeArr(result.data.cart.shoes);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
     callApi();
   }, [cartUser]);
 

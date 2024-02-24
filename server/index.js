@@ -7,6 +7,7 @@ const cartRoute = require("./Routes/cart");
 const cateRoute = require("./Routes/category");
 const orderRoute = require("./Routes/order");
 const stripeRoute = require("./Routes/Stripe");
+const Database = require("./middleware/ConnectDB")
 const app = express();
 app.use(
   express.json({
@@ -22,13 +23,16 @@ require("dotenv").config();
 //cho phép truy cập path của server từ các tên miền khác
 app.use(cors());
 
+
 /**connect mongodb */
-mongoose
-  .connect(process.env.MONGO_DB)
-  .then(() => {
-    console.log("connect successfully");
-  })
-  .catch((err) => console.log(err));
+// mongoose
+//   .connect(process.env.MONGO_DB)
+//   .then(() => {
+//     console.log("connect successfully");
+//   })
+//   .catch((err) => console.log(err));
+const dbInstance = Database.getInstance();
+
 
 app.use("/api/user/", userRoute);
 app.use("/api/shoe", shoeRoute);

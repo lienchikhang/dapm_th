@@ -120,7 +120,13 @@ export default function OrderList() {
     navigate(`detail/${id}`);
   };
 
+
   const columns = [
+    {
+      title: "Mã đơn hàng",
+      dataIndex: "_id",
+      key: "_id",
+    },
     {
       title: "Tên khách hàng",
       dataIndex: "name",

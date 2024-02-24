@@ -1,18 +1,21 @@
+const { NotiFicationFactory } = require("../Pattern/FactoryMethodPattern/FactoryMethod");
 const Cart = require("../models/Cart");
-
+const Factory = new NotiFicationFactory()
+const NotificationSuccess = Factory.CreateNotification('success')
+const NotificationError = Factory.CreateNotification('error')
 const getAll = async (req, res) => {
   try {
     const carts = await Cart.find();
     if (!carts)
       return res
         .status(200)
-        .json({ success: true, message: "No cart founded", carts });
-    res.status(200).json({ success: true, message: "Happy watching", carts });
+        .json({ NotificationSuccess, carts });
+    res.status(200).json({ NotificationSuccess, carts });
   } catch (err) {
     console.log(err);
     res
       .status(500)
-      .json({ success: false, message: "Internal server error", error: err });
+      .json({ NotificationError, error: err });
   }
 };
 
@@ -21,12 +24,12 @@ const getDetailCart = async (req, res) => {
     const cart = await Cart.findOne({ userId: req.params.idUser });
     return res
       .status(201)
-      .json({ success: false, message: "Happy cart", cart });
+      .json({ NotificationSuccess, cart });
   } catch (err) {
     console.log(err);
     res
       .status(500)
-      .json({ success: false, message: "Internal server error", error: err });
+      .json({ NotificationError, error: err });
   }
 };
 
@@ -65,11 +68,11 @@ const addCart = async (req, res) => {
         console.log("push giay moi vao mang");
         return res
           .status(200)
-          .json({ success: true, message: "happy add cart", result });
+          .json({ result, NotificationSuccess });
       }
       return res
         .status(200)
-        .json({ success: true, message: "happy add cart", existshoe });
+        .json({ NotificationSuccess, existshoe });
     } else {
       const newCart = new Cart({
         userId: myId,
@@ -79,16 +82,16 @@ const addCart = async (req, res) => {
       if (!saving)
         return res
           .status(401)
-          .json({ success: false, message: "Cannot add cart" });
+          .json({ NotificationError, message: "Cannot add cart" });
       res
         .status(200)
-        .json({ success: true, message: "happy adding", cart: saving });
+        .json({ NotificationSuccess, cart: saving });
     }
   } catch (err) {
     console.log(err);
     res
       .status(500)
-      .json({ success: false, message: "Internal server error", error: err });
+      .json({ NotificationError, error: err });
   }
 };
 
@@ -112,7 +115,7 @@ const increaseCart = async (req, res) => {
     );
     res
       .status(200)
-      .json({ message: "Increase shoe quantity success", newListCart: result });
+      .json({ NotificationSuccess, message: "Increase shoe quantity success", newListCart: result });
   } catch (err) {
     console.log(err);
   }
@@ -143,11 +146,11 @@ const descCart = async (req, res) => {
     if (updatedCart && existshoe) {
       res
         .status(200)
-        .json({ message: "take shoe out array", newListCart: updatedCart });
+        .json({ NotificationSuccess, message: "take shoe out array", newListCart: updatedCart });
     } else {
       res
         .status(200)
-        .json({ message: "make shoe desc", newListCart: updatedCart });
+        .json({ NotificationSuccess, message: "make shoe desc", newListCart: updatedCart });
     }
   } catch (err) {
     console.log(err);
@@ -171,11 +174,10 @@ const deleteCart = async (req, res) => {
       { $pull: { shoes: { _id: idShoeDel, size: Number(shoeSize) } } },
       { new: true }
     );
-    console.log("updateCảt", updatedCart);
     if (updatedCart) {
       // Đã cập nhật thành công
       res.json({
-        success: true,
+        NotificationSuccess,
         message: "Sản phẩm đã được xóa khỏi giỏ hàng",
         cart: updatedCart,
       });
@@ -183,13 +185,13 @@ const deleteCart = async (req, res) => {
       // Không tìm thấy cart với id tương ứng
       res
         .status(404)
-        .json({ success: false, message: "Không tìm thấy giỏ hàng" });
+        .json({ NotificationError, message: "Không tìm thấy giỏ hàng" });
     }
   } catch (err) {
     console.log(err);
     res
       .status(500)
-      .json({ success: false, message: "Internal server error", error: err });
+      .json({ NotificationError, error: err });
   }
 };
 

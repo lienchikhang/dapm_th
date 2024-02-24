@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import CartItem from "./CartItem";
 import CartFooter from "./CartFooter";
 import "../../../css/Cart.css";
-import cartService from "../../../services/cart_KService";
 import { useDispatch, useSelector } from "react-redux";
 import { ConfigProvider, Spin } from "antd";
 import "../../../css/ShoeList.css";
 import { updateCartList } from "../../../reducers/cartReducer";
 import Lottie from "lottie-react";
 import emptyCart from "../../../utils/emptyCart.json";
+import { Services } from "../../../classes/Services";
+import Path from "../../../classes/Path";
 
 export default function Cart() {
   const cartUser = useSelector((state) => state.cart.cartUser);
@@ -32,12 +33,9 @@ export default function Cart() {
 
       // const { _id, accessToken } = local;
       try {
-        const result = await cartService.getCart(idUser, accessToken);
+        let services = new Services(accessToken);
+        const result = await services.createService("cart").getCart(idUser);
         closeLoading();
-        // dispatch({
-        //   type: "UPDATE_CART_LIST",
-        //   payload: result.data.cart,
-        // });
         dispatch(updateCartList(result.data.cart));
       } catch (err) {
         console.log(err);
@@ -49,7 +47,7 @@ export default function Cart() {
   }, [loading]);
 
   useEffect(() => {
-    let Caculate = cartUser?.shoes.reduce((accumulate, currentValue) => {
+    let Caculate = cartUser?.shoes?.reduce((accumulate, currentValue) => {
       return accumulate + currentValue.price * currentValue.quantity;
     }, 0);
     setTotal(Caculate);
@@ -91,7 +89,6 @@ export default function Cart() {
                   <tbody>
                     {cartUser?.shoes &&
                       cartUser?.shoes.map((shoe, index) => {
-                        console.log("shoenee", shoe);
                         return (
                           <CartItem
                             key={index}

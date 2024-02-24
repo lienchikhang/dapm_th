@@ -1,18 +1,22 @@
 import axios from "axios";
-import { loginFailure, loginStart, loginSuccess } from "../reducers/userReducer"
+import {
+  loginFailure,
+  loginStart,
+  loginSuccess,
+} from "../reducers/userReducer";
 
-export const login = (dispatch, data) => { 
-    dispatch(loginStart());
-    axios({
-        url: `http://localhost:5000/api/user/login`,
-        method:'POST',
-        data: data
-    })
+export const login = (dispatch, data) => {
+  dispatch(loginStart());
+  axios({
+    url: `http://localhost:5000/api/user/login`,
+    method: "POST",
+    data: data,
+  })
     .then((res) => {
-        dispatch(loginSuccess(res.data.user));
+      dispatch(loginSuccess(res.data.user));
     })
     .catch((err) => {
-        console.log(err);
-        dispatch(loginFailure());
-    })
-}
+      console.log(err);
+      dispatch(loginFailure());
+    });
+};

@@ -11,6 +11,7 @@ import { Divider, Form, Radio, Skeleton, Space, Switch } from "antd";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { hasNewItem } from "../../../reducers/cartReducer";
+import { Services } from "../../../classes/Services";
 
 export default function ShoeDetail() {
   const [viewingshoe, setViewingShoe] = useState({});
@@ -82,20 +83,14 @@ export default function ShoeDetail() {
       return openErrorNotification("Bạn vui lòng chọn size cho sản phẩm");
     }
     dispatch(addToCartShoe(addShoe));
-    //get token
-    // const local = JSON.parse(localStorage.getItem("userToken"));
-    // const accessToken = local.accessToken;
 
+    //get accessToken
     const local = JSON.parse(localStorage.getItem("persist:root"));
     const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
 
     //call api
-    const result = await cartService.addCart(
-      "add",
-      "POST",
-      addShoe,
-      accessToken
-    );
+    let service = new Services(accessToken);
+    await service.createService("cart").addCart("add", addShoe);
     closeLoading();
     openNotification();
   };
@@ -107,6 +102,7 @@ export default function ShoeDetail() {
   const openLoading = () => {
     setLoading(true);
   };
+
   const checkSizeAndCount = (count) => {
     return count > 0 ? count : "Het size";
   };

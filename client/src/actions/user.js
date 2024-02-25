@@ -8,7 +8,7 @@ import {
 export const login = (dispatch, data) => {
   dispatch(loginStart());
   axios({
-    url: `http://localhost:5000/api/user/login`,
+    url: `https://api-gateway-dapm-th.onrender.com/api/user/login`,
     method: "POST",
     data: data,
   })

@@ -15,7 +15,7 @@ export default function Default() {
   const fetchingApi = async () => {
     try {
       const orders = await axios({
-        url: `http://localhost:5000/api/order/stat`,
+        url: `https://api-gateway-dapm-th.onrender.com/api/order/stat`,
         headers: {
           token: `Bearer ${user.payload.accessToken}`,
         },
@@ -29,7 +29,7 @@ export default function Default() {
   const fetchingAllOrder = async () => {
     try {
       const orders = await axios({
-        url: `http://localhost:5000/api/order/`,
+        url: `https://api-gateway-dapm-th.onrender.com/api/order/`,
         headers: {
           token: `Bearer ${user.payload.accessToken}`,
         },

@@ -13,7 +13,7 @@ export default function OrderDetail() {
   const fetchingApi = async () => {
     try {
       const order = await axios({
-        url: `http://localhost:5000/api/order/?idOrder=${id}`,
+        url: `https://api-gateway-dapm-th.onrender.com/api/order/?idOrder=${id}`,
         method: "GET",
         headers: {
           token: `Bearer ${user.payload.accessToken}`,

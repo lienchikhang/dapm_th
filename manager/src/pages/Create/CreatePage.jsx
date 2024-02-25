@@ -9,30 +9,31 @@ import {
   Modal,
   Select,
   Space,
-  Table, notification
+  Table,
+  notification,
 } from "antd";
 
 import { Option } from "antd/es/mentions";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 export default function CreatePage() {
-  const { TextArea } = Input
+  const { TextArea } = Input;
   const { currentUser } = JSON.parse(localStorage.getItem("persist:root"));
   const user = JSON.parse(currentUser);
-  const [name, setName] = useState('')
-  const [price, setPrice] = useState(0)
-  const [img, setImg] = useState('')
-  const [desc, setDesc] = useState('')
-  const [type, setType] = useState('Adidas')
-  const [color, setColor] = useState('white')
-  const [size37, setSize37] = useState({})
-  const [size38, setSize38] = useState({})
-  const [size39, setSize39] = useState({})
-  const [size40, setSize40] = useState({})
-  const [size41, setSize41] = useState({})
-  const [size42, setSize42] = useState({})
-  const [size43, setSize43] = useState({})
-  const navigate = useNavigate()
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState(0);
+  const [img, setImg] = useState("");
+  const [desc, setDesc] = useState("");
+  const [type, setType] = useState("Adidas");
+  const [color, setColor] = useState("white");
+  const [size37, setSize37] = useState({});
+  const [size38, setSize38] = useState({});
+  const [size39, setSize39] = useState({});
+  const [size40, setSize40] = useState({});
+  const [size41, setSize41] = useState({});
+  const [size42, setSize42] = useState({});
+  const [size43, setSize43] = useState({});
+  const navigate = useNavigate();
   notification.config({
     placement: "topRight",
     top: 100,
@@ -52,28 +53,30 @@ export default function CreatePage() {
     });
   };
   const onFinish = async () => {
-    const newSize = []
+    const newSize = [];
     newSize.push(size37, size38, size39, size40, size41, size42, size43);
     const newShoe = { name, price, img, size: newSize, desc, type, color };
     await axios({
-      url: `http://localhost:5000/api/shoe/create`,
+      url: `https://api-gateway-dapm-th.onrender.com/api/shoe/create`,
       method: "POST",
       data: newShoe,
       headers: {
-        token: `Bearer ${user.payload.accessToken}`
-      }
-    }).then(res => {
-      if (res.status === 200) {
-        openNotification('Thêm thành công', 'Giày mới đã được thêm vào')
-        setTimeout(navigate("/dashboard/products/list"), 5000)
-      }
-    }).catch(err => {
-      openNotification('Tên giày đã tồn tại', 'Vui lòng chọn tên khác')
+        token: `Bearer ${user.payload.accessToken}`,
+      },
     })
-  }
+      .then((res) => {
+        if (res.status === 200) {
+          openNotification("Thêm thành công", "Giày mới đã được thêm vào");
+          setTimeout(navigate("/dashboard/products/list"), 5000);
+        }
+      })
+      .catch((err) => {
+        openNotification("Tên giày đã tồn tại", "Vui lòng chọn tên khác");
+      });
+  };
   const onFinishFailed = () => {
-    console.log('faild')
-  }
+    console.log("faild");
+  };
   return (
     <Form
       name="basic"
@@ -81,7 +84,7 @@ export default function CreatePage() {
         span: 6,
       }}
       wrapperCol={{
-        span: 16
+        span: 16,
       }}
       style={{
         maxWidth: 600,
@@ -103,7 +106,11 @@ export default function CreatePage() {
           },
         ]}
       >
-        <Input maxLength={15} name="name" onChange={(e) => setName(e.target.value)} />
+        <Input
+          maxLength={15}
+          name="name"
+          onChange={(e) => setName(e.target.value)}
+        />
       </Form.Item>
 
       <Form.Item
@@ -116,7 +123,12 @@ export default function CreatePage() {
           },
         ]}
       >
-        <InputNumber min={500000} max={10000000} name="price" onChange={(value) => setPrice(value)} />
+        <InputNumber
+          min={500000}
+          max={10000000}
+          name="price"
+          onChange={(value) => setPrice(value)}
+        />
       </Form.Item>
 
       <Form.Item
@@ -131,7 +143,7 @@ export default function CreatePage() {
       >
         <Input name="image" onChange={(e) => setImg(e.target.value)} />
       </Form.Item>
-      <img style={{ marginLeft: '20%' }} width={'200px'} src={img} alt="" />
+      <img style={{ marginLeft: "20%" }} width={"200px"} src={img} alt="" />
       <Form.Item
         label="Mô tả"
         name="desc"
@@ -142,7 +154,11 @@ export default function CreatePage() {
           },
         ]}
       >
-        <TextArea rows={4} onChange={(e) => [setDesc(e.target.value)]} maxLength={200} />
+        <TextArea
+          rows={4}
+          onChange={(e) => [setDesc(e.target.value)]}
+          maxLength={200}
+        />
       </Form.Item>
       <Form.Item
         label="Hãng"
@@ -160,7 +176,9 @@ export default function CreatePage() {
           style={{
             width: 120,
           }}
-          onChange={(value) => { setType(value) }}
+          onChange={(value) => {
+            setType(value);
+          }}
         >
           <Option value="Adidas" name="type">
             Adidas
@@ -192,7 +210,9 @@ export default function CreatePage() {
           style={{
             width: 120,
           }}
-          onChange={(value) => { setColor(value) }}
+          onChange={(value) => {
+            setColor(value);
+          }}
         >
           <Option value="white" name="color">
             Trắng
@@ -236,7 +256,11 @@ export default function CreatePage() {
           },
         ]}
       >
-        <InputNumber min={0} max={1000} onChange={(value) => setSize37({ ss: 37, cs: value })} />
+        <InputNumber
+          min={0}
+          max={1000}
+          onChange={(value) => setSize37({ ss: 37, cs: value })}
+        />
       </Form.Item>
 
       <Form.Item
@@ -249,7 +273,11 @@ export default function CreatePage() {
           },
         ]}
       >
-        <InputNumber min={0} max={1000} onChange={(value) => setSize38({ ss: 38, cs: value })} />
+        <InputNumber
+          min={0}
+          max={1000}
+          onChange={(value) => setSize38({ ss: 38, cs: value })}
+        />
       </Form.Item>
       <Form.Item
         label="Kích thước 39"
@@ -261,7 +289,11 @@ export default function CreatePage() {
           },
         ]}
       >
-        <InputNumber min={0} max={1000} onChange={(value) => setSize39({ ss: 39, cs: value })} />
+        <InputNumber
+          min={0}
+          max={1000}
+          onChange={(value) => setSize39({ ss: 39, cs: value })}
+        />
       </Form.Item>
       <Form.Item
         label="Kích thước 40"
@@ -273,7 +305,11 @@ export default function CreatePage() {
           },
         ]}
       >
-        <InputNumber min={0} max={1000} onChange={(value) => setSize40({ ss: 40, cs: value })} />
+        <InputNumber
+          min={0}
+          max={1000}
+          onChange={(value) => setSize40({ ss: 40, cs: value })}
+        />
       </Form.Item>
       <Form.Item
         label="Kích thước 41"
@@ -285,7 +321,11 @@ export default function CreatePage() {
           },
         ]}
       >
-        <InputNumber min={0} max={1000} onChange={(value) => setSize41({ ss: 41, cs: value })} />
+        <InputNumber
+          min={0}
+          max={1000}
+          onChange={(value) => setSize41({ ss: 41, cs: value })}
+        />
       </Form.Item>
       <Form.Item
         label="Kích thước 42"
@@ -297,7 +337,11 @@ export default function CreatePage() {
           },
         ]}
       >
-        <InputNumber min={0} max={1000} onChange={(value) => setSize42({ ss: 42, cs: value })} />
+        <InputNumber
+          min={0}
+          max={1000}
+          onChange={(value) => setSize42({ ss: 42, cs: value })}
+        />
       </Form.Item>
       <Form.Item
         label="Kích thước 43"
@@ -309,7 +353,11 @@ export default function CreatePage() {
           },
         ]}
       >
-        <InputNumber min={0} max={1000} onChange={(value) => setSize43({ ss: 43, cs: value })} />
+        <InputNumber
+          min={0}
+          max={1000}
+          onChange={(value) => setSize43({ ss: 43, cs: value })}
+        />
       </Form.Item>
 
       <Form.Item
@@ -323,5 +371,5 @@ export default function CreatePage() {
         </Button>
       </Form.Item>
     </Form>
-  )
+  );
 }

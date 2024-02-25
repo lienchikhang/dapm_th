@@ -14,7 +14,7 @@ export default function ShoeItem({ data, showModal }) {
 
   const handleEdit = (idShoe) => {
     axios({
-      url: `http://localhost:5000/api/shoe/${idShoe}`,
+      url: `https://api-gateway-dapm-th.onrender.com/api/shoe/${idShoe}`,
       method: "GET",
     })
       .then((res) => {

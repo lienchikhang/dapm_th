@@ -7,7 +7,7 @@ class Http {
   constructor(token) {
     if (!this.#_instance) {
       this.axiosInstance = axios.create({
-        baseURL: "http://localhost:5000/api/",
+        baseURL: "https://api-gateway-dapm-th.onrender.com/api/",
         headers: {
           token: `Bearer ${token}`,
         },

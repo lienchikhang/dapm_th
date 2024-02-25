@@ -12,7 +12,7 @@ export default function ProductList() {
   useEffect(() => {
     //call api
     axios({
-      url: `http://localhost:5000/api/shoe/?new=${true}`,
+      url: `https://api-gateway-dapm-th.onrender.com/api/shoe/?new=${true}`,
       method: "GET",
     }).then((res) => {
       setShoes(res.data);

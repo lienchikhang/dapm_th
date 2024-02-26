@@ -2,7 +2,7 @@ import axios from "axios";
 
 const addCart = (path, method, shoe, headers = "") => {
   return axios({
-    url: `http://localhost:5000/api/cart/${path}`,
+    url: `https://api-gateway-dapm-th.onrender.com/api/cart/${path}`,
     method: method,
     data: shoe,
     headers: {
@@ -13,7 +13,7 @@ const addCart = (path, method, shoe, headers = "") => {
 
 const increaseCart = (path, method, shoe, headers = "") => {
   return axios({
-    url: `http://localhost:5000/api/cart/${path}`,
+    url: `https://api-gateway-dapm-th.onrender.com/api/cart/${path}`,
     method: method,
     data: shoe,
     headers: {
@@ -24,7 +24,7 @@ const increaseCart = (path, method, shoe, headers = "") => {
 
 const descCart = (path, method, shoe, headers = "") => {
   return axios({
-    url: `http://localhost:5000/api/cart/${path}`,
+    url: `https://api-gateway-dapm-th.onrender.com/api/cart/${path}`,
     method: method,
     data: shoe,
     headers: {
@@ -35,7 +35,7 @@ const descCart = (path, method, shoe, headers = "") => {
 
 const getCart = (idUser, headers) => {
   return axios({
-    url: `http://localhost:5000/api/cart/${idUser}`,
+    url: `https://api-gateway-dapm-th.onrender.com/api/cart/${idUser}`,
     method: "GET",
     headers: {
       token: `Bearer ${headers}`,
@@ -45,7 +45,7 @@ const getCart = (idUser, headers) => {
 
 const deleteCart = (idUser, idCart, idShoe, token, sizeShoe) => {
   return axios({
-    url: `http://localhost:5000/api/cart/delete/${idUser}/${idCart}/${idShoe}/${sizeShoe}`,
+    url: `https://api-gateway-dapm-th.onrender.com/api/cart/delete/${idUser}/${idCart}/${idShoe}/${sizeShoe}`,
     method: "DELETE",
     headers: {
       token: `Bearer ${token}`,

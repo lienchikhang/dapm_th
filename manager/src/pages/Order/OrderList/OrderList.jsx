@@ -182,7 +182,7 @@ export default function OrderList() {
                   style={{
                     width: 120,
                   }}
-                  defaultValue={record.status}
+                  value={record.status}
                   onChange={(value) => [changeStatusOrder(text, value)]}
                 >
                   <Option value="Chưa giao" name="color">

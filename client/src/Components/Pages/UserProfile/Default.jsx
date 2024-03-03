@@ -18,15 +18,13 @@ export default function Default() {
   const [value, setValue] = useState(); //value la gender
   const [birtday, setBirtday] = useState();
   const [phone, setPhone] = useState();
-  const [password, setPassword] = useState()
+  const [password, setPassword] = useState();
   const [change, setChange] = useState(false);
-  const { username } = useSelector(
-    (state) => state.user.currentUser.payload
-  );
+  const { username } = useSelector((state) => state.user.currentUser);
   const dateFormat = "YYYY/MM/DD";
   const local = JSON.parse(localStorage.getItem("persist:root"));
-  const idUser = JSON.parse(local.user).currentUser.payload._id;
-  const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
+  const idUser = JSON.parse(local.user).currentUser._id;
+  const accessToken = JSON.parse(local.user).currentUser.accessToken;
   const [loading, setLoading] = useState(false);
   function disabledDate(current) {
     // Lấy ngày hiện tại
@@ -41,8 +39,6 @@ export default function Default() {
     );
   }
 
-
-
   useEffect(() => {
     let getUserInfo = async () => {
       const userInfo = await UserService.takeInforUser(
@@ -54,7 +50,7 @@ export default function Default() {
       setValue(info.gender);
       setPhone(info.phone);
       setBirtday(info.birtday);
-      setPassword(info.password)
+      setPassword(info.password);
       setLoading(true);
     };
     getUserInfo();
@@ -88,15 +84,15 @@ export default function Default() {
       gender: value,
     };
     await UserService.changeInfor(idUser, "PUT", data, accessToken);
-    openNotification('Cập nhập thông tin thành công')
-    setChange(!change)
+    openNotification("Cập nhập thông tin thành công");
+    setChange(!change);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
   const onChangeDate = (date, dateString) => {
-    console.log(dateString)
+    console.log(dateString);
     setBirtday(dateString);
   };
   const onChangePhone = (e) => {

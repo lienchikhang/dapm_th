@@ -17,10 +17,13 @@ import cartReducer from "./reducers/cartReducer";
 import checkOutReducer from "./reducers/checkOutReducer";
 import searchReducer from "./reducers/searchReducer";
 import FilterReducer from "./reducers/FilterReducer";
+import notificationReducer from "./reducers/notificationReducer";
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
+  //sử dụng 1 số reducer mong muốn
+  whitelist: ["user", "navbar", "cart", "checkOutInfo", "search", "filter"],
 };
 
 const rootReducer = combineReducers({
@@ -30,9 +33,15 @@ const rootReducer = combineReducers({
   checkOutInfo: checkOutReducer,
   search: searchReducer,
   filter: FilterReducer,
+  noti: notificationReducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const ignoredReducers = ["noti"];
+
+const persistedReducer = persistReducer(
+  { ...persistConfig, ignoredReducers },
+  rootReducer
+);
 
 const store = configureStore({
   reducer: persistedReducer,
@@ -44,5 +53,5 @@ const store = configureStore({
     }),
 });
 
-export default store;
 export let persistor = persistStore(store);
+export default store;

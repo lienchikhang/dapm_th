@@ -55,7 +55,7 @@ export default function HeaderRight({ account, user }) {
           to={user ? `auth/profiles` : `/auth/login`}
           className="mx-2 header__right"
         >
-          {user ? `${user.payload.username}` : "Account"}
+          {user ? `${user?.username}` : "Account"}
         </NavLink>
       ) : (
         <NavLink to="/cart" className="mx-2 header__right">

@@ -27,9 +27,8 @@ export default function Cart() {
   useEffect(() => {
     let callApi = async () => {
       const local = JSON.parse(localStorage.getItem("persist:root"));
-      const idUser = JSON.parse(local.user).currentUser.payload._id;
-      const accessToken = JSON.parse(local.user).currentUser.payload
-        .accessToken;
+      const idUser = JSON.parse(local.user).currentUser._id;
+      const accessToken = JSON.parse(local.user).currentUser.accessToken;
 
       // const { _id, accessToken } = local;
       try {

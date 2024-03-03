@@ -1,6 +1,7 @@
 import Cart from "./Cart";
 import HttpSingleton from "./Http";
 import Shoe from "./Shoe";
+import User from "./User";
 
 //factory pattern
 export class Services {
@@ -23,6 +24,7 @@ export class Services {
         return (this.service = new Shoe(type, this.#token));
       }
       case "user": {
+        return (this.service = new User(type, this.#token));
       }
     }
   }

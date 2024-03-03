@@ -7,7 +7,7 @@ import setAuthHeader from "../../../setAuthHeader";
 import { logout } from "../../../reducers/userReducer";
 import "../../../css/profile.css";
 export default function Profiles() {
-  const { username } = useSelector((state) => state.user.currentUser.payload);
+  const { username } = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

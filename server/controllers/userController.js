@@ -1,4 +1,6 @@
 let User = require("../models/User");
+let { userBehavior } = require("../Pattern/TemplateMethodPattern/TemplateMethod")
+const Behavior = new userBehavior()
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const crypto = require("crypto-js");
@@ -35,14 +37,21 @@ const register = async (req, res) => {
       password,
       process.env.PASS_CRYPTO
     );
-    const newUser = new User({
+    // const newUser = new User({
+    //   username,
+    //   password: hashedPassword,
+    //   gender,
+    //   phone,
+    //   birtday: birth,
+    // });
+    // await newUser.save();
+    Behavior.add({
       username,
       password: hashedPassword,
       gender,
       phone,
       birtday: birth,
-    });
-    await newUser.save();
+    })
     res.status(200).json({ success: true, message: "Register successfully!" });
   } catch (error) {
     console.log(error);
@@ -183,7 +192,7 @@ const takeInfoUserById = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await Behavior.get();
     res.status(200).json({ success: true, message: "get_all", data: users });
   } catch (err) {
     console.log(err);

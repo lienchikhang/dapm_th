@@ -6,6 +6,7 @@ class NotiFicationFactory {
                 break
             case 'success':
                 return new NotificationSuccess()
+                break
         }
     }
 }

@@ -1,11 +1,13 @@
 const Cart = require("../models/Cart.js");
 const Shoe = require("../models/Shoe.js");
 const { shoeBuilder } = require("../Pattern/BuilderPattern/BuilderPattern.js")
+const { shoeBehavior } = require("../Pattern/TemplateMethodPattern/TemplateMethod.js")
+const behavior = new shoeBehavior()
 //GET
 const getShoe = async (req, res) => {
   const idShoe = req.params.id;
   try {
-    const shoe = await Shoe.findById(idShoe);
+    const shoe = await behavior.get(idShoe)
     shoe
       ? res.status(200).json(shoe)
       : res.status(500).json("san pham khong co");
@@ -68,10 +70,7 @@ const createShoe = async (req, res) => {
       .setColor(shoe.color)
       .setType(shoe.type)
       .builder()
-    const shoeSave = new Shoe({
-      ...newShoe
-    })
-    await shoeSave.save();
+    await behavior.add(newShoe)
     return res.status(200).json({ message: 1 });
   } catch (err) {
     res.status(500).json(err);
@@ -82,7 +81,7 @@ const createShoe = async (req, res) => {
 const deleteShoe = async (req, res) => {
   const idDeleted = req.params.id;
   try {
-    const deleteShoe = await Shoe.findByIdAndDelete({ _id: idDeleted });
+    await behavior.remove(idDeleted)
     if (!deleteShoe) {
       return res
         .status(401)
@@ -92,7 +91,7 @@ const deleteShoe = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Delete successfully!",
-      shoe: deleteShoe,
+
     });
   } catch (err) {
     console.log(err);

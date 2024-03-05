@@ -2,8 +2,11 @@ const Cart = require("../models/Cart");
 const Order = require("../models/Order");
 const order = require("../models/Order");
 const Shoe = require("../models/Shoe");
+const { PaymentDirect, PaymentOnline, PaymentContext } = require("../Pattern/StrategyPattern/StrategyPattern")
 require("dotenv").config();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const paymentDirect = new PaymentDirect()
+const paymentOnline = new PaymentOnline()
 let getAllOrderByidUser = async (req, res) => {
   //lay tat ca order theo idUser
   try {
@@ -24,27 +27,30 @@ let makeOrderbyiduser = async (req, res) => {
   try {
     let idUser = req.params.idUser;
     const { shoes, methodPay, name, address, phone } = req.body;
-    const result = new order({
-      userId: idUser,
-      shoes: shoes,
-      methodPay: methodPay,
-      name: name,
-      address: address,
-      phone: phone,
-    });
-    await result.save();
+    // const result = new order({
+    //   userId: idUser,
+    //   shoes: shoes,
+    //   methodPay: methodPay,
+    //   name: name,
+    //   address: address,
+    //   phone: phone,
+    // });
+    // await result.save();
 
-    const PullCart = await Cart.findOneAndUpdate(
-      { userId: idUser },
-      {
-        $pull: { shoes: {} },
-      },
-      {
-        new: true,
-      }
-    );
-    await descShoeCountWithSize(shoes);
-    res.status(200).json({ message: "make order success", result: result });
+    // const PullCart = await Cart.findOneAndUpdate(
+    //   { userId: idUser },
+    //   {
+    //     $pull: { shoes: {} },
+    //   },
+    //   {
+    //     new: true,
+    //   }
+    // );
+    // await descShoeCountWithSize(shoes);
+    // res.status(200).json({ message: "make order success", result: result });
+    const paymentContext = new PaymentContext(paymentDirect)
+    await paymentContext.makeOrder({ shoes, methodPay, name, address, phone, idUser })
+
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "make order fail" });
@@ -57,26 +63,37 @@ let makePaymentOnline = async (req, res) => {
     const rawDataBuffer = Buffer.from(shoes); // Dữ liệu dưới dạng Buffer
     const rawDataString = rawDataBuffer.toString(); // Chuyển đổi từ Buffer thành chuỗi
     const jsonShoes = JSON.parse(rawDataString); // Chuyển đổi thành đối tượng JSON
-    const ShoeList = await querryToMakeOrder(jsonShoes);
-    const result = new order({
+    // const ShoeList = await querryToMakeOrder(jsonShoes);
+    // const result = new order({
+    //   userId: idUser,
+    //   shoes: ShoeList,
+    //   methodPay: methodPay,
+    //   name: name,
+    //   address: address,
+    //   phone: phone,
+    // });
+    // await result.save();
+    // await descShoeCountWithSize(ShoeList);
+    // await Cart.findOneAndUpdate(
+    //   { userId: idUser },
+    //   {
+    //     $pull: { shoes: {} },
+    //   },
+    //   {
+    //     new: true,
+    //   }
+    // );
+    const paymentContext = new PaymentContext(paymentOnline)
+    await paymentContext.makeOrder({
       userId: idUser,
       shoes: ShoeList,
       methodPay: methodPay,
       name: name,
       address: address,
       phone: phone,
-    });
-    await result.save();
-    await descShoeCountWithSize(ShoeList);
-    await Cart.findOneAndUpdate(
-      { userId: idUser },
-      {
-        $pull: { shoes: {} },
-      },
-      {
-        new: true,
-      }
-    );
+      jsonShoes: jsonShoes
+
+    })
   } catch (err) {
     console.log(err);
   }
@@ -257,7 +274,7 @@ const getStatAllOrder = async (req, res) => {
       },
     ]);
     res.status(200).json({ success: true, message: "Happing Stat", data });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 module.exports = {

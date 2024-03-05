@@ -320,16 +320,16 @@ export default function Register() {
     try {
       console.log(user);
       const res = await axios({
-        url: "http://localhost:5050/api/user/register",
+        url: "http://localhost:5000/api/user/register",
         method: "POST",
         data: user,
       });
+      console.log(res)
       message.success("Đăng ký tài khoản thành công!");
       setTimeout(() => {
         window.location = "/auth/login";
       }, 1000);
     } catch (error) {
-      message.error(error.response.data.message);
       console.log(error);
     }
   };

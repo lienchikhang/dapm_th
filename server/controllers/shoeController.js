@@ -107,9 +107,12 @@ const updateShoe = async (req, res) => {
   try {
     const idShoe = req.params.id;
     const shoeDataUpdate = req.body;
-    const shoeNameIsExist = await Shoe.findOne({ name: shoeDataUpdate.name });
-    if (shoeNameIsExist) {
-      return res.status(400).json();
+    const currentShoe = await Shoe.findById(idShoe);
+    if (currentShoe.name != shoeDataUpdate.name) {
+      const shoeNameIsExist = await Shoe.findOne({ name: shoeDataUpdate.name });
+      if (shoeNameIsExist) {
+        return res.status(400).json();
+      }
     }
     const result = await Shoe.findByIdAndUpdate(idShoe, shoeDataUpdate, {
       new: true,

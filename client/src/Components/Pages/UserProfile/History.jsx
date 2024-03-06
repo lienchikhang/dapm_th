@@ -5,8 +5,8 @@ import "../../../css/OrderHistory.css";
 import { Tag } from "antd";
 export default function History() {
   const local = JSON.parse(localStorage.getItem("persist:root"));
-  const idUser = JSON.parse(local.user).currentUser.payload._id;
-  const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
+  const idUser = JSON.parse(local.user).currentUser._id;
+  const accessToken = JSON.parse(local.user).currentUser.accessToken;
   const [orderList, setOrderList] = useState([]);
   useEffect(() => {
     let getOrderList = async () => {

@@ -13,9 +13,11 @@ export class Services {
     switch (type) {
       case "cart": {
         service = new Cart(type, this.#token);
+        break;
       }
       case "user": {
         service = new User(type, this.#token);
+        break;
       }
     }
     return service;

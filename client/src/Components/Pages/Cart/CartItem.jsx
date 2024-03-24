@@ -19,7 +19,7 @@ export default function Cart_item({
   const dispatch = useDispatch();
   const { _id, img, name, price, quantity, size } = data;
   const local = JSON.parse(localStorage.getItem("persist:root"));
-  const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
+  const accessToken = JSON.parse(local.user).currentUser.accessToken;
 
   const handleDelete = async (idShoe) => {
     try {

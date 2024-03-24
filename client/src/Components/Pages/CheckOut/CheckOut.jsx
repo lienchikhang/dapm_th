@@ -11,8 +11,8 @@ export default function CheckOut() {
   const cartUser = useSelector((state) => state.cart.cartUser);
   const orderInfo = useSelector((state) => state.checkOutInfo);
   const local = JSON.parse(localStorage.getItem("persist:root"));
-  const idUser = JSON.parse(local.user).currentUser.payload._id;
-  const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
+  const idUser = JSON.parse(local.user).currentUser._id;
+  const accessToken = JSON.parse(local.user).currentUser.accessToken;
 
   //ant design
   const Context = React.createContext({
@@ -82,8 +82,7 @@ export default function CheckOut() {
           "Vui lòng kiểm tra đơn hàng"
         );
         setTimeout(navigate("/"), 4000);
-      }
-      else {
+      } else {
         await checkOutService.paymentOnline(
           idUser,
           "POST",
@@ -94,11 +93,9 @@ export default function CheckOut() {
           accessToken
         );
       }
-    }
-    else if (orderInfo.Info.phone === 10) {
-      openNotification("Số điện thoại phải có 10 chữ số", "Vui lòng nhập lại")
-    }
-    else {
+    } else if (orderInfo.Info.phone === 10) {
+      openNotification("Số điện thoại phải có 10 chữ số", "Vui lòng nhập lại");
+    } else {
       openNotification(
         "Bạn chưa điền đầy đủ thông tin nhận hàng",
         "Vui lòng điền đầy đủ thông tin"

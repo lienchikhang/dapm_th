@@ -86,7 +86,7 @@ export default function ShoeDetail() {
 
     //get accessToken
     const local = JSON.parse(localStorage.getItem("persist:root"));
-    const accessToken = JSON.parse(local.user).currentUser.payload.accessToken;
+    const accessToken = JSON.parse(local.user).currentUser.accessToken;
 
     //call api
     let service = new Services(accessToken);

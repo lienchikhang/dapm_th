@@ -38,7 +38,7 @@ export default function Navbar({ openLoadingg, closeLoading }) {
   //call api
   useEffect(() => {
     axios({
-      url: "http://localhost:5000/api/category/",
+      url: "https://api-gateway-dapm-th.onrender.com/api/category/",
       method: "GET",
     })
       .then((res) => {
